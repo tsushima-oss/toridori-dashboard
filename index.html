@@ -670,7 +670,6 @@ function renderSummary(){
   const bs=document.getElementById('ball-summary');
   if(bs)bs.innerHTML=ballCfg.map(b=>{const n=balls[b.k]||0;const p=bt>0?Math.round(n/bt*100):0;return`<div class="bsrow"><div class="bslbl">${b.l}<br><span style="font-size:9px;color:var(--tl)">${b.sub}</span></div><div class="bsbar"><div class="bsfill" style="width:${p}%;background:${b.c}"></div></div><div class="bsnum" style="color:${b.c}">${n}</div><div class="bspct">${p}%</div></div>`;}).join('')+`<div style="margin-top:10px;font-size:10px;color:var(--tl);text-align:right">対象：アクティブタスク ${bt}件（除外を除く）</div>`;
   // Progress pills
-  const rPct=active>0?Math.round(resolved/active*100):0;
   const protoPct=active>0?Math.round((resolved+adjust)/active*100):0;
   const aikenPct=active>0?Math.round((balls.aiken||0)/active*100):0;
   const pp=document.getElementById('prog-pills');
