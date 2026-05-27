@@ -6,7 +6,7 @@
 <title>トリドリBPO 進捗管理</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap');
-:root{--red:#E60012;--rdk:#C4000F;--blue:#0068B7;--grn:#00A651;--ylw:#FFC107;--pur:#7B1FA2;--org:#F57C00;--bg:#FAF8F0;--card:#FFF;--sh:0 4px 20px rgba(0,0,0,.06);--shm:0 6px 30px rgba(0,0,0,.1);--shp:0 8px 40px rgba(0,0,0,.15);--r:20px;--rs:12px;--td:#2D2D2D;--tm:#5A5A5A;--tl:#9A9A9A;--done:#00A651;--adj:#F5A623;--prog:#0068B7;--hold:#E60012;--uns:#9E9E9E}
+:root{--red:#E60012;--rdk:#C4000F;--blue:#3B82F6;--grn:#00A651;--ylw:#FFC107;--pur:#7B1FA2;--org:#F57C00;--bg:#F8FAFC;--card:#FFF;--sh:0 4px 20px rgba(0,0,0,.06);--shm:0 6px 30px rgba(0,0,0,.1);--shp:0 8px 40px rgba(0,0,0,.15);--r:20px;--rs:12px;--td:#2D2D2D;--tm:#5A5A5A;--tl:#9A9A9A;--done:#10B981;--adj:#F59E0B;--prog:#3B82F6;--hold:#F43F5E;--uns:#9E9E9E;--navy:#1E293B;--slate:#475569}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'M PLUS Rounded 1c','Nunito',sans-serif;background:var(--bg);color:var(--td);overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(#e0ddd4 1px,transparent 1px);background-size:24px 24px;opacity:.4;pointer-events:none;z-index:0}
@@ -20,11 +20,17 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .dot{width:7px;height:7px;background:var(--grn);border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .upd-btn{padding:8px 18px;border-radius:24px;border:2px solid var(--blue);background:#E3F0FF;color:var(--blue);font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit}
-.upd-btn:hover{background:var(--blue);color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,104,183,.3)}
-.tabs{display:flex;gap:5px;margin-bottom:18px}
-.tab{padding:10px 24px;border-radius:12px 12px 4px 4px;font-size:13px;font-weight:800;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);border:3px solid transparent;user-select:none}
-.tab:hover{transform:translateY(-3px)}
-.tab.on{transform:translateY(-4px);box-shadow:var(--shm)}
+.upd-btn:hover{background:rgba(255,255,255,.22)}
+.hdr{background:var(--navy)}
+.ht{color:#fff}
+.logo{background:rgba(255,255,255,.15);color:#fff}
+.hr-pill{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85)}
+.dot{background:#10B981}
+.upd-btn{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.25)}
+.tabs{background:var(--navy);border-bottom:none;padding:0 24px;display:flex;gap:5px;margin-bottom:18px}
+.tab{padding:10px 24px;border-radius:12px 12px 4px 4px;font-size:13px;font-weight:800;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);border:3px solid transparent;user-select:none;color:rgba(255,255,255,.6);border-bottom:3px solid transparent}
+.tab:hover:not(.on){color:rgba(255,255,255,.85);background:rgba(255,255,255,.07)}
+.tab.on{transform:translateY(-4px);box-shadow:var(--shm);color:#fff;border-bottom-color:#fff;background:transparent}
 .t1{background:#FDE8E8;color:var(--red)}.t1.on{background:var(--red);color:#fff;border-color:var(--rdk)}
 .t2{background:#E8E0F0;color:var(--pur)}.t2.on{background:var(--pur);color:#fff;border-color:#5C147A}
 .tc{display:none;animation:fi .4s ease}.tc.on{display:block}
@@ -126,7 +132,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 @media(max-width:1000px){.rg{grid-template-columns:repeat(2,1fr)}.libg{grid-template-columns:1fr}}
 @media(max-width:600px){.rg{grid-template-columns:1fr}.hdr{flex-direction:column}}
 /* ===== Hero card ===== */
-.hero-card{background:linear-gradient(135deg,#EBF5FF 0%,#E8F5E9 100%);border-radius:20px;padding:22px 28px;margin-bottom:18px;border:1.5px solid rgba(0,104,183,.12)}
+.hero-card{background:linear-gradient(135deg,#EBF5FF 0%,#ECFDF5 100%);border-radius:20px;padding:22px 28px;margin-bottom:18px;border:1.5px solid rgba(59,130,246,.15)}
 .hero-txt{font-size:15px;font-weight:500;color:var(--td);line-height:1.85;margin:0}
 .hero-num-hl{font-size:17px;font-weight:900}
 .hero-hl-g{color:var(--done);font-weight:800}
@@ -213,6 +219,57 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .ck-val{font-weight:800;color:var(--td)}
 .ck-ok{color:var(--done);font-weight:900;font-size:13px}
 .ck-ng{color:var(--red);font-weight:900;font-size:13px}
+/* ===== Stat cards (進捗カード統合型) ===== */
+.stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.stat-card{border-radius:16px;padding:20px 16px;text-align:center;border:1.5px solid #E2E8F0;background:#fff;transition:box-shadow .2s}
+.stat-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.stat-num{font-size:42px;font-weight:900;line-height:1}
+.stat-lbl{font-size:11px;font-weight:700;color:var(--slate);margin-top:6px}
+.stat-fraction{font-size:11px;font-weight:600;color:var(--slate);opacity:.7;margin-top:3px}
+.stat-sub{font-size:9px;color:var(--tl);margin-top:4px;line-height:1.4}
+/* ===== Horizontal timeline ===== */
+.timeline-wrap{display:flex;align-items:flex-start;gap:0;margin-top:4px}
+.tl-node{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:0}
+.tl-node-dot{width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px currentColor;flex-shrink:0;margin-bottom:10px}
+.tl-node-label{font-size:10px;font-weight:800;color:var(--slate);letter-spacing:.3px;margin-bottom:10px;white-space:nowrap}
+.tl-node-body{width:100%;background:#FAFAFA;border-radius:14px;padding:14px 14px 10px;border:1.5px solid #E2E8F0}
+.tl-node-body.tl-start{background:#FFFBEB;border-color:#FDE68A}
+.tl-node-body.tl-current{background:#EFF6FF;border-color:#93C5FD;border-width:2px}
+.tl-node-body.tl-excl{background:#FEF2F2;border-color:#FECACA}
+.tl-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(0,0,0,.04)}
+.tl-row:last-of-type{border-bottom:none}
+.tl-lbl{color:var(--slate);font-weight:600}
+.tl-val{font-weight:800;font-size:13px}
+.tl-result{display:flex;justify-content:space-between;align-items:center;padding:7px 0 3px;border-top:1.5px solid rgba(0,0,0,.1);margin-top:5px;font-size:11px;font-weight:800;color:var(--td)}
+.tl-big{font-size:34px;font-weight:900;line-height:1;margin:6px 0 10px;text-align:center}
+.tl-big-sub{font-size:10px;font-weight:700;color:var(--slate);display:block;margin-top:3px;text-align:center}
+.tl-note{font-size:8.5px;color:var(--tl);margin-top:8px;padding-top:7px;border-top:1px dotted #D0CCC0;line-height:1.5}
+.tl-connector{display:flex;flex-direction:column;align-items:center;padding:0 4px;flex-shrink:0;margin-top:34px}
+.tl-connector-line{width:1px;height:24px;background:linear-gradient(to bottom,transparent,#CBD5E1,transparent)}
+.tl-connector-badge{font-size:9px;font-weight:800;padding:4px 8px;border-radius:10px;border:1px solid #E2E8F0;background:#F8FAFC;color:var(--slate);white-space:nowrap;margin:3px 0;text-align:center;line-height:1.4}
+@media(max-width:900px){.timeline-wrap{flex-direction:column;gap:0}.tl-connector{flex-direction:row;margin-top:0;padding:4px 0;width:100%}.tl-connector-line{width:24px;height:1px}.tl-node{width:100%}}
+/* ===== Consistency check accordion ===== */
+.ck-accordion{cursor:pointer}
+.ck-status-line{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#F0FDF4;border-radius:12px;border:1.5px solid #D1FAE5;transition:background .2s}
+.ck-status-line.ck-ng-bg{background:#FFF5F5;border-color:#FECACA}
+.ck-status-line:hover{background:#E8FDF4}
+.ck-status-icon{font-size:16px;flex-shrink:0}
+.ck-status-msg{flex:1;font-size:12px;font-weight:700;color:var(--td)}
+.ck-toggle-txt{font-size:10px;color:var(--tl);font-weight:600;white-space:nowrap}
+.ck-details-wrap{display:none;margin-top:14px}
+/* ===== タスク全体ヒーロー ===== */
+.whole-hero{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.whole-hero-main{display:flex;align-items:baseline;gap:8px;flex-shrink:0}
+.whole-hero-num{font-size:64px;font-weight:900;line-height:1}
+.whole-hero-label{font-size:14px;font-weight:800;color:var(--slate)}
+.whole-hero-sub{font-size:10px;color:var(--tl);margin-top:3px;font-weight:500}
+.whole-hero-meta{display:flex;gap:16px;flex-wrap:wrap}
+.whole-meta-item{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1.5px solid #E2E8F0;background:#F8FAFC}
+.whole-meta-num{font-size:22px;font-weight:900;color:var(--td)}
+.whole-meta-lbl{font-size:10px;font-weight:700;color:var(--slate);line-height:1.4}
+.whole-meta-note{font-size:8.5px;color:var(--tl);font-weight:400}
+.whole-divider{width:1px;height:48px;background:#E2E8F0;flex-shrink:0;align-self:center}
+.whole-formula{font-size:9px;color:var(--tl);font-weight:600;text-align:right;margin-top:12px;padding-top:10px;border-top:1px dashed #E2E8F0}
 </style>
 </head>
 <body>
@@ -233,104 +290,115 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 <div class="hero-card">
   <p class="hero-txt">AIKENで進めるタスクは<strong class="hero-num-hl" id="hero-active" style="color:var(--blue)">—</strong>件。<span class="hero-hl-g" id="hero-resolved-hl">—件が解決済</span>、<span class="hero-hl-o" id="hero-adj-hl">—件が最終調整中</span>、<span class="hero-hl-b" id="hero-prog-hl">—件が進行中</span>です。全登録タスク<strong id="hero-total" style="color:var(--td)">86</strong>件のうち、<span class="hero-hl-r" id="hero-excl-hl">—件は対応対象外</span>として整理済みです。</p>
 </div>
-<!-- ===== 2. タスク全体カード ===== -->
+<!-- ===== 2. タスク全体カード（74をヒーローに）===== -->
 <div class="ap-card">
   <div class="apc-hdr">
     <div class="apc-title">タスク全体</div>
     <div class="apc-sub">今回管理しているすべてのタスク</div>
   </div>
-  <div class="whole-row">
-    <div class="whole-main-col">
-      <div class="whole-big">86</div>
-      <div class="whole-lbl">全登録タスク</div>
+  <div class="whole-hero">
+    <div>
+      <div class="whole-hero-main">
+        <div class="whole-hero-num" style="color:var(--blue)" id="wh-active">—</div>
+        <div>
+          <div class="whole-hero-label">AIKENで進めるタスク</div>
+          <div class="whole-hero-sub">解決済・最終調整中・進行中の合計</div>
+        </div>
+      </div>
     </div>
-    <div class="whole-eq-col">=</div>
-    <div class="whole-sub-col">
-      <div class="whole-sub-num" style="color:var(--blue)" id="wh-active">—</div>
-      <div class="whole-sub-lbl">AIKENで進めるタスク</div>
-      <div class="whole-sub-note">解決済・最終調整中・進行中の合計</div>
-    </div>
-    <div class="whole-plus-col">+</div>
-    <div class="whole-sub-col">
-      <div class="whole-sub-num" style="color:var(--hold)" id="wh-excl">—</div>
-      <div class="whole-sub-lbl">対応対象外</div>
-      <div class="whole-sub-note">方針変更などにより整理済み</div>
+    <div class="whole-divider"></div>
+    <div class="whole-hero-meta">
+      <div class="whole-meta-item">
+        <div class="whole-meta-num">86</div>
+        <div><div class="whole-meta-lbl">全登録タスク</div><div class="whole-meta-note">今回管理しているすべてのタスク</div></div>
+      </div>
+      <div class="whole-meta-item">
+        <div class="whole-meta-num" style="color:var(--hold)" id="wh-excl">—</div>
+        <div><div class="whole-meta-lbl">対応対象外</div><div class="whole-meta-note">方針変更などにより整理済み</div></div>
+      </div>
     </div>
   </div>
   <div class="whole-formula">86件 ＝ AIKENで進めるタスク <span id="wh-f-active">—</span>件 ＋ 対応対象外 <span id="wh-f-excl">—</span>件</div>
 </div>
-<!-- ===== 3. AIKENで進めるタスクの進捗 ===== -->
+<!-- ===== 3. AIKENで進めるタスクの進捗（未着手0を非表示・%統合）===== -->
 <div class="ap-card">
   <div class="apc-hdr">
     <div class="apc-title">AIKENで進めるタスクの進捗</div>
     <div class="apc-sub" id="bar-title">AIKENで進めるタスク —件</div>
   </div>
-  <div class="prog-quad">
-    <div class="pq-item">
-      <div class="pq-num" style="color:var(--done)" id="a1">0</div>
-      <div class="pq-lbl">解決済</div>
-      <div class="pq-sub" id="pq-resolved-sub">完了＋非対応解決</div>
+  <div class="stat-cards">
+    <div class="stat-card">
+      <div class="stat-num" style="color:#10B981" id="a1">0</div>
+      <div class="stat-lbl">解決済</div>
+      <div class="stat-fraction" id="stat-resolved-frac">— / —件 (—%)</div>
+      <div class="stat-sub" id="pq-resolved-sub">完了＋非対応解決</div>
     </div>
-    <div class="pq-item">
-      <div class="pq-num" style="color:var(--adj)" id="a2">0</div>
-      <div class="pq-lbl">最終調整中</div>
-      <div class="pq-sub">プロト完成</div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:#F59E0B" id="a2">0</div>
+      <div class="stat-lbl">最終調整中</div>
+      <div class="stat-fraction" id="stat-adj-frac">— / —件 (—%)</div>
+      <div class="stat-sub">プロト完成</div>
     </div>
-    <div class="pq-item">
-      <div class="pq-num" style="color:var(--prog)" id="a3">0</div>
-      <div class="pq-lbl">進行中</div>
-      <div class="pq-sub">制作・ヒアリング</div>
-    </div>
-    <div class="pq-item">
-      <div class="pq-num" style="color:var(--uns)" id="a5">0</div>
-      <div class="pq-lbl">未着手</div>
-      <div class="pq-sub">—</div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:#3B82F6" id="a3">0</div>
+      <div class="stat-lbl">進行中</div>
+      <div class="stat-fraction" id="stat-prog-frac">— / —件 (—%)</div>
+      <div class="stat-sub">制作・ヒアリング</div>
     </div>
   </div>
-  <div class="pw" id="pbar" style="margin-top:20px;border-radius:8px;height:14px"></div>
+  <div class="pw" id="pbar" style="margin-top:4px;border-radius:8px;height:12px"></div>
   <div class="lg" id="pleg"></div>
-  <div class="prog-pills" id="prog-pills"></div>
+  <div class="prog-pills" id="prog-pills" style="display:none"></div>
+  <span id="a5" style="display:none">0</span>
 </div>
-<!-- ===== 4. STARTから現在までの流れ ===== -->
+<!-- ===== 4. STARTから現在（横タイムライン）===== -->
 <div class="ap-card">
   <div class="apc-hdr">
     <div class="apc-title">STARTから現在までの流れ</div>
     <div class="apc-sub">タスクがどのように積み上がったか</div>
   </div>
-  <div class="story-flow">
-    <div class="story-block story-start">
-      <span class="story-tag" style="background:#FEF3C7;color:#92400E">📍 START時点</span>
-      <div class="story-row"><span class="story-lbl">START要望</span><span class="story-val">51件</span></div>
-      <div class="story-row"><span class="story-lbl" style="color:var(--tl)">初期非対応</span><span class="story-val" style="color:var(--hold)">▲14件</span></div>
-      <div class="story-result"><span>START由来の着手対象</span><span class="story-val" style="color:var(--done)">37件</span></div>
-      <div class="story-note">初期非対応：既存ツール・個別対応で解決可能と判断。現在「解決済」として集計。</div>
-    </div>
-    <div class="story-connector"><div class="story-connector-line"></div><div class="story-connector-icon">＋23件追加（GIVIN・IS・OverFlow等）</div><div class="story-connector-line"></div></div>
-    <div class="story-block story-add">
-      <span class="story-tag" style="background:#DBEAFE;color:#1D4ED8">➕ 途中追加</span>
-      <div class="story-row"><span class="story-lbl">追加タスク</span><span class="story-val" style="color:var(--prog)">+23件</span></div>
-      <div class="story-note">GIVIN（EC統合・マーケティング）・IS（電話商談ログ）・OverFlow（営業管理）等から追加</div>
-    </div>
-    <div class="story-connector"><div class="story-connector-line"></div><div class="story-connector-icon">現在</div><div class="story-connector-line"></div></div>
-    <div class="story-pair">
-      <div class="story-block story-main">
-        <span class="story-tag" style="background:#DBEAFE;color:var(--blue)">🎯 AIKENで進めるタスク</span>
-        <div class="story-big-num" style="color:var(--blue)"><span id="total-num">—</span>件</div>
-        <div class="story-row"><span class="story-lbl">解決済</span><span class="story-val" style="color:var(--done)" id="fb-resolved">—</span></div>
-        <div class="story-row"><span class="story-lbl">最終調整中</span><span class="story-val" style="color:var(--adj)" id="fb-adj">—</span></div>
-        <div class="story-row"><span class="story-lbl">進行中</span><span class="story-val" style="color:var(--prog)" id="fb-prog">—</span></div>
-      </div>
-      <div class="story-block story-excl">
-        <span class="story-tag" style="background:#FEE2E2;color:#991B1B">⚡ 対応対象外</span>
-        <div class="story-big-num" style="color:var(--hold)"><span id="fb-excl">—</span>件</div>
-        <div class="story-note">クライアント方針変更・プロダクト側判断などにより整理済み</div>
+  <div class="timeline-wrap">
+    <div class="tl-node">
+      <div class="tl-node-dot" style="color:#F59E0B"></div>
+      <div class="tl-node-label">📍 START時点</div>
+      <div class="tl-node-body tl-start">
+        <div class="tl-row"><span class="tl-lbl">START要望</span><span class="tl-val">51件</span></div>
+        <div class="tl-row"><span class="tl-lbl" style="color:var(--tl)">初期非対応</span><span class="tl-val" style="color:var(--hold)">▲14件</span></div>
+        <div class="tl-result"><span>着手対象</span><span class="tl-val" style="color:#10B981">37件</span></div>
+        <div class="tl-note">初期非対応：既存ツール等で解決可能と判断。解決済として集計。</div>
       </div>
     </div>
-  </div>
-  <div class="story-total">
-    <span>全登録タスク</span>
-    <strong id="fb-total">—</strong>
-    <span style="color:var(--tl)">＝ AIKENで進めるタスク <span id="fb-t-active">—</span> ＋ 対応対象外 <span id="fb-t-excl">—</span></span>
+    <div class="tl-connector">
+      <div class="tl-connector-line"></div>
+      <div class="tl-connector-badge">➕ 途中追加<br>+23件<br>GIVIN・IS等</div>
+      <div class="tl-connector-line"></div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-node-dot" style="color:#3B82F6"></div>
+      <div class="tl-node-label">🎯 現在のAIKEN対応</div>
+      <div class="tl-node-body tl-current">
+        <div class="tl-big" style="color:#3B82F6"><span id="total-num">—</span></div>
+        <div class="tl-big-sub">AIKENで進めるタスク</div>
+        <div class="tl-row" style="margin-top:10px"><span class="tl-lbl">解決済</span><span class="tl-val" style="color:#10B981" id="fb-resolved">—</span></div>
+        <div class="tl-row"><span class="tl-lbl">最終調整中</span><span class="tl-val" style="color:#F59E0B" id="fb-adj">—</span></div>
+        <div class="tl-row"><span class="tl-lbl">進行中</span><span class="tl-val" style="color:#3B82F6" id="fb-prog">—</span></div>
+      </div>
+    </div>
+    <div class="tl-connector">
+      <div class="tl-connector-line"></div>
+      <div class="tl-connector-badge" style="background:#FEF2F2;color:#F43F5E;border-color:#FECACA">対応対象外<br><span id="fb-excl">—</span>件</div>
+      <div class="tl-connector-line"></div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-node-dot" style="color:var(--td)"></div>
+      <div class="tl-node-label">📁 全体</div>
+      <div class="tl-node-body">
+        <div class="tl-big" style="color:var(--td)" id="fb-total">—</div>
+        <div class="tl-big-sub">全登録タスク</div>
+        <div class="tl-row" style="margin-top:10px"><span class="tl-lbl">AIKEN対応</span><span class="tl-val" style="color:#3B82F6" id="fb-t-active">—</span></div>
+        <div class="tl-row"><span class="tl-lbl">対応対象外</span><span class="tl-val" style="color:#F43F5E" id="fb-t-excl">—</span></div>
+      </div>
+    </div>
   </div>
 </div>
 <!-- ===== 5-6. ボール所在 + AIKEN資産（2col）===== -->
@@ -350,15 +418,20 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
     <div id="asset-summary"></div>
   </div>
 </div>
-<!-- ===== 7. 数値整合性チェック ===== -->
-<div class="ap-card">
-  <div class="apc-hdr">
-    <div class="apc-title">数値整合性チェック</div>
-    <div class="apc-sub">タスク件数の内訳が一致しているか確認</div>
+<!-- ===== 7. 整合性チェック（アコーディオン）===== -->
+<div class="ap-card" style="padding:0;overflow:hidden">
+  <div class="ck-accordion" onclick="toggleCkDetails()">
+    <div class="ck-status-line" id="ck-status-line">
+      <span class="ck-status-icon" id="ck-icon">✅</span>
+      <span class="ck-status-msg" id="ck-msg">数値整合性：正常（すべての数値が一致しています）</span>
+      <span class="ck-toggle-txt" id="ck-toggle-txt">詳細を確認 ▼</span>
+    </div>
+    <div class="ck-details-wrap" id="ck-details-wrap">
+      <div id="consistency-check" style="padding:0 16px 16px"></div>
+    </div>
   </div>
-  <div id="consistency-check"></div>
 </div>
-<!-- JS後方互換のhidden placeholders -->
+<!-- hidden placeholders for JS backward compat -->
 <span id="exn-scope" style="display:none"></span>
 <span id="exn-resolved" style="display:none"></span>
 <span id="exn-adj" style="display:none"></span>
@@ -564,12 +637,19 @@ function renderSummary(){
   set('wh-excl',excluded);
   set('wh-f-active',active);
   set('wh-f-excl',excluded);
-  // 進捗カード resolved sub
+  // 進捗カード stat cards
   const pqSub=document.getElementById('pq-resolved-sub');if(pqSub)pqSub.textContent=`完了${completed}件＋非対応解決${nonApplicable}件`;
-  // Hidden placeholders (backward compat)
+  const rPct=active>0?Math.round(resolved/active*100):0;
+  const aPct=active>0?Math.round(adjust/active*100):0;
+  const pPct=active>0?Math.round(progress/active*100):0;
+  const sf=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  sf('stat-resolved-frac',`${resolved} / ${active}件 (${rPct}%)`);
+  sf('stat-adj-frac',`${adjust} / ${active}件 (${aPct}%)`);
+  sf('stat-prog-frac',`${progress} / ${active}件 (${pPct}%)`);
+  // Hidden placeholders
   set('exn-scope',active);set('exn-resolved',resolved);set('exn-adj',adjust);set('exn-prog',progress);set('exn-excl',excluded);set('exn-uns',unstarted||0);
   const rSub=document.getElementById('exn-resolved-sub');if(rSub)rSub.textContent=`完了${completed}件＋非対応解決${nonApplicable}件`;
-  // Flow blocks (story)
+  // Story/timeline blocks
   set('fb-resolved',resolved+'件');
   set('fb-adj',adjust+'件');
   set('fb-prog',progress+'件');
@@ -585,7 +665,7 @@ function renderSummary(){
   const ballCfg=[
     {k:'done',l:'完了',sub:'クローズ済',c:'var(--done)'},
     {k:'aiken',l:'AIKEN側',sub:'制作・開発中',c:'var(--blue)'},
-    {k:'cl',l:'CL側',sub:'確認・承認待ち',c:'var(--adj)'},
+    {k:'cl',l:'CL側',sub:'⚡ 確認・承認待ち（要アクション）',c:'var(--adj)'},
     {k:'both',l:'双方',sub:'協議中',c:'var(--pur)'},
   ];
   const bs=document.getElementById('ball-summary');
@@ -605,8 +685,29 @@ function renderSummary(){
   // Consistency check
   const sum=resolved+unstarted+adjust+progress+excluded;
   const ok=sum===total;
+  // Consistency check status indicator
+  const ckIcon=document.getElementById('ck-icon');
+  const ckMsg=document.getElementById('ck-msg');
+  const ckLine=document.getElementById('ck-status-line');
+  if(ok){
+    if(ckIcon)ckIcon.textContent='✅';
+    if(ckMsg)ckMsg.textContent=`数値整合性：正常（${sum}件が一致）`;
+    if(ckLine){ckLine.classList.remove('ck-ng-bg');}
+  } else {
+    if(ckIcon)ckIcon.textContent='⚠️';
+    if(ckMsg)ckMsg.textContent=`数値整合性：不一致（要確認 — ${sum}件 vs 期待値${total}件）`;
+    if(ckLine){ckLine.classList.add('ck-ng-bg');document.getElementById('ck-details-wrap').style.display='block';}
+  }
   const ck=document.getElementById('consistency-check');
   if(ck)ck.innerHTML=`<div class="ck-row"><div class="ck-lbl">START時 初期要望</div><div class="ck-val">51件（固定）</div></div><div class="ck-row"><div class="ck-lbl">全タスク登録数</div><div class="ck-val">${total}件</div></div><div class="ck-row"><div class="ck-lbl">AIKEN対応対象</div><div class="ck-val">${active}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 解決済</div><div class="ck-val">${resolved}件 <span style="font-size:9px;color:var(--tl)">(完了${completed}＋非対応解決${nonApplicable})</span></div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 最終調整中</div><div class="ck-val">${adjust}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 進行中</div><div class="ck-val">${progress}件</div></div>${unstarted>0?`<div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 未着手</div><div class="ck-val">${unstarted}件</div></div>`:''}<div class="ck-row"><div class="ck-lbl">除外（クライアント方針変更・プロダクト側判断）</div><div class="ck-val">${excluded}件</div></div><div class="ck-row ck-total"><div class="ck-lbl">整合チェック（合計）</div><div class="${ok?'ck-ok':'ck-ng'}">${sum}件 ${ok?'✅ 一致':'❌ 不一致'}</div></div>`;
+}
+function toggleCkDetails(){
+  const el=document.getElementById('ck-details-wrap');
+  const tt=document.getElementById('ck-toggle-txt');
+  if(!el)return;
+  const open=el.style.display==='block';
+  el.style.display=open?'none':'block';
+  if(tt)tt.textContent=open?'詳細を確認 ▼':'閉じる ▲';
 }
 let editMode=false;
 let currentFilter='all';
