@@ -125,14 +125,34 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 @media(max-width:1200px){.rg{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1000px){.rg{grid-template-columns:repeat(2,1fr)}.libg{grid-template-columns:1fr}}
 @media(max-width:600px){.rg{grid-template-columns:1fr}.hdr{flex-direction:column}}
-/* ===== Executive Summary Bar ===== */
-.exec-bar{display:flex;align-items:center;background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:3px solid #EDE9E0;padding:14px 22px;margin-bottom:18px;flex-wrap:wrap;gap:0;row-gap:8px}
-.exec-title{font-size:12px;font-weight:900;color:var(--td);padding-right:18px;margin-right:2px;border-right:2px solid #EDE9E0;line-height:1.5;flex-shrink:0}
-.exec-item{display:flex;flex-direction:column;align-items:center;padding:4px 18px;border-right:2px solid #EDE9E0}
+/* ===== Executive Summary Bar (2-section) ===== */
+.exec-bar{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:3px solid #EDE9E0;margin-bottom:18px;overflow:hidden}
+.exec-section{padding:14px 20px}
+.exec-sec-base{background:#FAFAF7}
+.exec-sec-prog{background:#EBF5FF}
+.exec-hdivider{height:2px;background:#EDE9E0}
+.exec-section-hdr{font-size:9px;font-weight:900;color:var(--tl);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px}
+.exec-row{display:flex;align-items:stretch;flex-wrap:wrap;row-gap:6px}
+.exec-item{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 16px;border-right:2px solid #EDE9E0;flex:1;min-width:80px}
 .exec-item:last-child{border-right:none}
-.exec-num{font-size:28px;font-weight:900;line-height:1}
+.exec-num{font-size:26px;font-weight:900;line-height:1}
 .exec-lbl{font-size:9px;font-weight:700;color:var(--tm);margin-top:4px;text-align:center;line-height:1.4}
-.exec-sep{font-size:14px;color:var(--tl);font-weight:700;padding:0 2px;align-self:center;flex-shrink:0}
+.exec-sub{font-size:8px;font-weight:600;color:var(--tl);text-align:center;line-height:1.3;margin-top:2px}
+.exec-sep{font-size:16px;color:var(--tl);font-weight:700;padding:0 4px;align-self:center;flex-shrink:0}
+/* ===== Task Flow Blocks ===== */
+.flow-blocks{display:grid;grid-template-areas:"fbs fba fbm" "fbe fbt fbt";grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:14px}
+.fbl{border-radius:12px;padding:14px 15px;border:2px solid #EDE9E0;display:flex;flex-direction:column}
+.fbl-t{font-size:10px;font-weight:900;letter-spacing:0.3px;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid rgba(0,0,0,.08)}
+.fbl-row{font-size:11px;color:var(--tm);line-height:1.7;display:flex;justify-content:space-between;align-items:center;gap:4px}
+.fbl-val{font-weight:800;white-space:nowrap}
+.fbl-big{font-size:30px;font-weight:900;text-align:center;line-height:1;margin:6px 0}
+.fbl-note{font-size:9px;color:var(--tl);font-weight:600;line-height:1.5;margin-top:auto;padding-top:8px;border-top:1px dotted #D0CCC0}
+.fbl-start{grid-area:fbs;background:#FFF8F0;border-color:#F5C580}
+.fbl-add{grid-area:fba;background:#F0F8FF;border-color:#9EC8F0}
+.fbl-main{grid-area:fbm;background:#EBF5FF;border-color:#4A90D9;border-width:2px}
+.fbl-excl{grid-area:fbe;background:#FFF5F5;border-color:#F0A8A8}
+.fbl-total{grid-area:fbt;background:#F5F5F5;border-color:#BDBDBD}
+@media(max-width:800px){.flow-blocks{grid-template-areas:"fbs" "fba" "fbm" "fbe" "fbt";grid-template-columns:1fr}}
 /* ===== Two-column layout ===== */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
 .two-col>.cd{margin-bottom:0}
@@ -183,46 +203,74 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
   <div class="tab t2" onclick="sw('l')">📦 ライブラリー展開</div>
 </div>
 <div class="tc on" id="td">
-<!-- ===== ① 経営サマリーバー ===== -->
+<!-- ===== ① 進捗概要 ===== -->
 <div class="exec-bar">
-  <div class="exec-title">🎯 AIKEN<br>進捗概要</div>
-  <div class="exec-item"><div class="exec-num" style="color:var(--tl)">51</div><div class="exec-lbl">START<br>初期要望総数</div></div>
-  <div class="exec-sep">▶</div>
-  <div class="exec-item"><div class="exec-num" id="exn-scope" style="color:var(--blue)">—</div><div class="exec-lbl">AIKEN<br>管理スコープ</div></div>
-  <div class="exec-sep">｜</div>
-  <div class="exec-item"><div class="exec-num" id="exn-resolved" style="color:var(--done)">—</div><div class="exec-lbl">解決済<br>（完了＋非対応）</div></div>
-  <div class="exec-item"><div class="exec-num" id="exn-adj" style="color:var(--adj)">—</div><div class="exec-lbl">最終調整中<br>（プロト完成）</div></div>
-  <div class="exec-item"><div class="exec-num" id="exn-prog" style="color:var(--prog)">—</div><div class="exec-lbl">進行中<br>（制作中）</div></div>
-  <div class="exec-sep">｜</div>
-  <div class="exec-item"><div class="exec-num" id="exn-excl" style="color:var(--hold)">—</div><div class="exec-lbl">除外<br>（toridori都合）</div></div>
-</div>
-<!-- ===== ② タスク変遷フロー ===== -->
-<div class="cd">
-  <div class="st"><div class="ic" style="background:var(--red)">→</div>タスク構成の変遷（キックオフ → 現在）</div>
-  <div class="fp">
-    <div class="fn"><div class="fb fs"><div class="n">51</div><div class="u">件</div></div><div class="fl">① START<br>初期要望</div></div>
-    <div class="fa2">→</div>
-    <div class="fn"><div class="fb fr"><div class="n">▲14</div><div class="u">件</div></div><div class="fl">② 初期非対応<br><small>既存ツール代替<br>スコープ外</small></div></div>
-    <div class="fa2">→</div>
-    <div class="fn"><div class="fb fs"><div class="n">37</div><div class="u">件</div></div><div class="fl">③ 着手タスク</div></div>
-    <div class="fa2">＋</div>
-    <div class="fn"><div class="fb fad"><div class="n">+23</div><div class="u">件</div></div><div class="fl">④ 追加タスク<br><small>GIVIN・IS<br>OverFlow等</small></div></div>
-    <div class="fa2">→</div>
-    <div class="fn"><div class="fb fs"><div class="n">60</div><div class="u">件</div></div><div class="fl">⑤ 合計<br>着手＋追加</div></div>
-    <div class="fa2">→</div>
-    <div class="fn"><div class="fb fr"><div class="n">▲18</div><div class="u">件</div></div><div class="fl">⑥ toridori都合<br><small>方針変更9件<br>保留9件</small></div></div>
-    <div class="fa2">→</div>
-    <div class="fn"><div class="fb fre"><div class="n" id="total-num">—</div><div class="u">件</div></div><div class="fl"><b>⑦ 現在スコープ</b><br><small>AIKEN管理対象</small></div></div>
-  </div>
-  <div style="margin-top:16px;padding:14px 18px;background:#FAFAF7;border-radius:12px;border:2px solid #EDE9E0">
-    <div style="font-size:12px;font-weight:800;color:var(--red);margin-bottom:6px">📌 フローの補足</div>
-    <div style="font-size:11px;color:var(--tm);line-height:1.7">
-      ② <b>初期非対応（14件）</b>：キックオフ時点でGemini・Wantedly等の既存ツールで解決可能と判断。AIKENのスコープ外として設定。現在は「解決済」として集計。<br>
-      ④ <b>追加タスク（+23件）</b>：GIVINのEC統合・OverFlow営業管理・IS電話商談ログ等、toridori社内の組織変更・事業拡大に伴い発生。<br>
-      ⑥ <b>toridori都合で除外（18件）</b>：方針変更9件（組織統合で開発チームへ移管）＋保留9件（プロダクト側のシステム改修・開発判断待ち）。AIKENの責任範囲外。
+  <div class="exec-section exec-sec-base">
+    <div class="exec-section-hdr">📊 母数</div>
+    <div class="exec-row">
+      <div class="exec-item"><div class="exec-num" style="color:var(--td)">86</div><div class="exec-lbl">全タスク<br>登録数</div></div>
+      <div class="exec-sep">=</div>
+      <div class="exec-item"><div class="exec-num" style="color:var(--tm)">51</div><div class="exec-lbl">START<br>初期要望</div></div>
+      <div class="exec-sep">+</div>
+      <div class="exec-item"><div class="exec-num" style="color:var(--prog)">23</div><div class="exec-lbl">途中追加<br>（GIVIN・IS等）</div></div>
+      <div class="exec-sep">+</div>
+      <div class="exec-item"><div class="exec-num" id="exn-excl" style="color:var(--hold)">—</div><div class="exec-lbl">除外<br>（対応対象外）</div></div>
     </div>
   </div>
-  <div id="cur-breakdown" style="margin-top:14px"></div>
+  <div class="exec-hdivider"></div>
+  <div class="exec-section exec-sec-prog">
+    <div class="exec-section-hdr">🎯 AIKEN対応対象の進捗</div>
+    <div class="exec-row">
+      <div class="exec-item"><div class="exec-num" id="exn-scope" style="color:var(--blue)">—</div><div class="exec-lbl">AIKEN<br>対応対象</div><div class="exec-sub">解決済＋調整中＋進行中</div></div>
+      <div class="exec-sep">｜</div>
+      <div class="exec-item"><div class="exec-num" id="exn-resolved" style="color:var(--done)">—</div><div class="exec-lbl">解決済</div><div class="exec-sub" id="exn-resolved-sub">完了―件＋非対応解決―件</div></div>
+      <div class="exec-item"><div class="exec-num" id="exn-adj" style="color:var(--adj)">—</div><div class="exec-lbl">最終調整中<br>（プロト完成）</div></div>
+      <div class="exec-item"><div class="exec-num" id="exn-prog" style="color:var(--prog)">—</div><div class="exec-lbl">進行中<br>（制作・ヒアリング）</div></div>
+      <div class="exec-item"><div class="exec-num" id="exn-uns" style="color:var(--uns)">0</div><div class="exec-lbl">未着手</div></div>
+    </div>
+  </div>
+</div>
+<!-- ===== ② タスク構成の変遷 ===== -->
+<div class="cd">
+  <div class="st"><div class="ic" style="background:var(--red)">→</div>タスク構成の変遷</div>
+  <div class="flow-blocks">
+    <!-- START時点 -->
+    <div class="fbl fbl-start">
+      <div class="fbl-t" style="color:#C8860A">📍 START時点</div>
+      <div class="fbl-row"><span>START初期要望</span><span class="fbl-val" style="color:var(--td)">51件</span></div>
+      <div class="fbl-row"><span>初期非対応</span><span class="fbl-val" style="color:var(--hold)">▲14件</span></div>
+      <div class="fbl-row" style="border-top:1px solid #F5C580;margin-top:6px;padding-top:6px;font-weight:700"><span>START由来の着手対象</span><span class="fbl-val" style="color:var(--done)">37件</span></div>
+      <div class="fbl-note">初期非対応：キックオフ時点で既存ツール・個別対応で解決可能と判断。現在「解決済」として集計。</div>
+    </div>
+    <!-- 途中追加 -->
+    <div class="fbl fbl-add">
+      <div class="fbl-t" style="color:#1565C0">➕ 途中追加</div>
+      <div class="fbl-big" style="color:var(--prog)">+23件</div>
+      <div class="fbl-note">GIVIN（EC統合・マーケティング）・IS（電話商談ログ）・OverFlow（営業管理・SNS分析）等から追加</div>
+    </div>
+    <!-- 現在のAIKEN対応対象 -->
+    <div class="fbl fbl-main">
+      <div class="fbl-t" style="color:var(--blue)">🎯 現在のAIKEN対応対象</div>
+      <div class="fbl-big" style="color:var(--blue)"><span id="total-num">—</span>件</div>
+      <div class="fbl-row"><span>解決済</span><span class="fbl-val" style="color:var(--done)" id="fb-resolved">—</span></div>
+      <div class="fbl-row"><span>最終調整中</span><span class="fbl-val" style="color:var(--adj)" id="fb-adj">—</span></div>
+      <div class="fbl-row"><span>進行中</span><span class="fbl-val" style="color:var(--prog)" id="fb-prog">—</span></div>
+      <div class="fbl-note">解決済・最終調整中・進行中の合計。除外12件は含みません。</div>
+    </div>
+    <!-- 除外 -->
+    <div class="fbl fbl-excl">
+      <div class="fbl-t" style="color:#C62828">⚡ 除外</div>
+      <div class="fbl-big" style="color:var(--hold)" id="fb-excl">—</div>
+      <div class="fbl-note">クライアント方針変更・プロダクト側判断などによりAIKEN対応対象外</div>
+    </div>
+    <!-- 全タスク登録数 -->
+    <div class="fbl fbl-total">
+      <div class="fbl-t" style="color:var(--tm)">📁 全タスク登録数</div>
+      <div class="fbl-big" style="color:var(--td)" id="fb-total">—</div>
+      <div class="fbl-row"><span>AIKEN対応対象</span><span class="fbl-val" style="color:var(--blue)" id="fb-t-active">—</span></div>
+      <div class="fbl-row"><span>除外</span><span class="fbl-val" style="color:var(--hold)" id="fb-t-excl">—</span></div>
+    </div>
+  </div>
 </div>
 <!-- ===== ③ 主要KPIカード ===== -->
 <div class="rg">
@@ -230,7 +278,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
   <div class="rc rc5"><div class="cn" id="a5">0</div><div class="cl2">未着手</div></div>
   <div class="rc rc2"><div class="cn" id="a2">0</div><div class="cl2">最終調整中（プロト完成）</div></div>
   <div class="rc rc3"><div class="cn" id="a3">0</div><div class="cl2">進行中（制作・ヒアリング含む）</div></div>
-  <div class="rc rc4"><div class="cn" id="a4">0</div><div class="cl2">除外（toridori都合）※⑥に含む</div></div>
+  <div class="rc rc4"><div class="cn" id="a4">0</div><div class="cl2">除外（クライアント方針変更・プロダクト側判断）</div></div>
 </div>
 <!-- ===== ④⑥ 2-col: 進捗率 + ボール所在 ===== -->
 <div class="two-col">
@@ -413,7 +461,7 @@ function counts(){const c={resolved:0,unstarted:0,adjust:0,progress:0,excluded:0
 function renderBar(){const c=counts();const active=c.resolved+c.unstarted+c.adjust+c.progress;
   document.getElementById('pbar').innerHTML=`<div class="pc" style="width:${(c.resolved/active*100).toFixed(1)}%">${c.resolved}</div><div class="pu" style="width:${(c.unstarted/active*100).toFixed(1)}%">${c.unstarted||''}</div><div class="pa" style="width:${(c.adjust/active*100).toFixed(1)}%">${c.adjust}</div><div class="pp" style="width:${(c.progress/active*100).toFixed(1)}%">${c.progress}</div>`;
   document.getElementById('pleg').innerHTML=`<div class="li"><div class="ld" style="background:var(--done)"></div>解決済 ${c.resolved}件 (${Math.round(c.resolved/active*100)}%)</div><div class="li"><div class="ld" style="background:var(--uns)"></div>未着手 ${c.unstarted}件 (${Math.round(c.unstarted/active*100)}%)</div><div class="li"><div class="ld" style="background:var(--adj)"></div>最終調整中 ${c.adjust}件 (${Math.round(c.adjust/active*100)}%)</div><div class="li"><div class="ld" style="background:var(--prog)"></div>進行中 ${c.progress}件 (${Math.round(c.progress/active*100)}%)</div><div class="li" style="margin-left:8px;padding-left:8px;border-left:2px solid #E0DCD4"><div class="ld" style="background:var(--hold)"></div>除外 ${c.excluded}件（⑥に含む）</div>`;
-  document.getElementById('bar-title').textContent=`⑦ 最終タスク ${active}件に対する進捗率`;document.getElementById('total-num').textContent=active}
+  document.getElementById('bar-title').textContent=`AIKEN対応対象 ${active}件に対する進捗率`;document.getElementById('total-num').textContent=active}
 function renderFilters(){const c=counts();const active=c.resolved+c.unstarted+c.adjust+c.progress;const tot=T.length;
   document.getElementById('filters').innerHTML=`<div class="fbtn on" onclick="flt('all',this)">すべて (${tot})</div><div class="fbtn fc" onclick="flt('resolved',this)">解決済 (${c.resolved})</div><div class="fbtn fu" onclick="flt('unstarted',this)">未着手 (${c.unstarted})</div><div class="fbtn fa" onclick="flt('adjust',this)">最終調整中 (${c.adjust})</div><div class="fbtn fp" onclick="flt('progress',this)">進行中 (${c.progress})</div><div class="fbtn fap" onclick="flt('adj_prog',this)">最終調整中＋進行中 (${c.adjust+c.progress})</div><div class="fbtn fh" onclick="flt('excluded',this)">除外 (${c.excluded})</div>`}
 // Status/Ball option lists for dropdowns
@@ -436,14 +484,27 @@ function renderSummary(){
   const resolved=c.resolved,unstarted=c.unstarted,adjust=c.adjust,progress=c.progress,excluded=c.excluded;
   const active=resolved+unstarted+adjust+progress;
   const total=T.length;
-  // Executive bar numbers
-  const exMap={'exn-scope':active,'exn-resolved':resolved,'exn-adj':adjust,'exn-prog':progress,'exn-excl':excluded};
-  Object.entries(exMap).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.textContent=v});
-  // Current breakdown strip
   const nonApplicable=T.filter(t=>t.sg==='resolved'&&typeof t.pNo==='number').length;
   const completed=resolved-nonApplicable;
-  const bd=document.getElementById('cur-breakdown');
-  if(bd)bd.innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:8px 14px;background:#EBF5FF;border-radius:10px;border:2px solid #C2DFF7"><span style="font-size:11px;font-weight:900;color:var(--blue)">📍 現在地</span><span class="badge b1">解決済 ${resolved}件</span><span style="font-size:10px;color:var(--tl)">(完了${completed}＋非対応${nonApplicable})</span><span class="badge b2">最終調整中 ${adjust}件</span><span class="badge b3">進行中 ${progress}件</span>${unstarted>0?`<span class="badge b6">未着手 ${unstarted}件</span>`:''}<span class="badge b4">除外 ${excluded}件</span><span style="margin-left:auto;font-size:11px;font-weight:900;color:var(--blue)">スコープ計 ${active}件</span></div>`;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  // Executive bar — 母数行
+  set('exn-excl',excluded);
+  // Executive bar — AIKEN対応対象進捗行
+  set('exn-scope',active);
+  set('exn-resolved',resolved);
+  set('exn-adj',adjust);
+  set('exn-prog',progress);
+  set('exn-uns',unstarted||0);
+  const rSub=document.getElementById('exn-resolved-sub');
+  if(rSub)rSub.textContent=`完了${completed}件＋非対応解決${nonApplicable}件`;
+  // Flow blocks
+  set('fb-resolved',resolved+'件');
+  set('fb-adj',adjust+'件');
+  set('fb-prog',progress+'件');
+  set('fb-excl',excluded+'件');
+  set('fb-total',total+'件');
+  set('fb-t-active',active+'件');
+  set('fb-t-excl',excluded+'件');
   // Ball summary
   const activeTasks=T.filter(t=>t.sg!=='excluded');
   const balls={aiken:0,cl:0,both:0,done:0};
@@ -473,7 +534,7 @@ function renderSummary(){
   const sum=resolved+unstarted+adjust+progress+excluded;
   const ok=sum===total;
   const ck=document.getElementById('consistency-check');
-  if(ck)ck.innerHTML=`<div class="ck-row"><div class="ck-lbl">START時 初期要望</div><div class="ck-val">51件（固定）</div></div><div class="ck-row"><div class="ck-lbl">全タスク登録数</div><div class="ck-val">${total}件</div></div><div class="ck-row"><div class="ck-lbl">AIKENスコープ（管理対象）</div><div class="ck-val">${active}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 解決済</div><div class="ck-val">${resolved}件 <span style="font-size:9px;color:var(--tl)">(完了${completed}＋非対応${nonApplicable})</span></div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 最終調整中</div><div class="ck-val">${adjust}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 進行中</div><div class="ck-val">${progress}件</div></div>${unstarted>0?`<div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 未着手</div><div class="ck-val">${unstarted}件</div></div>`:''}<div class="ck-row"><div class="ck-lbl">除外（toridori都合）</div><div class="ck-val">${excluded}件</div></div><div class="ck-row ck-total"><div class="ck-lbl">整合チェック（合計）</div><div class="${ok?'ck-ok':'ck-ng'}">${sum}件 ${ok?'✅ 一致':'❌ 不一致'}</div></div>`;
+  if(ck)ck.innerHTML=`<div class="ck-row"><div class="ck-lbl">START時 初期要望</div><div class="ck-val">51件（固定）</div></div><div class="ck-row"><div class="ck-lbl">全タスク登録数</div><div class="ck-val">${total}件</div></div><div class="ck-row"><div class="ck-lbl">AIKEN対応対象</div><div class="ck-val">${active}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 解決済</div><div class="ck-val">${resolved}件 <span style="font-size:9px;color:var(--tl)">(完了${completed}＋非対応解決${nonApplicable})</span></div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 最終調整中</div><div class="ck-val">${adjust}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 進行中</div><div class="ck-val">${progress}件</div></div>${unstarted>0?`<div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 未着手</div><div class="ck-val">${unstarted}件</div></div>`:''}<div class="ck-row"><div class="ck-lbl">除外（クライアント方針変更・プロダクト側判断）</div><div class="ck-val">${excluded}件</div></div><div class="ck-row ck-total"><div class="ck-lbl">整合チェック（合計）</div><div class="${ok?'ck-ok':'ck-ng'}">${sum}件 ${ok?'✅ 一致':'❌ 不一致'}</div></div>`;
 }
 let editMode=false;
 let currentFilter='all';
