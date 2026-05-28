@@ -310,7 +310,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
     <div class="whole-divider"></div>
     <div class="whole-hero-meta">
       <div class="whole-meta-item">
-        <div class="whole-meta-num">86</div>
+        <div class="whole-meta-num" id="wh-total">—</div>
         <div><div class="whole-meta-lbl">全登録タスク</div><div class="whole-meta-note">今回管理しているすべてのタスク</div></div>
       </div>
       <div class="whole-meta-item">
@@ -319,7 +319,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
       </div>
     </div>
   </div>
-  <div class="whole-formula">86件 ＝ AIKENで進めるタスク <span id="wh-f-active">—</span>件 ＋ 対応対象外 <span id="wh-f-excl">—</span>件</div>
+  <div class="whole-formula"><span id="wh-formula-total">—</span>件 ＝ AIKENで進めるタスク <span id="wh-f-active">—</span>件 ＋ 対応対象外 <span id="wh-f-excl">—</span>件</div>
 </div>
 <!-- ===== 3. AIKENで進めるタスクの進捗（未着手0を非表示・%統合）===== -->
 <div class="ap-card">
@@ -632,7 +632,9 @@ function renderSummary(){
   const heroEHL=document.getElementById('hero-excl-hl');if(heroEHL)heroEHL.textContent=excluded+'件は対応対象外';
   // タスク全体カード
   set('wh-active',active);
+  set('wh-total',total);
   set('wh-excl',excluded);
+  set('wh-formula-total',total);
   set('wh-f-active',active);
   set('wh-f-excl',excluded);
   // 進捗カード stat cards
