@@ -6,306 +6,100 @@
 <title>トリドリBPO 進捗管理</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap');
-:root{--red:#E60012;--rdk:#C4000F;--blue:#3B82F6;--grn:#00A651;--ylw:#FFC107;--pur:#7B1FA2;--org:#F57C00;--bg:#F8FAFC;--card:#FFF;--sh:0 4px 20px rgba(0,0,0,.06);--shm:0 6px 30px rgba(0,0,0,.1);--shp:0 8px 40px rgba(0,0,0,.15);--r:20px;--rs:12px;--td:#2D2D2D;--tm:#5A5A5A;--tl:#9A9A9A;--done:#10B981;--adj:#F59E0B;--prog:#3B82F6;--hold:#F43F5E;--uns:#9E9E9E;--navy:#1E293B;--slate:#475569}
+:root{--navy:#1E293B;--slate:#475569;--bg:#F8FAFC;--card:#FFFFFF;--st-done:#10B981;--st-progress:#3B82F6;--st-waiting:#F59E0B;--st-unstarted:#94A3B8;--st-hold:#8B5CF6;--st-excluded:#64748B;--st-review:#EF4444;--ball-internal:#3B82F6;--ball-client:#F59E0B;--ball-both:#8B5CF6;--ball-done:#10B981;--ball-hold:#94A3B8;--sh:0 4px 20px rgba(0,0,0,.06);--shm:0 6px 30px rgba(0,0,0,.1);--shp:0 8px 40px rgba(0,0,0,.15);--r:20px;--rs:12px;--td:#1E293B;--tm:#475569;--tl:#94A3B8;}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'M PLUS Rounded 1c','Nunito',sans-serif;background:var(--bg);color:var(--td);overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(#e0ddd4 1px,transparent 1px);background-size:24px 24px;opacity:.4;pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(#e0ddd4 1px,transparent 1px);background-size:24px 24px;opacity:.3;pointer-events:none;z-index:0}
 .app{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:14px}
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--card);border-radius:14px;box-shadow:var(--sh);margin-bottom:10px;border:3px solid #EDE9E0;flex-wrap:wrap;gap:10px}
+.hdr{background:var(--navy);display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-radius:14px;margin-bottom:0;flex-wrap:wrap;gap:10px}
 .hl{display:flex;align-items:center;gap:14px}
-.logo{width:52px;height:52px;background:var(--red);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;box-shadow:0 4px 12px rgba(230,0,18,.3);transform:rotate(-3deg)}
 .toridori-logo{height:34px;width:auto;display:block}
-.ht{font-size:22px;font-weight:800;letter-spacing:-.3px;color:#fff}
+.ht{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.3px}
 .hr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.hr-pill{display:flex;align-items:center;gap:6px;background:#F5F3EC;border-radius:24px;padding:6px 14px;font-size:11px;font-weight:700;color:var(--tm)}
-.dot{width:7px;height:7px;background:var(--grn);border-radius:50%;animation:pulse 2s infinite}
+.hr-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border-radius:24px;padding:6px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,.85)}
+.dot{width:7px;height:7px;background:#10B981;border-radius:50%;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.upd-btn{padding:8px 18px;border-radius:24px;border:2px solid var(--blue);background:#E3F0FF;color:var(--blue);font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit}
+.upd-btn{padding:8px 18px;border-radius:24px;border:2px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
 .upd-btn:hover{background:rgba(255,255,255,.22)}
-.hdr{background:var(--navy)}
-.ht{color:#fff}
-.logo{background:rgba(255,255,255,.15);color:#fff}
-.hr-pill{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85)}
-.dot{background:#10B981}
-.upd-btn{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.25)}
-.tabs{background:var(--navy);border-bottom:none;padding:0 16px;display:flex;gap:5px;margin-bottom:12px}
-.tab{padding:10px 24px;border-radius:12px 12px 4px 4px;font-size:13px;font-weight:800;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);border:3px solid transparent;user-select:none;color:rgba(255,255,255,.6);border-bottom:3px solid transparent}
+.tabs{background:var(--navy);padding:0 16px;display:flex;gap:5px;margin-bottom:12px}
+.tab{padding:10px 22px;border-radius:12px 12px 4px 4px;font-size:13px;font-weight:800;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);border:3px solid transparent;user-select:none;color:rgba(255,255,255,.6);border-bottom:3px solid transparent}
 .tab:hover:not(.on){color:rgba(255,255,255,.85);background:rgba(255,255,255,.07)}
-.tab.on{transform:translateY(-4px);box-shadow:var(--shm);color:#fff;border-bottom-color:#fff;background:transparent}
-.t1{background:#FDE8E8;color:var(--red)}.t1.on{background:var(--red);color:#fff;border-color:var(--rdk)}
-.t2{background:#E8E0F0;color:var(--pur)}.t2.on{background:var(--pur);color:#fff;border-color:#5C147A}
+.tab.on{transform:translateY(-4px);box-shadow:var(--shm);color:#fff;border-bottom-color:#fff;background:rgba(255,255,255,.1)}
 .tc{display:none;animation:fi .4s ease}.tc.on{display:block}
 @keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pop{from{opacity:0;transform:scale(.7) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.cd{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:3px solid #EDE9E0;padding:22px 26px;margin-bottom:18px}
+.cd{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1.5px solid #E2E8F0;padding:22px 26px;margin-bottom:18px}
+.ap-card{background:var(--card);border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);border:1.5px solid #E2E8F0;padding:16px 20px;margin-bottom:12px}
+.apc-hdr{margin-bottom:12px}.apc-title{font-size:14px;font-weight:800;color:var(--td)}.apc-sub{font-size:10px;font-weight:500;color:var(--tl);margin-top:2px}
 .st{font-size:16px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .ic{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;flex-shrink:0}
-.fp{display:flex;align-items:flex-start;justify-content:center;gap:0;padding:6px 0;flex-wrap:wrap}
-.fn{display:flex;flex-direction:column;align-items:center;min-width:90px;padding-top:8px}
-.fn:nth-child(1){animation:pop .5s cubic-bezier(.34,1.56,.64,1) 0s both}.fn:nth-child(3){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .06s both}.fn:nth-child(5){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .12s both}.fn:nth-child(7){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .18s both}.fn:nth-child(9){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .24s both}.fn:nth-child(11){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .3s both}.fn:nth-child(13){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .36s both}.fn:nth-child(15){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .42s both}.fn:nth-child(17){animation:pop .5s cubic-bezier(.34,1.56,.64,1) .48s both}
-.fb{width:76px;height:76px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;box-shadow:0 4px 14px rgba(0,0,0,.07);transition:transform .2s;cursor:default;flex-shrink:0}.fb:hover{transform:scale(1.08)}
-.fb .n{font-size:22px;line-height:1}.fb .u{font-size:9px;font-weight:700;margin-top:2px}
-.fl{font-size:9px;font-weight:700;color:var(--tm);margin-top:5px;text-align:center;max-width:90px;line-height:1.3}
-.fl small{font-size:8px;color:var(--tl);font-weight:600}
-.fa2{min-width:20px;font-size:16px;color:var(--tl);text-align:center;padding-top:36px}
-.fs{background:#F5F3EC;color:var(--td);border:3px solid #DDD8CC}.fr{background:#FDE8E8;color:var(--red);border:3px solid #F5C4C4}.fad{background:#D4EDDA;color:#1B7A3D;border:3px solid #A8D5B5}.fre{background:var(--red);color:#fff;border:3px solid var(--rdk);box-shadow:0 6px 20px rgba(230,0,18,.25)}
-.rg{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
-.rc{background:var(--card);border-radius:var(--rs);padding:16px;box-shadow:var(--sh);border:3px solid #EDE9E0;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s;cursor:default}.rc:hover{transform:translateY(-3px);box-shadow:var(--shp)}
-.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
-.rc1::before{background:var(--done)}.rc2::before{background:var(--adj)}.rc3::before{background:var(--prog)}.rc4::before{background:var(--hold)}.rc5::before{background:var(--uns)}
-.cn{font-size:36px;font-weight:900;line-height:1}.rc1 .cn{color:var(--done)}.rc2 .cn{color:var(--adj)}.rc3 .cn{color:var(--prog)}.rc4 .cn{color:var(--hold)}.rc5 .cn{color:var(--uns)}
-.cl2{font-size:11px;font-weight:700;color:var(--tm);margin-top:3px}
-.pw{height:30px;background:#F0EDE5;border-radius:15px;display:flex;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.06)}.pw>div{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;transition:width 1s cubic-bezier(.34,1.56,.64,1)}
-.pc{background:var(--done);border-radius:15px 0 0 15px}.pu{background:var(--uns)}.pa{background:var(--adj)}.pp{background:var(--prog)}.ph{background:var(--hold);border-radius:0 15px 15px 0}
+.hero-bar{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.hero-stat{background:var(--card);border-radius:16px;padding:18px 24px;flex:1;min-width:140px;border:1.5px solid #E2E8F0;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.hero-stat-num{font-size:44px;font-weight:900;line-height:1;color:var(--td)}.hero-stat-lbl{font-size:12px;font-weight:700;color:var(--slate);margin-top:6px}.hero-stat-sub{font-size:10px;color:var(--tl);margin-top:3px}
+.hero-stat.hs-active .hero-stat-num{color:#3B82F6}.hero-stat.hs-excluded .hero-stat-num{color:var(--st-excluded)}
+.status-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:12px}
+.status-card{background:var(--card);border-radius:14px;padding:14px 10px;text-align:center;border:1.5px solid #E2E8F0;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}.status-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.sc-num{font-size:32px;font-weight:900;line-height:1}.sc-lbl{font-size:10px;font-weight:700;color:var(--slate);margin-top:5px}.sc-bar{height:4px;background:#E2E8F0;border-radius:2px;margin-top:8px;overflow:hidden}.sc-fill{height:100%;border-radius:2px;transition:width 1s}
+@media(max-width:1100px){.status-grid{grid-template-columns:repeat(4,1fr)}}@media(max-width:700px){.status-grid{grid-template-columns:repeat(2,1fr)}}
+.pw{height:14px;background:#F0EDE5;border-radius:7px;display:flex;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.06)}
 .lg{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap}.li{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--tm)}.ld{width:8px;height:8px;border-radius:3px}
-.tc2{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
-.fbtn{padding:8px 18px;border-radius:20px;font-size:13px;font-weight:700;border:2px solid #E0DCD4;background:#fff;color:var(--tm);cursor:pointer;transition:all .2s;font-family:inherit}.fbtn:hover{border-color:#CCC;background:#F8F6F0}
-.fbtn.on{border-color:var(--red);color:var(--red);background:#FDE8E8}
-.fbtn.fc.on{border-color:var(--done);color:var(--done);background:#D4EDDA}
-.fbtn.fu.on{border-color:var(--uns);color:#555;background:#F0F0F0}
-.fbtn.fa.on{border-color:var(--adj);color:#B87A00;background:#FFF8E1}
-.fbtn.fp.on{border-color:var(--prog);color:var(--prog);background:#E3F0FF}
-.fbtn.fh.on{border-color:var(--hold);color:var(--hold);background:#FDE8E8}
-.fbtn.fap.on{border-color:var(--pur);color:var(--pur);background:#F3E8FF}
-.tt{width:100%;border-collapse:separate;border-spacing:0 4px;table-layout:fixed}
-.tt thead th{font-size:11px;font-weight:800;color:var(--tl);text-transform:uppercase;letter-spacing:.3px;padding:8px 10px;text-align:left;border-bottom:2px solid #EDE9E0;white-space:nowrap;position:sticky;top:0;background:var(--card);z-index:2}
-.tt tbody tr{background:#FAFAF7;transition:transform .12s,box-shadow .12s}.tt tbody tr:hover{transform:scale(1.002);box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.tt td{padding:8px 10px;font-size:13px;font-weight:500;vertical-align:middle;overflow:hidden}
-.td-no{text-align:center;font-weight:700;color:var(--tl);font-size:9px;padding:6px 4px}
-.td-nno{text-align:center;font-size:8px;color:var(--tl);font-weight:700;padding:6px 2px}
-.td-nm{overflow:hidden}
-.nm-lbl{margin-bottom:4px;line-height:1.2}
-.nm-txt{font-weight:800;font-size:14px;color:#111;letter-spacing:-.2px;line-height:1.35;word-break:keep-all;overflow-wrap:break-word}
-.td-who{font-size:12px;font-weight:700;color:var(--tm);white-space:nowrap}
-.td-prod{white-space:nowrap}
-.td-act{font-size:12px;color:var(--tm);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:help}
-.td-act.expanded{display:block;overflow:visible;-webkit-line-clamp:unset}
-.badge{display:inline-block;padding:4px 14px;border-radius:18px;font-size:12px;font-weight:800;white-space:nowrap}
-.b1{background:#D4EDDA;color:#1B7A3D}.b2{background:#FFF3CD;color:#856404}.b3{background:#D6EAFF;color:#004085}.b4{background:#F8D7DA;color:#721C24}.b5{background:#E0F2F1;color:#00695C}.b6{background:#F0F0F0;color:#555}
-.ball{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:14px;font-size:12px;font-weight:800;white-space:nowrap}
-.ball-a{background:#E3F0FF;color:#004085}.ball-c{background:#FFF3CD;color:#856404}.ball-b{background:#F3E8FF;color:#5C147A}.ball-d{background:#D4EDDA;color:#1B7A3D}
-.ball-dot{width:6px;height:6px;border-radius:50%}.ball-a .ball-dot{background:#0068B7}.ball-c .ball-dot{background:#F5A623}.ball-b .ball-dot{background:#7B1FA2}.ball-d .ball-dot{background:#00A651}
-.ptag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:800;margin-right:3px;white-space:nowrap}
-.tmtag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:800;margin-right:5px;vertical-align:middle}
-.tm-dash{background:#E3F0FF;color:#0050A0}.tm-tri{background:#E8FFE0;color:#2E7D32}.tm-net{background:#FFF0D0;color:#B87A00}.tm-prod{background:#F0E0FF;color:#6A1B9A}
-.pt-nix{background:#FFE0E0;color:#C00}.pt-made{background:#E0F0FF;color:#0050A0}.pt-blends{background:#E8FFE0;color:#2E7D32}
-.pt-of{background:#FFF0D0;color:#B87A00}.pt-givin{background:#F0E0FF;color:#6A1B9A}.pt-all{background:#F0F0F0;color:#555}
-.pt-base{background:#E0F0F0;color:#00695C}.pt-is{background:#FFE8D0;color:#E65100}.pt-mkt{background:#FFE0F0;color:#AD1457}
-.pt-voo{background:#E0E8FF;color:#1A237E}.pt-dev{background:#F5F5F5;color:#37474F}
-.tbl-wrap{max-height:75vh;overflow:auto;border-radius:var(--rs)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}@media(max-width:920px){.two-col{grid-template-columns:1fr}}
+.bsrow{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #F0EDE5}.bsrow:last-child{border-bottom:none}
+.bslbl{font-size:11px;font-weight:700;color:var(--tm);width:110px;flex-shrink:0;line-height:1.3}.bsbar{flex:1;height:10px;background:#F0EDE5;border-radius:5px;overflow:hidden}.bsfill{height:100%;border-radius:5px;transition:width 1s cubic-bezier(.34,1.56,.64,1)}.bsnum{font-size:16px;font-weight:900;width:30px;text-align:right;flex-shrink:0}.bspct{font-size:10px;font-weight:700;color:var(--tl);width:32px;flex-shrink:0}
+.quick-stats{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.qs-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FAFAFA;border-radius:10px;border:1.5px solid #E2E8F0}
+.qs-icon{font-size:16px}.qs-lbl{flex:1;font-size:12px;font-weight:700;color:var(--tm)}.qs-num{font-size:20px;font-weight:900}
+.asgn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px}
+.asgn-card{background:#FAFAFA;border-radius:14px;padding:14px;border:1.5px solid #E2E8F0;transition:transform .2s}.asgn-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.asgn-name{font-size:13px;font-weight:800;color:#1E293B}.asgn-total{font-size:11px;color:#64748B;margin-top:2px}.asgn-bar{height:6px;background:#E2E8F0;border-radius:3px;margin:8px 0;overflow:hidden}.asgn-fill{height:100%;border-radius:3px;transition:width 1s}.asgn-stats{display:flex;gap:6px;font-size:10px;font-weight:700;flex-wrap:wrap}
+.ck-accordion{cursor:pointer}.ck-status-line{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F0FDF4;border-radius:10px;border:1.5px solid #D1FAE5}.ck-status-line.ck-ng-bg{background:#FFF5F5;border-color:#FECACA}
+.ck-status-icon{font-size:16px;flex-shrink:0}.ck-status-msg{flex:1;font-size:12px;font-weight:700;color:var(--td)}.ck-toggle-txt{font-size:10px;color:var(--tl);font-weight:600;white-space:nowrap}
+.ck-details-wrap{display:none;margin-top:14px}.ck-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #F0EDE5;font-size:11px}.ck-row.ck-total{border-bottom:none;padding-top:10px;border-top:2px dashed #E2E8F0;margin-top:4px}
+.ck-lbl{font-weight:600;color:var(--tm)}.ck-val{font-weight:800;color:var(--td)}.ck-ok{color:var(--st-done);font-weight:900}.ck-ng{color:var(--st-review);font-weight:900}
+.tool-btn{padding:6px 14px;border-radius:16px;border:2px solid #D0CCC0;background:#FAFAF7;color:var(--tm);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}.tool-btn:hover{background:#EDE9E0;border-color:#BBB;transform:translateY(-1px)}
+.tool-btn-primary{border-color:var(--ball-internal);background:#EFF6FF;color:var(--ball-internal);font-size:12px;font-weight:800}.tool-btn-primary:hover{background:var(--ball-internal);color:#fff}
+.tool-btn-snap{border-color:#8B5CF6;background:#F5F3FF;color:#8B5CF6}.tool-btn-snap:hover{background:#8B5CF6;color:#fff}
+.edit-btn{padding:8px 20px;border-radius:20px;border:2px solid var(--st-done);background:#ECFDF5;color:var(--st-done);font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit}.edit-btn:hover{background:var(--st-done);color:#fff;transform:translateY(-2px)}
+.edit-btn.save-mode{border-color:var(--st-review);background:#FEF2F2;color:var(--st-review);animation:pulseBtn 1.5s infinite}.edit-btn.save-mode:hover{background:var(--st-review);color:#fff}
+@keyframes pulseBtn{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.2)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
+.filter-row{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.fbtn{padding:7px 16px;border-radius:20px;font-size:12px;font-weight:700;border:2px solid #E2E8F0;background:#fff;color:var(--tm);cursor:pointer;font-family:inherit}.fbtn:hover{border-color:#CBD5E1;background:#F8FAFC}.fbtn.on{border-color:var(--navy);color:var(--navy);background:#F1F5F9}
+.tbl-wrap{max-height:72vh;overflow:auto;border-radius:var(--rs)}.tt{width:100%;border-collapse:separate;border-spacing:0 4px;table-layout:fixed}
+.tt thead th{font-size:10px;font-weight:800;color:var(--tl);text-transform:uppercase;letter-spacing:.3px;padding:8px 10px;text-align:left;border-bottom:2px solid #E2E8F0;white-space:nowrap;position:sticky;top:0;background:var(--card);z-index:2}
+.tt tbody tr{background:#FAFAFA;transition:transform .12s,box-shadow .12s}.tt tbody tr:hover{transform:scale(1.001);box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.tt td{padding:7px 10px;font-size:12px;font-weight:500;vertical-align:middle;overflow:hidden}
+.td-no{text-align:center;font-weight:700;color:var(--tl);font-size:9px;padding:6px 4px;width:3%}.td-nno{text-align:center;font-size:8px;color:var(--tl);font-weight:700;padding:6px 2px;width:4%}.td-nm{overflow:hidden;width:22%}.nm-txt{font-weight:800;font-size:13px;color:#111;line-height:1.35;word-break:keep-all;overflow-wrap:break-word}.td-who{font-size:11px;font-weight:700;color:var(--tm);white-space:nowrap;width:7%}
+.td-act{font-size:11px;color:var(--tm);line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;cursor:help;width:18%}.td-act.expanded{display:block;overflow:visible;-webkit-line-clamp:unset}
+.td-deadline{font-size:11px;white-space:nowrap;width:6%}.td-memo{font-size:11px;color:#64748B;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:help;width:8%}.td-dlv{white-space:nowrap;width:5%}.dlv-link{color:#3B82F6;text-decoration:none;font-size:11px}.overdue{color:var(--st-review);font-weight:800}
+.st-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;white-space:nowrap}
+.ball-badge{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border-radius:14px;font-size:11px;font-weight:700;white-space:nowrap}
+.ball-internal{background:#EFF6FF;color:var(--ball-internal)}.ball-client{background:#FFFBEB;color:var(--ball-client)}.ball-both{background:#F5F3FF;color:var(--ball-both)}.ball-done{background:#ECFDF5;color:var(--ball-done)}.ball-hold{background:#F8FAFC;color:var(--ball-hold)}
+.hist-badge{display:inline-block;padding:2px 7px;border-radius:10px;background:#94A3B8;color:#fff;font-size:9px;font-weight:700;cursor:pointer;margin-left:6px;vertical-align:middle}.hist-badge:hover{background:#64748B}
+.edit-in{font-family:'M PLUS Rounded 1c',sans-serif;border:2px solid #E0DCD4;border-radius:8px;padding:5px 8px;background:#fff;width:100%;font-size:12px}.edit-in:focus{outline:none;border-color:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+.edit-nm{font-size:14px;font-weight:800;color:#111}.edit-act{font-size:11px;color:var(--tm);min-height:48px;resize:vertical}.edit-sel{font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;font-weight:700;border:2px solid #E0DCD4;border-radius:8px;padding:4px 8px;background:#fff;cursor:pointer}.edit-sel:focus{outline:none;border-color:#3B82F6}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--td);color:#fff;padding:12px 28px;border-radius:16px;font-size:14px;font-weight:800;box-shadow:var(--shp);z-index:200;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .4s;opacity:0;pointer-events:none}.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center;backdrop-filter:blur(3px)}.modal-bg.show{display:flex}
 .modal{background:var(--card);border-radius:var(--r);box-shadow:var(--shp);padding:32px;max-width:520px;width:90%;position:relative;animation:pop .3s ease}
-.modal-close{position:absolute;top:12px;right:16px;font-size:20px;cursor:pointer;color:var(--tl);font-weight:900;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .2s}.modal-close:hover{background:#F0EDE5}
+.modal-close{position:absolute;top:12px;right:16px;font-size:20px;cursor:pointer;color:var(--tl);font-weight:900;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px}.modal-close:hover{background:#F0EDE5}
 .modal h2{font-size:18px;font-weight:900;margin-bottom:16px}.modal p{font-size:13px;color:var(--tm);margin-bottom:16px;line-height:1.6}
-.drop-zone{border:3px dashed #D0CCC0;border-radius:var(--rs);padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#FAFAF7}.drop-zone:hover,.drop-zone.drag{border-color:var(--blue);background:#EBF5FF}
-.drop-zone-icon{font-size:36px;margin-bottom:8px}.drop-zone-text{font-size:13px;font-weight:700;color:var(--tm)}.drop-zone-sub{font-size:11px;color:var(--tl);margin-top:4px}
-.drop-file-input{display:none}
-.processing{display:none;text-align:center;padding:20px}.processing.show{display:block}
-.processing .spinner{width:40px;height:40px;border:4px solid #EDE9E0;border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.result-msg{display:none;padding:16px;border-radius:var(--rs);background:#D4EDDA;color:#1B7A3D;font-size:13px;font-weight:700;text-align:center;margin-top:12px}.result-msg.show{display:block}
-.libg{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.libc{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:3px solid #EDE9E0;overflow:hidden;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;cursor:default}.libc:hover{transform:translateY(-4px) scale(1.01);box-shadow:var(--shp)}
-.libh{padding:16px 20px 8px;position:relative}.libh::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--pur),var(--blue))}
-.libt{font-size:14px;font-weight:900}.libs{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:800}
-.libb{padding:0 20px 16px}.libr{display:flex;gap:6px;margin-top:7px}.libl{font-size:9px;font-weight:800;color:var(--tl);text-transform:uppercase;letter-spacing:.3px;min-width:56px;padding-top:2px}.libv{font-size:11px;color:var(--tm);line-height:1.4;font-weight:600}
-/* Edit mode */
-.edit-btn{padding:8px 20px;border-radius:20px;border:2px solid var(--grn);background:#E8FFE0;color:#2E7D32;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit}
-.edit-btn:hover{background:var(--grn);color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,166,81,.3)}
-.edit-btn.save-mode{border-color:var(--red);background:#FDE8E8;color:var(--red);animation:pulseBtn 1.5s infinite}
-.edit-btn.save-mode:hover{background:var(--red);color:#fff}
-@keyframes pulseBtn{0%,100%{box-shadow:0 0 0 0 rgba(230,0,18,.2)}50%{box-shadow:0 0 0 8px rgba(230,0,18,0)}}
-.tool-btn{padding:6px 14px;border-radius:16px;border:2px solid #D0CCC0;background:#FAFAF7;color:var(--tm);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
-.tool-btn:hover{background:#EDE9E0;border-color:#BBB;transform:translateY(-1px)}
-.tool-btn-primary{border-color:var(--blue);background:#E3F0FF;color:var(--blue);font-size:12px;font-weight:800}
-.tool-btn-primary:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-.edit-in{font-family:'M PLUS Rounded 1c',sans-serif;border:2px solid #E0DCD4;border-radius:8px;padding:6px 8px;background:#fff;transition:border-color .2s;width:100%}
-.edit-in:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,104,183,.12)}
-.edit-nm{font-size:18px;font-weight:800;color:#111}
-.edit-sm{font-size:12px;font-weight:600;color:var(--tm)}
-.edit-act{font-size:12px;color:var(--tm);min-height:48px;resize:vertical}
-.edit-sel{font-family:'M PLUS Rounded 1c',sans-serif;font-size:11px;font-weight:700;border:2px solid #E0DCD4;border-radius:8px;padding:4px 8px;background:#fff;cursor:pointer}
-.edit-sel:focus{outline:none;border-color:var(--blue)}
-/* Toast */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--td);color:#fff;padding:12px 28px;border-radius:16px;font-size:14px;font-weight:800;box-shadow:var(--shp);z-index:200;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .4s;opacity:0;pointer-events:none}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-@media(max-width:1200px){.rg{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:1000px){.rg{grid-template-columns:repeat(2,1fr)}.libg{grid-template-columns:1fr}}
-@media(max-width:600px){.rg{grid-template-columns:1fr}.hdr{flex-direction:column}}
-/* ===== Hero card ===== */
-.hero-card{background:linear-gradient(135deg,#EBF5FF 0%,#ECFDF5 100%);border-radius:16px;padding:14px 20px;margin-bottom:12px;border:1.5px solid rgba(59,130,246,.15)}
-.hero-txt{font-size:13px;font-weight:500;color:var(--td);line-height:1.75;margin:0}
-.hero-num-hl{font-size:17px;font-weight:900}
-.hero-hl-g{color:var(--done);font-weight:800}
-.hero-hl-o{color:var(--adj);font-weight:800}
-.hero-hl-b{color:var(--blue);font-weight:800}
-.hero-hl-r{color:var(--hold);font-weight:800}
-/* ===== Apple-style card ===== */
-.ap-card{background:var(--card);border-radius:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);border:1.5px solid rgba(0,0,0,.05);padding:16px 20px;margin-bottom:12px}
-.apc-hdr{margin-bottom:12px}
-.apc-title{font-size:14px;font-weight:800;color:var(--td);line-height:1.2}
-.apc-sub{font-size:10px;font-weight:500;color:var(--tl);margin-top:2px;line-height:1.4}
-/* ===== タスク全体カード ===== */
-.whole-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.whole-main-col{background:#F5F5F7;border-radius:18px;padding:22px 26px;display:flex;flex-direction:column;align-items:center;flex-shrink:0}
-.whole-big{font-size:52px;font-weight:900;line-height:1;color:var(--td)}
-.whole-lbl{font-size:11px;font-weight:700;color:var(--tm);margin-top:6px}
-.whole-eq-col{font-size:20px;color:var(--tl);font-weight:700;flex-shrink:0}
-.whole-plus-col{font-size:18px;color:var(--tl);font-weight:700;flex-shrink:0}
-.whole-sub-col{flex:1;background:#FAFAF7;border-radius:14px;padding:16px 18px;min-width:110px;border:1.5px solid #EDE9E0;text-align:center}
-.whole-sub-num{font-size:38px;font-weight:900;line-height:1}
-.whole-sub-lbl{font-size:10px;font-weight:700;color:var(--tm);margin-top:5px}
-.whole-sub-note{font-size:9px;color:var(--tl);margin-top:3px;line-height:1.4}
-.whole-formula{font-size:9px;color:var(--tl);font-weight:600;text-align:right;margin-top:12px;padding-top:10px;border-top:1px dashed #EDE9E0}
-/* ===== Progress quad ===== */
-.prog-quad{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:4px}
-.pq-item{text-align:center;background:#FAFAF7;border-radius:14px;padding:18px 8px;border:1.5px solid #EDE9E0}
-.pq-num{font-size:38px;font-weight:900;line-height:1}
-.pq-lbl{font-size:10px;font-weight:700;color:var(--tm);margin-top:6px}
-.pq-sub{font-size:8px;color:var(--tl);margin-top:3px;line-height:1.4}
-@media(max-width:600px){.prog-quad{grid-template-columns:repeat(2,1fr)}}
-/* ===== Story flow ===== */
-.story-flow{display:flex;flex-direction:column;gap:0}
-.story-block{border-radius:16px;padding:16px 20px;border:1.5px solid #EDE9E0;background:#FAFAF7}
-.story-start{background:#FFFBEB;border-color:#FDE68A}
-.story-add{background:#EFF6FF;border-color:#BFDBFE}
-.story-main{background:#EFF6FF;border-color:#93C5FD;border-width:2px;flex:1;min-width:180px}
-.story-excl{background:#FEF2F2;border-color:#FECACA;flex:0 0 160px}
-.story-pair{display:flex;gap:12px;margin-top:0}
-.story-tag{display:inline-block;font-size:10px;font-weight:800;padding:4px 12px;border-radius:20px;margin-bottom:12px}
-.story-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.04)}
-.story-row:last-of-type{border-bottom:none}
-.story-lbl{color:var(--tm);font-weight:600}
-.story-val{font-weight:900;font-size:15px}
-.story-result{display:flex;justify-content:space-between;align-items:center;padding:8px 0 4px;border-top:2px solid rgba(0,0,0,.08);margin-top:6px;font-size:12px;font-weight:800;color:var(--td)}
-.story-note{font-size:9px;color:var(--tl);margin-top:10px;padding-top:8px;border-top:1px dotted #D0CCC0;line-height:1.5}
-.story-big-num{font-size:38px;font-weight:900;line-height:1;margin:10px 0 12px}
-.story-connector{display:flex;align-items:center;gap:8px;padding:5px 0}
-.story-connector-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#D0CCC0,transparent)}
-.story-connector-icon{font-size:10px;font-weight:800;color:var(--tl);white-space:nowrap;padding:3px 12px;background:#F5F5F7;border-radius:20px;border:1px solid #E0DCD4}
-.story-total{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px;padding:12px 16px;background:#F5F5F7;border-radius:14px;font-size:11px;color:var(--tm);font-weight:600}
-.story-total strong{font-size:18px;font-weight:900;color:var(--td)}
-@media(max-width:800px){.story-pair{flex-direction:column}.story-excl{flex:none}}
-/* ===== Two-column layout ===== */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.two-col>.cd,.two-col>.ap-card{margin-bottom:0}
-@media(max-width:920px){.two-col{grid-template-columns:1fr}}
-/* ===== Progress pills ===== */
-.prog-pills{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-.prog-pill{flex:1;min-width:70px;display:flex;flex-direction:column;align-items:center;background:#F8F6F0;border-radius:12px;padding:12px 8px;border:2px solid #EDE9E0}
-.prog-pct{font-size:22px;font-weight:900;line-height:1}
-.prog-sub{font-size:9px;font-weight:700;color:var(--tm);margin-top:4px;text-align:center;line-height:1.35}
-/* ===== Ball summary ===== */
-.bsrow{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #F0EDE5}
-.bsrow:last-child{border-bottom:none}
-.bslbl{font-size:11px;font-weight:700;color:var(--tm);width:80px;flex-shrink:0;line-height:1.3}
-.bsbar{flex:1;height:10px;background:#F0EDE5;border-radius:5px;overflow:hidden}
-.bsfill{height:100%;border-radius:5px;transition:width 1s cubic-bezier(.34,1.56,.64,1)}
-.bsnum{font-size:16px;font-weight:900;width:30px;text-align:right;flex-shrink:0}
-.bspct{font-size:10px;font-weight:700;color:var(--tl);width:32px;flex-shrink:0}
-/* ===== Asset grid ===== */
-.ast-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
-.ast-item{background:#F8F6F0;border-radius:10px;padding:9px 11px;border-left:3px solid var(--pur);transition:transform .2s}
-.ast-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.ast-item.done-item{border-left-color:var(--done)}
-.ast-item.adj-item{border-left-color:var(--adj)}
-.ast-nm{font-size:10px;font-weight:800;color:var(--td);line-height:1.35}
-.ast-st{display:inline-block;font-size:8px;font-weight:800;padding:2px 6px;border-radius:6px;margin-top:4px}
-.ast-st-done{background:#D4EDDA;color:#1B7A3D}
-.ast-st-adj{background:#FFF3CD;color:#856404}
-/* ===== Consistency check ===== */
-.ck-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #F0EDE5;font-size:11px}
-.ck-row.ck-total{border-bottom:none;padding-top:10px;border-top:2px dashed #EDE9E0;margin-top:4px}
-.ck-lbl{font-weight:600;color:var(--tm)}
-.ck-val{font-weight:800;color:var(--td)}
-.ck-ok{color:var(--done);font-weight:900;font-size:13px}
-.ck-ng{color:var(--red);font-weight:900;font-size:13px}
-/* ===== Stat cards (進捗カード統合型) ===== */
-.stat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.stat-card{border-radius:14px;padding:14px 12px;text-align:center;border:1.5px solid #E2E8F0;background:#fff;transition:box-shadow .2s}
-.stat-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.07)}
-.stat-num{font-size:36px;font-weight:900;line-height:1}
-.stat-lbl{font-size:11px;font-weight:700;color:var(--slate);margin-top:6px}
-.stat-fraction{font-size:11px;font-weight:600;color:var(--slate);opacity:.7;margin-top:3px}
-.stat-sub{font-size:9px;color:var(--tl);margin-top:4px;line-height:1.4}
-/* ===== Horizontal timeline ===== */
-.timeline-wrap{display:flex;align-items:flex-start;gap:0;margin-top:4px}
-.tl-node{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:0}
-.tl-node-dot{width:12px;height:12px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px currentColor;flex-shrink:0;margin-bottom:6px}
-.tl-node-label{font-size:9px;font-weight:800;color:var(--slate);letter-spacing:.3px;margin-bottom:6px;white-space:nowrap}
-.tl-node-body{width:100%;background:#FAFAFA;border-radius:12px;padding:10px 12px 8px;border:1.5px solid #E2E8F0}
-.tl-node-body.tl-start{background:#FFFBEB;border-color:#FDE68A}
-.tl-node-body.tl-current{background:#EFF6FF;border-color:#93C5FD;border-width:2px}
-.tl-node-body.tl-excl{background:#FEF2F2;border-color:#FECACA}
-.tl-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(0,0,0,.04)}
-.tl-row:last-of-type{border-bottom:none}
-.tl-lbl{color:var(--slate);font-weight:600}
-.tl-val{font-weight:800;font-size:13px}
-.tl-result{display:flex;justify-content:space-between;align-items:center;padding:7px 0 3px;border-top:1.5px solid rgba(0,0,0,.1);margin-top:5px;font-size:11px;font-weight:800;color:var(--td)}
-.tl-big{font-size:28px;font-weight:900;line-height:1;margin:4px 0 8px;text-align:center}
-.tl-big-sub{font-size:9px;font-weight:700;color:var(--slate);display:block;margin-top:2px;text-align:center}
-.tl-note{font-size:8.5px;color:var(--tl);margin-top:8px;padding-top:7px;border-top:1px dotted #D0CCC0;line-height:1.5}
-.tl-connector{display:flex;flex-direction:column;align-items:center;padding:0 4px;flex-shrink:0;margin-top:34px}
-.tl-connector-line{width:1px;height:24px;background:linear-gradient(to bottom,transparent,#CBD5E1,transparent)}
-.tl-connector-badge{font-size:9px;font-weight:800;padding:4px 8px;border-radius:10px;border:1px solid #E2E8F0;background:#F8FAFC;color:var(--slate);white-space:nowrap;margin:3px 0;text-align:center;line-height:1.4}
-@media(max-width:900px){.timeline-wrap{flex-direction:column;gap:0}.tl-connector{flex-direction:row;margin-top:0;padding:4px 0;width:100%}.tl-connector-line{width:24px;height:1px}.tl-node{width:100%}}
-/* ===== Consistency check accordion ===== */
-.ck-accordion{cursor:pointer}
-.ck-status-line{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#F0FDF4;border-radius:10px;border:1.5px solid #D1FAE5;transition:background .2s}
-.ck-status-line.ck-ng-bg{background:#FFF5F5;border-color:#FECACA}
-.ck-status-line:hover{background:#E8FDF4}
-.ck-status-icon{font-size:16px;flex-shrink:0}
-.ck-status-msg{flex:1;font-size:12px;font-weight:700;color:var(--td)}
-.ck-toggle-txt{font-size:10px;color:var(--tl);font-weight:600;white-space:nowrap}
-.ck-details-wrap{display:none;margin-top:14px}
-/* ===== タスク全体ヒーロー ===== */
-.whole-hero{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.whole-hero-main{display:flex;align-items:baseline;gap:6px;flex-shrink:0}
-.whole-hero-num{font-size:52px;font-weight:900;line-height:1}
-.whole-hero-label{font-size:13px;font-weight:800;color:var(--slate)}
-.whole-hero-sub{font-size:9px;color:var(--tl);margin-top:2px;font-weight:500}
-.whole-hero-meta{display:flex;gap:10px;flex-wrap:wrap}
-.whole-meta-item{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;border:1.5px solid #E2E8F0;background:#F8FAFC}
-.whole-meta-num{font-size:20px;font-weight:900;color:var(--td)}
-.whole-meta-lbl{font-size:10px;font-weight:700;color:var(--slate);line-height:1.4}
-.whole-meta-note{font-size:8.5px;color:var(--tl);font-weight:400}
-.whole-divider{width:1px;height:48px;background:#E2E8F0;flex-shrink:0;align-self:center}
-.whole-formula{font-size:9px;color:var(--tl);font-weight:600;text-align:right;margin-top:12px;padding-top:10px;border-top:1px dashed #E2E8F0}
-/* ===== History badge ===== */
-.hist-badge{display:inline-block;padding:2px 7px;border-radius:10px;background:#94A3B8;color:#fff;font-size:9px;font-weight:700;cursor:pointer;margin-left:6px;vertical-align:middle;transition:background .15s}.hist-badge:hover{background:#64748B}
-/* ===== History modal & timeline ===== */
+.snap-input{font-family:'M PLUS Rounded 1c',sans-serif;border:2px solid #D0CCC0;border-radius:10px;padding:10px 14px;background:#FAFAF7;font-size:14px;font-weight:600;width:100%;margin:8px 0 16px}.snap-input:focus{outline:none;border-color:#8B5CF6;box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+.snap-btn{padding:10px 24px;border-radius:20px;border:none;background:#8B5CF6;color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;width:100%}.snap-btn:hover{background:#7C3AED}
+.snap-list{margin-top:14px;display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto}.snap-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#F8F6F0;border-radius:10px;border:1.5px solid #E2E8F0}.snap-item-lbl{font-size:12px;font-weight:800;color:var(--td);flex:1}.snap-item-date{font-size:10px;color:var(--tl);font-weight:600}
 .hist-timeline{display:flex;flex-direction:column;gap:0;margin-top:12px;max-height:400px;overflow-y:auto}
-.hist-entry{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #F0EDE5;position:relative}
-.hist-entry:last-child{border-bottom:none}
-.hist-entry-line{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0}
-.hist-dot{width:10px;height:10px;border-radius:50%;background:#94A3B8;border:2px solid #fff;box-shadow:0 0 0 2px #94A3B8;flex-shrink:0;margin-top:3px}
-.hist-dot.snap-dot{background:#7B1FA2;box-shadow:0 0 0 2px #7B1FA2}
-.hist-vline{flex:1;width:2px;background:#E2E8F0;margin-top:4px}
-.hist-body{flex:1}
-.hist-date{font-size:10px;font-weight:700;color:var(--tl);margin-bottom:4px}
-.hist-label{display:inline-block;padding:2px 8px;border-radius:8px;background:#F3E8FF;color:#7B1FA2;font-size:9px;font-weight:800;margin-bottom:6px}
-.hist-diff{display:flex;flex-direction:column;gap:3px}
-.hist-diff-row{display:flex;align-items:center;gap:6px;font-size:11px}
-.hist-diff-key{font-weight:700;color:var(--slate);min-width:60px}
-.hist-diff-old{color:var(--hold);font-weight:700;text-decoration:line-through;opacity:.7}
-.hist-diff-arr{color:var(--tl);font-size:10px}
-.hist-diff-new{color:var(--done);font-weight:800}
-/* ===== Snapshot modal ===== */
-.snap-modal-body{padding:8px 0}
-.snap-input{font-family:'M PLUS Rounded 1c',sans-serif;border:2px solid #D0CCC0;border-radius:10px;padding:10px 14px;background:#FAFAF7;font-size:14px;font-weight:600;width:100%;margin:8px 0 16px;transition:border-color .2s}.snap-input:focus{outline:none;border-color:#7B1FA2;box-shadow:0 0 0 3px rgba(123,31,162,.12)}
-.snap-btn{padding:10px 24px;border-radius:20px;border:none;background:#7B1FA2;color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;transition:background .2s;width:100%}.snap-btn:hover{background:#5C147A}
-/* ===== Snapshot history list ===== */
-.snap-list{margin-top:14px;display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto}
-.snap-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#F8F6F0;border-radius:10px;border:1.5px solid #E2E8F0}
-.snap-item-icon{font-size:16px}
-.snap-item-lbl{font-size:12px;font-weight:800;color:var(--td);flex:1}
-.snap-item-date{font-size:10px;color:var(--tl);font-weight:600}
-/* ===== Delta indicators ===== */
-.stat-delta{display:inline-block;font-size:11px;font-weight:800;margin-left:6px;vertical-align:middle}
-.delta-pos{color:#10B981}.delta-neg{color:#F43F5E}.delta-zero{color:var(--tl)}
-/* ===== Snapshot tool button ===== */
-.tool-btn-snap{border-color:#7B1FA2;background:#F3E8FF;color:#7B1FA2}
-.tool-btn-snap:hover{background:#7B1FA2;color:#fff;border-color:#7B1FA2}
+.hist-entry{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #F0EDE5}.hist-entry:last-child{border-bottom:none}.hist-entry-line{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0}
+.hist-dot{width:10px;height:10px;border-radius:50%;background:#94A3B8;border:2px solid #fff;box-shadow:0 0 0 2px #94A3B8;flex-shrink:0;margin-top:3px}.hist-dot.snap-dot{background:#8B5CF6;box-shadow:0 0 0 2px #8B5CF6}.hist-vline{flex:1;width:2px;background:#E2E8F0;margin-top:4px}.hist-body{flex:1}.hist-date{font-size:10px;font-weight:700;color:var(--tl);margin-bottom:4px}.hist-label{display:inline-block;padding:2px 8px;border-radius:8px;background:#F5F3FF;color:#8B5CF6;font-size:9px;font-weight:800;margin-bottom:6px}
+.hist-diff{display:flex;flex-direction:column;gap:3px}.hist-diff-row{display:flex;align-items:center;gap:6px;font-size:11px}.hist-diff-key{font-weight:700;color:var(--slate);min-width:60px}.hist-diff-old{color:var(--st-review);font-weight:700;text-decoration:line-through;opacity:.7}.hist-diff-arr{color:var(--tl);font-size:10px}.hist-diff-new{color:var(--st-done);font-weight:800}
+.libg{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}@media(max-width:1000px){.libg{grid-template-columns:1fr}}
+.libc{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);border:1.5px solid #E2E8F0;overflow:hidden;transition:transform .25s,box-shadow .25s}.libc:hover{transform:translateY(-4px);box-shadow:var(--shp)}
+.libh{padding:16px 20px 8px;position:relative}.libh::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#8B5CF6,#3B82F6)}.libt{font-size:14px;font-weight:900}.libs{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:800}.libb{padding:0 20px 16px}.libr{display:flex;gap:6px;margin-top:7px}.libl{font-size:9px;font-weight:800;color:var(--tl);text-transform:uppercase;letter-spacing:.3px;min-width:56px;padding-top:2px}.libv{font-size:11px;color:var(--tm);line-height:1.4;font-weight:600}
+.mtg-parser{padding:16px;background:#FAFAFA;border-radius:14px;border:1.5px solid #E2E8F0}.mtg-textarea{width:100%;min-height:120px;padding:12px;border:1.5px solid #E2E8F0;border-radius:10px;font-family:inherit;font-size:13px;resize:vertical;background:#fff}.mtg-parse-btn{margin-top:8px;padding:10px 20px;background:#3B82F6;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}.mtg-parse-btn:hover{background:#2563EB}
+.mtg-candidate{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#F8FAFC;border-radius:10px;border:1.5px solid #E2E8F0;margin-top:8px}.mtg-apply-btn{padding:6px 14px;background:#10B981;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer}.mtg-apply-btn:hover{background:#059669}
+.hl-section{background:var(--card);border-radius:14px;padding:16px 20px;border:1.5px solid #E2E8F0;margin-bottom:12px}.hl-title{font-size:14px;font-weight:900;color:var(--td);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.hl-task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:#FAFAFA;border-radius:10px;margin-bottom:6px;border:1.5px solid #E2E8F0}.hl-task-name{font-size:12px;font-weight:700;color:var(--td);flex:1}.hl-task-who{font-size:10px;color:var(--tl)}.action-urgent{border-left:3px solid var(--st-waiting)}.action-done{border-left:3px solid var(--st-done)}
+.ptag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:800;margin-right:3px;white-space:nowrap}.pt-nix{background:#FFE0E0;color:#C00}.pt-made{background:#E0F0FF;color:#0050A0}.pt-blends{background:#E8FFE0;color:#2E7D32}.pt-of{background:#FFF0D0;color:#B87A00}.pt-givin{background:#F0E0FF;color:#6A1B9A}.pt-all{background:#F0F0F0;color:#555}.pt-base{background:#E0F0F0;color:#00695C}.pt-is{background:#FFE8D0;color:#E65100}.pt-mkt{background:#FFE0F0;color:#AD1457}.pt-voo{background:#E0E8FF;color:#1A237E}.pt-dev{background:#F5F5F5;color:#37474F}
+.drop-zone{border:3px dashed #D0CCC0;border-radius:var(--rs);padding:40px 20px;text-align:center;cursor:pointer;background:#FAFAF7}.drop-zone:hover,.drop-zone.drag{border-color:#3B82F6;background:#EBF5FF}.drop-zone-icon{font-size:36px;margin-bottom:8px}.drop-zone-text{font-size:13px;font-weight:700;color:var(--tm)}.drop-zone-sub{font-size:11px;color:var(--tl);margin-top:4px}.drop-file-input{display:none}
+.processing{display:none;text-align:center;padding:20px}.processing.show{display:block}.processing .spinner{width:40px;height:40px;border:4px solid #E2E8F0;border-top-color:#3B82F6;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}@keyframes spin{to{transform:rotate(360deg)}}
+.result-msg{display:none;padding:16px;border-radius:var(--rs);background:#D1FAE5;color:#065F46;font-size:13px;font-weight:700;text-align:center;margin-top:12px}.result-msg.show{display:block}
 </style>
 </head>
 <body>
@@ -318,229 +112,89 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
   </div>
 </div>
 <div class="tabs">
-  <div class="tab t1 on" onclick="sw('d')">📊 ダッシュボード</div>
-  <div class="tab t2" onclick="sw('l')">📦 ライブラリー展開</div>
+  <div class="tab on" onclick="sw('d')">📊 ダッシュボード</div>
+  <div class="tab" onclick="sw('t')">📋 タスク一覧</div>
+  <div class="tab" onclick="sw('l')">📦 ライブラリー</div>
+  <div class="tab" onclick="sw('h')">🎯 定例ハイライト</div>
 </div>
 <div class="tc on" id="td">
-<!-- ===== 1. ヒーローサマリー ===== -->
-<div class="hero-card">
-  <p class="hero-txt">AIKENで進めるタスクは<strong class="hero-num-hl" id="hero-active" style="color:var(--blue)">—</strong>件。<span class="hero-hl-g" id="hero-resolved-hl">—件が解決済</span>、<span class="hero-hl-o" id="hero-adj-hl">—件が最終調整中</span>、<span class="hero-hl-b" id="hero-prog-hl">—件が進行中</span>です。全登録タスク<strong id="hero-total" style="color:var(--td)">86</strong>件のうち、<span class="hero-hl-r" id="hero-excl-hl">—件は対応対象外</span>として整理済みです。</p>
+<div class="hero-bar">
+  <div class="hero-stat"><div class="hero-stat-num" id="hero-total">—</div><div class="hero-stat-lbl">全タスク</div><div class="hero-stat-sub">登録されているタスクの合計</div></div>
+  <div class="hero-stat hs-active"><div class="hero-stat-num" id="hero-active">—</div><div class="hero-stat-lbl">対応中</div><div class="hero-stat-sub">完了・除外を除いたアクティブタスク</div></div>
+  <div class="hero-stat hs-excluded"><div class="hero-stat-num" id="hero-excluded">—</div><div class="hero-stat-lbl">対応対象外</div><div class="hero-stat-sub">方針変更・スコープ外として整理済み</div></div>
 </div>
-<!-- ===== 2. タスク全体カード（74をヒーローに）===== -->
+<div class="status-grid" id="status-grid"></div>
 <div class="ap-card">
-  <div class="apc-hdr">
-    <div class="apc-title">タスク全体</div>
-    <div class="apc-sub">今回管理しているすべてのタスク</div>
-  </div>
-  <div class="whole-hero">
-    <div>
-      <div class="whole-hero-main">
-        <div class="whole-hero-num" style="color:var(--blue)" id="wh-active">—</div>
-        <div>
-          <div class="whole-hero-label">AIKENで進めるタスク</div>
-          <div class="whole-hero-sub">解決済・最終調整中・進行中の合計</div>
-        </div>
-      </div>
-    </div>
-    <div class="whole-divider"></div>
-    <div class="whole-hero-meta">
-      <div class="whole-meta-item">
-        <div class="whole-meta-num" id="wh-total">—</div>
-        <div><div class="whole-meta-lbl">全登録タスク</div><div class="whole-meta-note">今回管理しているすべてのタスク</div></div>
-      </div>
-      <div class="whole-meta-item">
-        <div class="whole-meta-num" style="color:var(--hold)" id="wh-excl">—</div>
-        <div><div class="whole-meta-lbl">対応対象外</div><div class="whole-meta-note">方針変更などにより整理済み</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="whole-formula"><span id="wh-formula-total">—</span>件 ＝ AIKENで進めるタスク <span id="wh-f-active">—</span>件 ＋ 対応対象外 <span id="wh-f-excl">—</span>件</div>
+  <div class="apc-hdr"><div class="apc-title">進捗バー</div><div class="apc-sub" id="bar-subtitle">全タスクの進捗状況</div></div>
+  <div class="pw" id="pbar" style="border-radius:8px;height:14px"></div>
+  <div class="lg" id="pleg" style="margin-top:10px"></div>
 </div>
-<!-- ===== 3. AIKENで進めるタスクの進捗（未着手0を非表示・%統合）===== -->
-<div class="ap-card">
-  <div class="apc-hdr">
-    <div class="apc-title">AIKENで進めるタスクの進捗</div>
-    <div class="apc-sub" id="bar-title">AIKENで進めるタスク —件</div>
-  </div>
-  <div class="stat-cards">
-    <div class="stat-card">
-      <div class="stat-num" style="color:#10B981" id="a1">0</div>
-      <div class="stat-lbl">解決済</div>
-      <div class="stat-fraction" id="stat-resolved-frac">— / —件 (—%)</div>
-      <div class="stat-sub" id="pq-resolved-sub">完了＋非対応解決</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:#F59E0B" id="a2">0</div>
-      <div class="stat-lbl">最終調整中</div>
-      <div class="stat-fraction" id="stat-adj-frac">— / —件 (—%)</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="color:#3B82F6" id="a3">0</div>
-      <div class="stat-lbl">進行中</div>
-      <div class="stat-fraction" id="stat-prog-frac">— / —件 (—%)</div>
-    </div>
-  </div>
-  <div class="pw" id="pbar" style="margin-top:4px;border-radius:8px;height:12px"></div>
-  <div class="lg" id="pleg"></div>
-  <div class="prog-pills" id="prog-pills" style="display:none"></div>
-  <span id="a5" style="display:none">0</span>
-</div>
-<!-- ===== 4. STARTから現在（横タイムライン）===== -->
-<div class="ap-card">
-  <div class="apc-hdr">
-    <div class="apc-title">STARTから現在までの流れ</div>
-    <div class="apc-sub">タスクがどのように積み上がったか</div>
-  </div>
-  <div class="timeline-wrap">
-    <div class="tl-node">
-      <div class="tl-node-dot" style="color:#F59E0B"></div>
-      <div class="tl-node-label">📍 START時点</div>
-      <div class="tl-node-body tl-start">
-        <div class="tl-row"><span class="tl-lbl">START要望</span><span class="tl-val">51件</span></div>
-        <div class="tl-row"><span class="tl-lbl" style="color:var(--tl)">初期非対応</span><span class="tl-val" style="color:var(--hold)">▲14件</span></div>
-        <div class="tl-result"><span>着手対象</span><span class="tl-val" style="color:#10B981">37件</span></div>
-        <div class="tl-note">初期非対応：既存ツール等で解決可能と判断。解決済として集計。</div>
-      </div>
-    </div>
-    <div class="tl-connector">
-      <div class="tl-connector-line"></div>
-      <div class="tl-connector-badge">➕ 途中追加<br>+23件<br>GIVIN・IS等</div>
-      <div class="tl-connector-line"></div>
-    </div>
-    <div class="tl-node">
-      <div class="tl-node-dot" style="color:#3B82F6"></div>
-      <div class="tl-node-label">🎯 現在のAIKEN対応</div>
-      <div class="tl-node-body tl-current">
-        <div class="tl-big" style="color:#3B82F6"><span id="total-num">—</span></div>
-        <div class="tl-big-sub">AIKENで進めるタスク</div>
-        <div class="tl-row" style="margin-top:10px"><span class="tl-lbl">解決済</span><span class="tl-val" style="color:#10B981" id="fb-resolved">—</span></div>
-        <div class="tl-row"><span class="tl-lbl">最終調整中</span><span class="tl-val" style="color:#F59E0B" id="fb-adj">—</span></div>
-        <div class="tl-row"><span class="tl-lbl">進行中</span><span class="tl-val" style="color:#3B82F6" id="fb-prog">—</span></div>
-      </div>
-    </div>
-    <div class="tl-connector">
-      <div class="tl-connector-line"></div>
-      <div class="tl-connector-badge" style="background:#FEF2F2;color:#F43F5E;border-color:#FECACA">対応対象外<br><span id="fb-excl">—</span>件</div>
-      <div class="tl-connector-line"></div>
-    </div>
-    <div class="tl-node">
-      <div class="tl-node-dot" style="color:var(--td)"></div>
-      <div class="tl-node-label">📁 全体</div>
-      <div class="tl-node-body">
-        <div class="tl-big" style="color:var(--td)" id="fb-total">—</div>
-        <div class="tl-big-sub">全登録タスク</div>
-        <div class="tl-row" style="margin-top:10px"><span class="tl-lbl">AIKEN対応</span><span class="tl-val" style="color:#3B82F6" id="fb-t-active">—</span></div>
-        <div class="tl-row"><span class="tl-lbl">対応対象外</span><span class="tl-val" style="color:#F43F5E" id="fb-t-excl">—</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- ===== 5-6. ボール所在 + AIKEN資産（2col）===== -->
 <div class="two-col">
-  <div class="ap-card">
-    <div class="apc-hdr">
-      <div class="apc-title">ボール所在</div>
-      <div class="apc-sub">アクティブタスクの担当状況</div>
-    </div>
-    <div id="ball-summary"></div>
-  </div>
-  <div class="ap-card">
-    <div class="apc-hdr">
-      <div class="apc-title">AIKEN 実装資産</div>
-      <div class="apc-sub">他社展開できる実装ノウハウ</div>
-    </div>
-    <div id="asset-summary"></div>
-  </div>
+  <div class="ap-card"><div class="apc-hdr"><div class="apc-title">ボール所在（アクティブタスク）</div><div class="apc-sub">除外を除くタスクの担当状況</div></div><div id="ball-summary"></div></div>
+  <div class="ap-card"><div class="apc-hdr"><div class="apc-title">アクション状況</div><div class="apc-sub">今すぐ対応が必要なタスク</div></div><div class="quick-stats" id="quick-stats"></div></div>
 </div>
-<!-- ===== 7. 整合性チェック（アコーディオン）===== -->
+<div class="ap-card"><div class="apc-hdr"><div class="apc-title">担当者別進捗</div><div class="apc-sub">2件以上担当しているメンバーのみ表示</div></div><div class="asgn-grid" id="assignee-cards"></div></div>
 <div class="ap-card" style="padding:0;overflow:hidden">
   <div class="ck-accordion" onclick="toggleCkDetails()">
-    <div class="ck-status-line" id="ck-status-line">
-      <span class="ck-status-icon" id="ck-icon">✅</span>
-      <span class="ck-status-msg" id="ck-msg">数値整合性：正常（すべての数値が一致しています）</span>
-      <span class="ck-toggle-txt" id="ck-toggle-txt">詳細を確認 ▼</span>
-    </div>
-    <div class="ck-details-wrap" id="ck-details-wrap">
-      <div id="consistency-check" style="padding:0 16px 16px"></div>
-    </div>
+    <div class="ck-status-line" id="ck-status-line"><span class="ck-status-icon" id="ck-icon">✅</span><span class="ck-status-msg" id="ck-msg">数値整合性：確認中...</span><span class="ck-toggle-txt" id="ck-toggle-txt">詳細を確認 ▼</span></div>
+    <div class="ck-details-wrap" id="ck-details-wrap"><div id="consistency-check" style="padding:0 16px 16px"></div></div>
   </div>
 </div>
-<!-- hidden placeholders for JS backward compat -->
-<span id="exn-scope" style="display:none"></span>
-<span id="exn-resolved" style="display:none"></span>
-<span id="exn-adj" style="display:none"></span>
-<span id="exn-prog" style="display:none"></span>
-<span id="exn-excl" style="display:none"></span>
-<span id="exn-uns" style="display:none"></span>
-<span id="exn-resolved-sub" style="display:none"></span>
-<span id="a4" style="display:none"></span>
+</div>
+<div class="tc" id="tt">
 <div class="cd" style="padding-bottom:16px">
-  <div class="st" style="justify-content:space-between"><div style="display:flex;align-items:center;gap:8px"><div class="ic" style="background:var(--grn)">☰</div>タスク一覧</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="tool-btn tool-btn-primary" onclick="exportHTML()" title="データ入りHTMLを保存。共有してもデータが消えません">📤 HTML共有用保存</button><button class="tool-btn" onclick="exportJSON()" title="データをJSONファイルで保存">💾 JSON保存</button><input type="file" id="importInput" accept=".json" style="display:none" onchange="importJSON(event)"><button class="tool-btn" onclick="exportCSV()" title="CSV形式でダウンロード（Excel対応）">📊 CSV出力</button><button class="tool-btn tool-btn-snap" onclick="openSnapModal()" title="全タスクの現状をスナップショット保存">📸 スナップショット</button><button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ 編集する</button></div></div>
-  <div class="tc2" id="filters"></div>
+  <div class="st" style="justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:8px"><div class="ic" style="background:#3B82F6">☰</div>タスク一覧</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="tool-btn tool-btn-snap" onclick="openSnapModal()">📸 スナップショット</button>
+      <button class="tool-btn tool-btn-primary" onclick="exportHTML()">📤 HTML共有用保存</button>
+      <button class="tool-btn" onclick="exportJSON()">💾 JSON保存</button>
+      <button class="tool-btn" onclick="exportCSV()">📊 CSV出力</button>
+      <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ 編集する</button>
+    </div>
+  </div>
+  <div class="filter-row" id="filters"></div>
   <div class="tbl-wrap">
     <table class="tt"><thead><tr>
-      <th style="text-align:center;width:3%;font-size:9px;padding:6px 4px">KickOff</th><th style="text-align:center;width:3%;font-size:8px;padding:6px 2px">Notion No</th><th style="width:24%">タスク名</th><th style="width:8%">AIKEN担当者</th><th style="text-align:center;width:7%">ステータス</th><th style="text-align:center;width:6%">ボール所在</th><th style="width:49%">次回アクション</th>
+      <th style="text-align:center;width:3%;font-size:9px;padding:6px 4px">No</th>
+      <th style="text-align:center;width:4%;font-size:8px;padding:6px 2px">Notion#</th>
+      <th style="width:22%">タスク名</th>
+      <th style="width:7%">担当者</th>
+      <th style="text-align:center;width:8%">ステータス</th>
+      <th style="text-align:center;width:9%">ボール所在</th>
+      <th style="width:6%">期限</th>
+      <th style="width:18%">次回アクション</th>
+      <th style="width:8%">メモ</th>
+      <th style="width:5%">成果物</th>
+      <th style="text-align:center;width:4%">🕐</th>
     </tr></thead><tbody id="tb"></tbody></table>
   </div>
 </div>
 </div>
 <div class="tc" id="tl">
-<div class="cd" style="margin-bottom:18px">
-  <div class="st"><div class="ic" style="background:var(--pur)">★</div>AIKEN 実装サポートライブラリー</div>
-  <p style="font-size:12px;color:var(--tm);line-height:1.7;font-weight:500">トリドリ様での実装で構築したプロトタイプ・ノウハウを資産化。他社展開可能な <b style="color:var(--pur)">8領域</b> のIP。</p>
-</div>
+<div class="cd" style="margin-bottom:18px"><div class="st"><div class="ic" style="background:#8B5CF6">★</div>AIKEN 実装サポートライブラリー</div><p style="font-size:12px;color:var(--tm);line-height:1.7;font-weight:500">トリドリ様での実装で構築したプロトタイプ・ノウハウを資産化。他社展開可能なIPライブラリーです。</p></div>
 <div class="libg" id="lg2"></div>
+</div>
+<div class="tc" id="th">
+<div class="hl-section"><div class="hl-title">📊 今回の定例サマリー</div><div id="snap-compare"></div></div>
+<div class="hl-section"><div class="hl-title">🚨 要アクション（クライアント確認待ち）</div><div id="client-actions"></div></div>
+<div class="hl-section"><div class="hl-title">✅ 完了タスク</div><div id="done-tasks"></div></div>
+<div class="hl-section"><div class="hl-title">📝 議事録から進捗更新</div>
+  <div class="mtg-parser"><textarea id="mtg-text" class="mtg-textarea" placeholder="会議の議事録・メモを貼り付けてください..."></textarea><button class="mtg-parse-btn" onclick="parseMeetingText()">🔍 更新候補を抽出</button><div id="mtg-candidates"></div></div>
+</div>
 </div>
 <div class="toast" id="toast"></div>
 </div>
-<!-- ===== Snapshot modal ===== -->
-<div class="modal-bg" id="snap-modal-bg">
-  <div class="modal" style="max-width:480px">
-    <div class="modal-close" onclick="closeSnapModal()">✕</div>
-    <h2>📸 スナップショット</h2>
-    <p>定例名などのラベルを入力して、全タスクの現状を保存します。</p>
-    <div class="snap-modal-body">
-      <input class="snap-input" id="snap-label-input" type="text" placeholder="例：第36回定例" maxlength="40">
-      <button class="snap-btn" onclick="confirmSnapshot()">📸 保存する</button>
-    </div>
-    <div id="snap-list-wrap" style="display:none">
-      <div style="font-size:11px;font-weight:800;color:var(--slate);margin-top:16px;margin-bottom:4px">保存済みスナップショット</div>
-      <div class="snap-list" id="snap-list"></div>
-    </div>
-  </div>
-</div>
-<!-- ===== History modal ===== -->
-<div class="modal-bg" id="hist-modal-bg">
-  <div class="modal" style="max-width:560px">
-    <div class="modal-close" onclick="closeHistory()">✕</div>
-    <h2 id="hist-modal-title">変更履歴</h2>
-    <div id="hist-timeline" class="hist-timeline"></div>
-  </div>
-</div>
-<div class="modal-bg" id="modal">
-  <div class="modal">
-    <div class="modal-close" onclick="closeModal()">×</div>
-    <h2>📄 進捗を更新する</h2>
-    <p>トランスクリプトまたは議事録をアップロードすると、AIがタスク一覧の進捗を解析し、ダッシュボード全体を更新します。</p>
-    <div class="drop-zone" id="dropzone" onclick="document.getElementById('fileInput').click()">
-      <div class="drop-zone-icon">📁</div>
-      <div class="drop-zone-text">ファイルをドラッグ＆ドロップ</div>
-      <div class="drop-zone-sub">または、クリックして選択（.txt .docx .pdf）</div>
-    </div>
-    <input type="file" id="fileInput" class="drop-file-input" accept=".txt,.docx,.pdf,.csv">
-    <div class="processing" id="processing"><div class="spinner"></div><div style="font-size:13px;font-weight:700;color:var(--tm)">AIが議事録を解析中...</div><div style="font-size:11px;color:var(--tl);margin-top:4px">タスクの進捗を照合しています</div></div>
-    <div class="result-msg" id="result-msg"></div>
-  </div>
-</div>
+<div class="modal-bg" id="snap-modal-bg"><div class="modal" style="max-width:480px"><div class="modal-close" onclick="closeSnapModal()">✕</div><h2>📸 スナップショット</h2><p>定例名などのラベルを入力して、全タスクの現状を保存します。</p><input class="snap-input" id="snap-label-input" type="text" placeholder="例：第36回定例" maxlength="40"><button class="snap-btn" onclick="confirmSnapshot()">📸 保存する</button><div id="snap-list-wrap" style="display:none"><div style="font-size:11px;font-weight:800;color:var(--slate);margin-top:16px;margin-bottom:4px">保存済みスナップショット</div><div class="snap-list" id="snap-list"></div></div></div></div>
+<div class="modal-bg" id="hist-modal-bg"><div class="modal" style="max-width:560px"><div class="modal-close" onclick="closeHistory()">✕</div><h2 id="hist-modal-title">変更履歴</h2><div id="hist-timeline" class="hist-timeline"></div></div></div>
+<div class="modal-bg" id="modal"><div class="modal"><div class="modal-close" onclick="closeModal()">×</div><h2>📄 進捗を更新する</h2><p>トランスクリプトまたは議事録をアップロードすると、AIがタスク一覧の進捗を解析し、ダッシュボード全体を更新します。</p><div class="drop-zone" id="dropzone" onclick="document.getElementById('fileInput').click()"><div class="drop-zone-icon">📁</div><div class="drop-zone-text">ファイルをドラッグ＆ドロップ</div><div class="drop-zone-sub">または、クリックして選択</div></div><input type="file" id="fileInput" class="drop-file-input" accept=".txt,.docx,.pdf,.csv"><div class="processing" id="processing"><div class="spinner"></div><div style="font-size:13px;font-weight:700;color:var(--tm)">読み込み中...</div></div><div class="result-msg" id="result-msg"></div></div></div>
 <textarea id="_src" style="display:none"></textarea>
 <script>
-// Capture original HTML source before any DOM changes
 (function(){
   try{
     var x=new XMLHttpRequest();x.open('GET',location.href,false);x.send();
     if(x.status===200||x.status===0) document.getElementById('_src').value=x.responseText;
   }catch(e){}
-  // Fallback: if XHR failed, capture from DOM (less ideal but works)
   if(!document.getElementById('_src').value){
     document.getElementById('_src').value='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
   }
@@ -548,412 +202,387 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 </script>
 <script>
 /*TASK_DATA_START*/
-const T=[
-// ===== 解決済 - 完了 (5) =====
-{pNo:"",nNo:"4",nm:"契約書自動レビュー（確認・作成含む）",tm:"トリドリ",who:"青木くみこ, 矢野さん",prod:["all"],sg:"resolved",ball:"done",act:"完了済み",history:[]},
-{pNo:"",nNo:"7",nm:"日程調整自動化（複数人/会議室対応）",tm:"トリドリ",who:"杉本, 青木ゆうとさん",prod:["all"],sg:"resolved",ball:"done",act:"完了済み",history:[]},
-{pNo:"",nNo:"追加課題2",nm:"既存Gems（プロンプト）の確認・最適化",tm:"トリドリ",who:"小森",prod:["all"],sg:"resolved",ball:"done",act:"金澤さんにて修正版プロンプトテスト中→リマインド中",history:[]},
-{pNo:"",nNo:"―",nm:"討論AIツール",tm:"ネット",who:"中川",prod:["all"],sg:"resolved",ball:"done",act:"coWorkでの活用に変更",history:[]},
-{pNo:"",nNo:"―",nm:"Instagram DM支援機能",tm:"ネット",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"DM文面生成・コピー・送信管理まで完了。自動送信/API連携はBANリスク・仕様不安定により対象外／停止",history:[]},
-// ===== 最終調整中 (20) =====
-{pNo:1,nNo:"25",nm:"事業計画スプレッドシート自動作成",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"井上氏が統合ビューを確認できる環境の整備を完了。現在は井上氏の確認待ち。6月頭に5月期データの自動更新が正常動作することを確認できればクローズ",history:[]},
-{pNo:2,nNo:"26",nm:"各事業数値・指標の集計自動化",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:3,nNo:"27",nm:"業績モニタリング（データ集計自動化）",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:4,nNo:"28",nm:"市場環境を考慮した業績予測",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:5,nNo:"29",nm:"niks事業：案件進捗ベース収益予測",tm:"dashboard",who:"青木（悠）",prod:["nix"],sg:"adjust",ball:"cl",act:"No.21にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:6,nNo:"30",nm:"made事業：リリーススケジュール予測",tm:"dashboard",who:"青木（悠）",prod:["made"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:7,nNo:"31",nm:"blends事業：LTVベース予測モデル",tm:"dashboard",who:"青木（悠）",prod:["blends"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:8,nNo:"32",nm:"OF事業：与件・実績の収益予測",tm:"dashboard",who:"青木（悠）",prod:["of"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:9,nNo:"33",nm:"基準値比較の自動ウォッチ機能",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"異常値アラートにバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:10,nNo:"34",nm:"販管費の実績ベース予測",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:11,nNo:"35",nm:"販管費の異常値アラート",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:12,nNo:"36",nm:"個人目標数値の自動化",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:13,nNo:"21",nm:"niksイレギュラー事象の自動集計",tm:"dashboard",who:"青木（悠）",prod:["nix"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
-{pNo:14,nNo:"6",nm:"バックオフィスBot（経理・労務・採用・法務）",tm:"トリドリ",who:"川上, 杉本",prod:["all"],sg:"adjust",ball:"aiken",act:"月末にRAGデータ更新を継続。バージョン管理しながら信頼度向上",history:[]},
-{pNo:15,nNo:"8",nm:"社内申請自動化（勤怠/経費等）",tm:"トリドリ",who:"杉本",prod:["all"],sg:"adjust",ball:"aiken",act:"バックオフィスBot運用から継続改善中",history:[]},
-{pNo:16,nNo:"追加課題1",nm:"反社チェック自動化",tm:"トリドリ",who:"杉本",prod:["all"],sg:"adjust",ball:"cl",act:"最新バージョン（Ver. 2.1）にアップデート完了。マニュアルの作成も完了。法務（濱島氏）へ展開のうえ、ライブラリへの格納を進める",history:[]},
-{pNo:17,nNo:"51",nm:"BDR用リスト自動生成（営業リード獲得ツールと関連）",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"both",act:"嶋田・林・伊藤で検証中。優先度確定済み（広告代理店リスト＞ふるさと納税中間事業者＞Google Map＞アソビュー…）。スクレイプ先6サイト実装済み。Amazon・食べログはスクレイピング禁止のため優先度下げ",history:[]},
-{pNo:18,nNo:"new1",nm:"営業リード獲得ツール",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"aiken",act:"BDRリストと連動。プロト→中川へ引き継ぎ予定",history:[]},
-{pNo:19,nNo:"new2",nm:"IT監査対応",tm:"プロダクト",who:"西野さん",prod:["dev"],sg:"adjust",ball:"cl",act:"北野さん（カズマックス）がCloudflare環境をInvite形式で準備中（数日見込み）。IT監査_必要インフラ.pdfを共有済み。環境準備完了後デプロイ→FB→改修サイクルへ",history:[]},
-{pNo:50,nNo:"new_call_analysis",nm:"架電データ分析",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"aiken",act:"企業別深掘り分析機能を追加済み。桜井さんFB済み：方向性相違なし。アウトプットに顧客毎の課題アップセル余地列を追加しCSVでDLできる状態にする",history:[]},
-// ===== 進行中 (30) =====
-{pNo:20,nNo:"38",nm:"OFエンプラ向け：投稿履歴＆分析管理画面",tm:"トリドリ",who:"井内, 渡部さん",prod:["of"],sg:"progress",ball:"aiken",act:"井内が①②インサイト/市場分析改善（5月末完成目標）、③タレント提案書自動化開発着手（6月末完成目標）。CSV出力機能を渡部さんが実装済み。月曜五十嵐さん説明MTG設定済み",history:[]},
-{pNo:21,nNo:"39",nm:"分析結果に基づく提案戦略の自動生成",tm:"トリドリ",who:"―",prod:["of"],sg:"progress",ball:"aiken",act:"No.38にバンドル。タレント提案書自動化として6月末完成目標",history:[]},
-{pNo:22,nNo:"new",nm:"SNS上の自社他社分析（No.38関連）",tm:"トリドリ",who:"西野さん, 杉本",prod:["mkt"],sg:"progress",ball:"cl",act:"5/15 西野さんに作成頂いた提案書の三宮さんFB待ち。MTG設定を検討。杉本さんとSlackでやり取り開始済み。形になるまで西野が担当→中川に引き継ぎ",history:[]},
-{pNo:23,nNo:"追加課題7",nm:"AI営業補助ツール",tm:"トリドリ",who:"青木（悠）",prod:["all"],sg:"progress",ball:"aiken",act:"リリース完了、ダウンロードリンク発行済み。来週頭から林氏が実際の環境で使用できるよう、オンラインで環境構築のサポート（10分程度）を実施",history:[]},
-{pNo:24,nNo:"20260501_new2",nm:"カスタマーサクセス振り返りデータ・資料自動化",tm:"トリドリ",who:"青木（悠）",prod:["all"],sg:"progress",ball:"aiken",act:"AI営業補助ツールにバンドル。Slackやりとり継続中",history:[]},
-{pNo:25,nNo:"10",nm:"業界トレンド自動キャッチアップBot",tm:"トリドリ",who:"杉本",prod:["givin","of"],sg:"progress",ball:"cl",act:"GIVIN（金子氏）側は来週のMTGでFBを回収。オーバーフロー（五十嵐氏）側は回収した意見を反映し、今週テスト運用中",history:[]},
-{pNo:26,nNo:"5",nm:"広告ガイドラインの自動チェックツール",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"5月上旬に4月分データ400件でテスト実施済み。5月末に結果判明予定",history:[]},
-{pNo:27,nNo:"3",nm:"薬機法チェック（インフルエンサー投稿）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"No.5に統合。テスト継続中",history:[]},
-{pNo:28,nNo:"2",nm:"景表法チェック（インフルエンサー投稿）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"No.5に統合。テスト継続中",history:[]},
-{pNo:29,nNo:"1",nm:"薬機法・景表法チェック（広告主商材）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"広告主商材URLデータ受領済、検証継続中",history:[]},
-{pNo:30,nNo:"20260501_new1",nm:"人事領域見直し",tm:"トリドリ",who:"青木, 川上, 杉本, 小森",prod:["all"],sg:"progress",ball:"aiken",act:"オンボーディングから着手。来週杉本がヒアリング実施。別会議で進め、定例では進捗のみ報告。AI面接は小森さんが調査中",history:[]},
-{pNo:31,nNo:"new1",nm:"【GIVIN】①モールデータ統合",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"中川が管理画面で必要な本人確認書類を再確認→嶋田にメンション。Amazon以外の2API分を反映したダッシュボードを先に見せてアプローチ",history:[]},
-{pNo:32,nNo:"new2",nm:"【GIVIN】②統合ダッシュボード",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"URLで共有済み。西田さんから構想通りでOK。Amazonデータ接続完了で完成予定",history:[]},
-{pNo:33,nNo:"new3",nm:"【GIVIN】③成果分析",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
-{pNo:34,nNo:"new4",nm:"【GIVIN】④限界CPA入札制御/管理会計PL",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
-{pNo:35,nNo:"new7",nm:"【GIVIN】⑦自社EC LTV観測",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
-{pNo:36,nNo:"new8",nm:"【GIVIN】⑧モールLTV観測",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
-{pNo:37,nNo:"new9",nm:"【GIVIN】⑨顧客統合ID",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
-{pNo:38,nNo:"new10",nm:"【GIVIN】⑩X-TACoS",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
-{pNo:39,nNo:"追加課題8",nm:"【IS】電話商談ログ分析・フロー改善",tm:"ネット",who:"中川",prod:["is"],sg:"progress",ball:"aiken",act:"トークスクリプト、FAQ初稿、差し戻し分析を連携済み。前確チェックリストを新規作成。詳細の住み分けについて井上氏との個別MTGを設定",history:[]},
-{pNo:40,nNo:"new11",nm:"【OverFlow】営業管理ツール（予実管理）",tm:"ネット",who:"西野さん, 中川",prod:["of"],sg:"progress",ball:"aiken",act:"五十嵐氏とのヒアリング、LINE連携テスト、ChatworkのWebhook動作確認を進行中。確認後に五十嵐氏・町田氏へ展開し、案件角度分析の実現を目指す。まずはバランローズ案件でテスト運用",history:[]},
-{pNo:51,nNo:"new_creative",nm:"クリエイティブ分析",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"広告マネージャー担当者とMTGを設定し、クリエイティブデータ（コピー文言・バナーURL等）の取得方法を確認",history:[]},
-{pNo:52,nNo:"new_bdrcall",nm:"BDR AI架電",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"嶋田さんが伊藤さんへ再リマインド",history:[]},
-{pNo:53,nNo:"new_form",nm:"フォーム営業",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"提案：自前フォーム送信システム＋履歴管理DB",history:[]},
-{pNo:54,nNo:"new_wp",nm:"ホワイトペーパー作成",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス",history:[]},
-{pNo:55,nNo:"new_seo",nm:"SEO記事作成",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス",history:[]},
-{pNo:56,nNo:"new_jirei",nm:"事例打診自動化",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"提案：トリガーベースの自動メールシステム",history:[]},
-{pNo:58,nNo:"new_givin_mkt",nm:"新規GIVINマーケティングデータ集約",tm:"ネット",who:"中川, 杉本",prod:["givin"],sg:"progress",ball:"aiken",act:"金子新氏が出張中のため、5月25日(月)に改めてヒアリングMTGを設定",history:[]},
-{pNo:59,nNo:"new_claim",nm:"クレーム・要望・問い合わせ集計の自動化",tm:"トリドリ",who:"西野さん, 中川",prod:["all"],sg:"progress",ball:"aiken",act:"5/27 新潟サポートチーム（阿部氏）を交えたクレーム集計自動化の要件定義MTG",history:[]},
-// ===== 除外 - toridori都合 (9) =====
-{pNo:41,nNo:"42",nm:"インフルエンサーリストアップ自動化",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix","base"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-{pNo:42,nNo:"41",nm:"オリエン資料の自動作成",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-{pNo:43,nNo:"37",nm:"提案資料の自動アップデート",tm:"プロダクト",who:"杉本, 青木さん, 航さん",prod:["nix","of"],sg:"excluded",ball:"cl",act:"No.38/39にバンドル、または判断待ち",history:[]},
-{pNo:44,nNo:"24",nm:"FAQ自動更新（履歴ベース）",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-{pNo:45,nNo:"22",nm:"キャンペーン審査業務の自動化",tm:"プロダクト",who:"西野さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-{pNo:46,nNo:"12",nm:"Slack情報の自動収集（スタック監視）",tm:"プロダクト",who:"西野さん",prod:["all"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-{pNo:47,nNo:"追加課題4",nm:"問い合わせ対応ドラフト生成（高度パーソナライズ）",tm:"プロダクト",who:"―",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-{pNo:48,nNo:"追加課題5",nm:"Zohoを基軸としたデータ一気通貫ダッシュボード",tm:"トリドリ",who:"小森",prod:["all"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-{pNo:49,nNo:"追加課題6",nm:"QAスコアリングの自動化・対応品質の均一化",tm:"トリドリ",who:"小森",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
-// --- 解決済 - 初期非対応 14件（② キックオフ時点でスコープ外） ---
-{pNo:60,nNo:"50",nm:"フィールドセールス動画の自動作成",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:61,nNo:"46",nm:"インフルエンサー100人分の提案生成AI",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:62,nNo:"44",nm:"SNS経由の自動リクルーティング（フリーランス/正社員）",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:63,nNo:"9",nm:"Googleドライブ過去情報の検索強化",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"geminiに対して@googleドライブで解決",history:[]},
-{pNo:64,nNo:"14",nm:"面接ヒアリング項目の自動生成",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:65,nNo:"16",nm:"Slack行動解析による評価支援",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"No.12にバンドルで設計。12だけ見ればOK",history:[]},
-{pNo:66,nNo:"17",nm:"メンバー評価・エンゲージメント分析",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:67,nNo:"18",nm:"書類審査の自動化",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"All-in-one AI Workspaceで対応済み（採用活動を自動操駆）。既にやっているので完了扱い",history:[]},
-{pNo:68,nNo:"19",nm:"退職候補/成長候補のスコアリング",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"No.12にバンドルで設計。12だけ見ればOK",history:[]},
-{pNo:69,nNo:"20",nm:"広告クリエイティブの自動生成",tm:"トリドリ",who:"―",prod:["mkt"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:70,nNo:"23",nm:"問い合わせ対応自動化（嶋田さん確認中）",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:71,nNo:"43",nm:"クライアントリサーチ（競合・現状分析）自動化",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-{pNo:72,nNo:"15",nm:"一次面接の自動化",tm:"トリドリ",who:"小森",prod:["all"],sg:"resolved",ball:"done",act:"井上さんが採用計画を確認の上、意思決定",history:[]},
-{pNo:73,nNo:"11",nm:"部門別専用Bot作成",tm:"トリドリ",who:"小森, 杉本",prod:["all"],sg:"resolved",ball:"done",act:"本タスクはクローズ→新タスクのNotion追加を実施",history:[]},
-// ===== 新規追加タスク =====
-{pNo:74,nNo:"new_transcription",nm:"文字起こし精度向上",tm:"トリドリ",who:"青木",prod:["all"],sg:"progress",ball:"aiken",act:"辞書登録と発話ルール化を組み合わせた文字起こし精度向上アルゴリズムの検討",history:[]},
-{pNo:75,nNo:"49",nm:"サービス/商品のスコアリングAI",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"progress",ball:"aiken",act:"井上さんの承認がおり次第ヒアリングをして要件を固める。担当者の割り振りを検討",history:[]},
-{pNo:76,nNo:"45",nm:"インフルエンサー自動リクルーティングツール",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"progress",ball:"aiken",act:"制作・分析中",history:[]},
-{pNo:77,nNo:"47",nm:"クロージングスクリプト自動作成（WEB経由）",tm:"ネット",who:"中川",prod:["nix"],sg:"adjust",ball:"cl",act:"確認待ち（toridori）",history:[]},
-{pNo:78,nNo:"48",nm:"インサイドセールスのトークスクリプトAI（47とバンドル）",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"excluded",ball:"cl",act:"保留（井上さんの承認がおり次第着手）。No.47とバンドル",history:[]},
-{pNo:79,nNo:"13",nm:"プロダクトBot（マニュアル学習＆質問回答）",tm:"トリドリ",who:"杉本, 青木くみこ, 川上",prod:["all"],sg:"excluded",ball:"cl",act:"保留（開発仕様を含めるか検討しつつ優先度は落とす）",history:[]},
-{pNo:80,nNo:"追加課題3",nm:"営業リマインドツール",tm:"トリドリ",who:"小森",prod:["all"],sg:"excluded",ball:"cl",act:"保留（北出さん案件のため、井上さん・嶋田さん・北出さん・国本さんの話し合いの後に可否判断）",history:[]},
-{pNo:81,nNo:"40",nm:"インフルエンサーPR投稿構成案＋分析自動生成",tm:"ネット",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
-];
+const T=[{"pNo":"","nNo":"4","nm":"契約書自動レビュー（確認・作成含む）","tm":"トリドリ","who":"青木くみこ, 矢野さん","prod":["all"],"sg":"done","ball":"done","act":"完了済み","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":"","nNo":"7","nm":"日程調整自動化（複数人/会議室対応）","tm":"トリドリ","who":"杉本, 青木ゆうとさん","prod":["all"],"sg":"done","ball":"done","act":"完了済み","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":"","nNo":"追加課題2","nm":"既存Gems（プロンプト）の確認・最適化","tm":"トリドリ","who":"小森","prod":["all"],"sg":"done","ball":"done","act":"金澤さんにて修正版プロンプトテスト中→リマインド中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":"","nNo":"―","nm":"討論AIツール","tm":"ネット","who":"中川","prod":["all"],"sg":"done","ball":"done","act":"coWorkでの活用に変更","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":"","nNo":"―","nm":"Instagram DM支援機能","tm":"ネット","who":"―","prod":["nix"],"sg":"done","ball":"done","act":"DM文面生成・コピー・送信管理まで完了。自動送信/API連携はBANリスク・仕様不安定により対象外／停止","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":1,"nNo":"25","nm":"事業計画スプレッドシート自動作成","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"井上氏が統合ビューを確認できる環境の整備を完了。現在は井上氏の確認待ち。6月頭に5月期データの自動更新が正常動作することを確認できればクローズ","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":2,"nNo":"26","nm":"各事業数値・指標の集計自動化","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":3,"nNo":"27","nm":"業績モニタリング（データ集計自動化）","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":4,"nNo":"28","nm":"市場環境を考慮した業績予測","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":5,"nNo":"29","nm":"niks事業：案件進捗ベース収益予測","tm":"dashboard","who":"青木（悠）","prod":["nix"],"sg":"waiting","ball":"client","act":"No.21にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":6,"nNo":"30","nm":"made事業：リリーススケジュール予測","tm":"dashboard","who":"青木（悠）","prod":["made"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":7,"nNo":"31","nm":"blends事業：LTVベース予測モデル","tm":"dashboard","who":"青木（悠）","prod":["blends"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":8,"nNo":"32","nm":"OF事業：与件・実績の収益予測","tm":"dashboard","who":"青木（悠）","prod":["of"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":9,"nNo":"33","nm":"基準値比較の自動ウォッチ機能","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"異常値アラートにバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":10,"nNo":"34","nm":"販管費の実績ベース予測","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":11,"nNo":"35","nm":"販管費の異常値アラート","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":12,"nNo":"36","nm":"個人目標数値の自動化","tm":"dashboard","who":"青木（悠）","prod":["all"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":13,"nNo":"21","nm":"niksイレギュラー事象の自動集計","tm":"dashboard","who":"青木（悠）","prod":["nix"],"sg":"waiting","ball":"client","act":"No.25にバンドル。嶋田の権限付与・確認待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":14,"nNo":"6","nm":"バックオフィスBot（経理・労務・採用・法務）","tm":"トリドリ","who":"川上, 杉本","prod":["all"],"sg":"waiting","ball":"internal","act":"月末にRAGデータ更新を継続。バージョン管理しながら信頼度向上","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":15,"nNo":"8","nm":"社内申請自動化（勤怠/経費等）","tm":"トリドリ","who":"杉本","prod":["all"],"sg":"waiting","ball":"internal","act":"バックオフィスBot運用から継続改善中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":16,"nNo":"追加課題1","nm":"反社チェック自動化","tm":"トリドリ","who":"杉本","prod":["all"],"sg":"waiting","ball":"client","act":"最新バージョン（Ver. 2.1）にアップデート完了。マニュアルの作成も完了。法務（濱島氏）へ展開のうえ、ライブラリへの格納を進める","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":17,"nNo":"51","nm":"BDR用リスト自動生成（営業リード獲得ツールと関連）","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"waiting","ball":"both","act":"嶋田・林・伊藤で検証中。優先度確定済み（広告代理店リスト＞ふるさと納税中間事業者＞Google Map＞アソビュー…）。スクレイプ先6サイト実装済み。Amazon・食べログはスクレイピング禁止のため優先度下げ","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":18,"nNo":"new1","nm":"営業リード獲得ツール","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"waiting","ball":"internal","act":"BDRリストと連動。プロト→中川へ引き継ぎ予定","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":19,"nNo":"new2","nm":"IT監査対応","tm":"プロダクト","who":"西野さん","prod":["dev"],"sg":"waiting","ball":"client","act":"北野さん（カズマックス）がCloudflare環境をInvite形式で準備中（数日見込み）。IT監査_必要インフラ.pdfを共有済み。環境準備完了後デプロイ→FB→改修サイクルへ","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":50,"nNo":"new_call_analysis","nm":"架電データ分析","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"waiting","ball":"internal","act":"企業別深掘り分析機能を追加済み。桜井さんFB済み：方向性相違なし。アウトプットに顧客毎の課題アップセル余地列を追加しCSVでDLできる状態にする","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":20,"nNo":"38","nm":"OFエンプラ向け：投稿履歴＆分析管理画面","tm":"トリドリ","who":"井内, 渡部さん","prod":["of"],"sg":"progress","ball":"internal","act":"井内が①②インサイト/市場分析改善（5月末完成目標）、③タレント提案書自動化開発着手（6月末完成目標）。CSV出力機能を渡部さんが実装済み。月曜五十嵐さん説明MTG設定済み","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":21,"nNo":"39","nm":"分析結果に基づく提案戦略の自動生成","tm":"トリドリ","who":"―","prod":["of"],"sg":"progress","ball":"internal","act":"No.38にバンドル。タレント提案書自動化として6月末完成目標","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":22,"nNo":"new","nm":"SNS上の自社他社分析（No.38関連）","tm":"トリドリ","who":"西野さん, 杉本","prod":["mkt"],"sg":"progress","ball":"client","act":"5/15 西野さんに作成頂いた提案書の三宮さんFB待ち。MTG設定を検討。杉本さんとSlackでやり取り開始済み。形になるまで西野が担当→中川に引き継ぎ","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":23,"nNo":"追加課題7","nm":"AI営業補助ツール","tm":"トリドリ","who":"青木（悠）","prod":["all"],"sg":"progress","ball":"internal","act":"リリース完了、ダウンロードリンク発行済み。来週頭から林氏が実際の環境で使用できるよう、オンラインで環境構築のサポート（10分程度）を実施","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":24,"nNo":"20260501_new2","nm":"カスタマーサクセス振り返りデータ・資料自動化","tm":"トリドリ","who":"青木（悠）","prod":["all"],"sg":"progress","ball":"internal","act":"AI営業補助ツールにバンドル。Slackやりとり継続中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":25,"nNo":"10","nm":"業界トレンド自動キャッチアップBot","tm":"トリドリ","who":"杉本","prod":["givin","of"],"sg":"progress","ball":"client","act":"GIVIN（金子氏）側は来週のMTGでFBを回収。オーバーフロー（五十嵐氏）側は回収した意見を反映し、今週テスト運用中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":26,"nNo":"5","nm":"広告ガイドラインの自動チェックツール","tm":"トリドリ","who":"杉本","prod":["mkt"],"sg":"progress","ball":"internal","act":"5月上旬に4月分データ400件でテスト実施済み。5月末に結果判明予定","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":27,"nNo":"3","nm":"薬機法チェック（インフルエンサー投稿）","tm":"トリドリ","who":"杉本","prod":["mkt"],"sg":"progress","ball":"internal","act":"No.5に統合。テスト継続中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":28,"nNo":"2","nm":"景表法チェック（インフルエンサー投稿）","tm":"トリドリ","who":"杉本","prod":["mkt"],"sg":"progress","ball":"internal","act":"No.5に統合。テスト継続中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":29,"nNo":"1","nm":"薬機法・景表法チェック（広告主商材）","tm":"トリドリ","who":"杉本","prod":["mkt"],"sg":"progress","ball":"internal","act":"広告主商材URLデータ受領済、検証継続中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":30,"nNo":"20260501_new1","nm":"人事領域見直し","tm":"トリドリ","who":"青木, 川上, 杉本, 小森","prod":["all"],"sg":"progress","ball":"internal","act":"オンボーディングから着手。来週杉本がヒアリング実施。別会議で進め、定例では進捗のみ報告。AI面接は小森さんが調査中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":31,"nNo":"new1","nm":"【GIVIN】①モールデータ統合","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"中川が管理画面で必要な本人確認書類を再確認→嶋田にメンション。Amazon以外の2API分を反映したダッシュボードを先に見せてアプローチ","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":32,"nNo":"new2","nm":"【GIVIN】②統合ダッシュボード","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"URLで共有済み。西田さんから構想通りでOK。Amazonデータ接続完了で完成予定","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":33,"nNo":"new3","nm":"【GIVIN】③成果分析","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"①モールデータ統合の完了待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":34,"nNo":"new4","nm":"【GIVIN】④限界CPA入札制御/管理会計PL","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"①モールデータ統合の完了待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":35,"nNo":"new7","nm":"【GIVIN】⑦自社EC LTV観測","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"①モールデータ統合の完了待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":36,"nNo":"new8","nm":"【GIVIN】⑧モールLTV観測","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"①モールデータ統合の完了待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":37,"nNo":"new9","nm":"【GIVIN】⑨顧客統合ID","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"①モールデータ統合の完了待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":38,"nNo":"new10","nm":"【GIVIN】⑩X-TACoS","tm":"ネット","who":"中川","prod":["givin"],"sg":"progress","ball":"client","act":"①モールデータ統合の完了待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":39,"nNo":"追加課題8","nm":"【IS】電話商談ログ分析・フロー改善","tm":"ネット","who":"中川","prod":["is"],"sg":"progress","ball":"internal","act":"トークスクリプト、FAQ初稿、差し戻し分析を連携済み。前確チェックリストを新規作成。詳細の住み分けについて井上氏との個別MTGを設定","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":40,"nNo":"new11","nm":"【OverFlow】営業管理ツール（予実管理）","tm":"ネット","who":"西野さん, 中川","prod":["of"],"sg":"progress","ball":"internal","act":"五十嵐氏とのヒアリング、LINE連携テスト、ChatworkのWebhook動作確認を進行中。確認後に五十嵐氏・町田氏へ展開し、案件角度分析の実現を目指す。まずはバランローズ案件でテスト運用","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":51,"nNo":"new_creative","nm":"クリエイティブ分析","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"progress","ball":"internal","act":"広告マネージャー担当者とMTGを設定し、クリエイティブデータ（コピー文言・バナーURL等）の取得方法を確認","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":52,"nNo":"new_bdrcall","nm":"BDR AI架電","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"progress","ball":"client","act":"嶋田さんが伊藤さんへ再リマインド","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":53,"nNo":"new_form","nm":"フォーム営業","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"progress","ball":"internal","act":"提案：自前フォーム送信システム＋履歴管理DB","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":54,"nNo":"new_wp","nm":"ホワイトペーパー作成","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"progress","ball":"client","act":"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":55,"nNo":"new_seo","nm":"SEO記事作成","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"progress","ball":"client","act":"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":56,"nNo":"new_jirei","nm":"事例打診自動化","tm":"プロダクト","who":"西野さん","prod":["vooster"],"sg":"progress","ball":"internal","act":"提案：トリガーベースの自動メールシステム","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":58,"nNo":"new_givin_mkt","nm":"新規GIVINマーケティングデータ集約","tm":"ネット","who":"中川, 杉本","prod":["givin"],"sg":"progress","ball":"internal","act":"金子新氏が出張中のため、5月25日(月)に改めてヒアリングMTGを設定","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":59,"nNo":"new_claim","nm":"クレーム・要望・問い合わせ集計の自動化","tm":"トリドリ","who":"西野さん, 中川","prod":["all"],"sg":"progress","ball":"internal","act":"5/27 新潟サポートチーム（阿部氏）を交えたクレーム集計自動化の要件定義MTG","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":41,"nNo":"42","nm":"インフルエンサーリストアップ自動化","tm":"プロダクト","who":"西野さん, 航さん, 青木さん","prod":["nix","base"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":42,"nNo":"41","nm":"オリエン資料の自動作成","tm":"プロダクト","who":"西野さん, 航さん, 青木さん","prod":["nix"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":43,"nNo":"37","nm":"提案資料の自動アップデート","tm":"プロダクト","who":"杉本, 青木さん, 航さん","prod":["nix","of"],"sg":"excluded","ball":"client","act":"No.38/39にバンドル、または判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":44,"nNo":"24","nm":"FAQ自動更新（履歴ベース）","tm":"プロダクト","who":"西野さん, 航さん, 青木さん","prod":["nix"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":45,"nNo":"22","nm":"キャンペーン審査業務の自動化","tm":"プロダクト","who":"西野さん","prod":["nix"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":46,"nNo":"12","nm":"Slack情報の自動収集（スタック監視）","tm":"プロダクト","who":"西野さん","prod":["all"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":47,"nNo":"追加課題4","nm":"問い合わせ対応ドラフト生成（高度パーソナライズ）","tm":"プロダクト","who":"―","prod":["nix"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":48,"nNo":"追加課題5","nm":"Zohoを基軸としたデータ一気通貫ダッシュボード","tm":"トリドリ","who":"小森","prod":["all"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":49,"nNo":"追加課題6","nm":"QAスコアリングの自動化・対応品質の均一化","tm":"トリドリ","who":"小森","prod":["nix"],"sg":"excluded","ball":"client","act":"プロダクト案件のため判断待ち","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":60,"nNo":"50","nm":"フィールドセールス動画の自動作成","tm":"プロダクト","who":"―","prod":["nix"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":61,"nNo":"46","nm":"インフルエンサー100人分の提案生成AI","tm":"プロダクト","who":"―","prod":["nix"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":62,"nNo":"44","nm":"SNS経由の自動リクルーティング（フリーランス/正社員）","tm":"トリドリ","who":"―","prod":["all"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":63,"nNo":"9","nm":"Googleドライブ過去情報の検索強化","tm":"トリドリ","who":"―","prod":["all"],"sg":"done","ball":"done","act":"geminiに対して@googleドライブで解決","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":64,"nNo":"14","nm":"面接ヒアリング項目の自動生成","tm":"トリドリ","who":"―","prod":["all"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":65,"nNo":"16","nm":"Slack行動解析による評価支援","tm":"トリドリ","who":"―","prod":["all"],"sg":"done","ball":"done","act":"No.12にバンドルで設計。12だけ見ればOK","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":66,"nNo":"17","nm":"メンバー評価・エンゲージメント分析","tm":"トリドリ","who":"―","prod":["all"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":67,"nNo":"18","nm":"書類審査の自動化","tm":"トリドリ","who":"―","prod":["all"],"sg":"done","ball":"done","act":"All-in-one AI Workspaceで対応済み（採用活動を自動操駆）。既にやっているので完了扱い","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":68,"nNo":"19","nm":"退職候補/成長候補のスコアリング","tm":"トリドリ","who":"―","prod":["all"],"sg":"done","ball":"done","act":"No.12にバンドルで設計。12だけ見ればOK","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":69,"nNo":"20","nm":"広告クリエイティブの自動生成","tm":"トリドリ","who":"―","prod":["mkt"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":70,"nNo":"23","nm":"問い合わせ対応自動化（嶋田さん確認中）","tm":"プロダクト","who":"―","prod":["nix"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":71,"nNo":"43","nm":"クライアントリサーチ（競合・現状分析）自動化","tm":"プロダクト","who":"―","prod":["nix"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":72,"nNo":"15","nm":"一次面接の自動化","tm":"トリドリ","who":"小森","prod":["all"],"sg":"done","ball":"done","act":"井上さんが採用計画を確認の上、意思決定","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":73,"nNo":"11","nm":"部門別専用Bot作成","tm":"トリドリ","who":"小森, 杉本","prod":["all"],"sg":"done","ball":"done","act":"本タスクはクローズ→新タスクのNotion追加を実施","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":74,"nNo":"new_transcription","nm":"文字起こし精度向上","tm":"トリドリ","who":"青木","prod":["all"],"sg":"progress","ball":"internal","act":"辞書登録と発話ルール化を組み合わせた文字起こし精度向上アルゴリズムの検討","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":75,"nNo":"49","nm":"サービス/商品のスコアリングAI","tm":"ネット","who":"中川, 対馬","prod":["nix"],"sg":"progress","ball":"internal","act":"井上さんの承認がおり次第ヒアリングをして要件を固める。担当者の割り振りを検討","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":76,"nNo":"45","nm":"インフルエンサー自動リクルーティングツール","tm":"ネット","who":"中川, 対馬","prod":["nix"],"sg":"progress","ball":"internal","act":"制作・分析中","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":77,"nNo":"47","nm":"クロージングスクリプト自動作成（WEB経由）","tm":"ネット","who":"中川","prod":["nix"],"sg":"waiting","ball":"client","act":"確認待ち（toridori）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":78,"nNo":"48","nm":"インサイドセールスのトークスクリプトAI（47とバンドル）","tm":"ネット","who":"中川, 対馬","prod":["nix"],"sg":"excluded","ball":"client","act":"保留（井上さんの承認がおり次第着手）。No.47とバンドル","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":79,"nNo":"13","nm":"プロダクトBot（マニュアル学習＆質問回答）","tm":"トリドリ","who":"杉本, 青木くみこ, 川上","prod":["all"],"sg":"excluded","ball":"client","act":"保留（開発仕様を含めるか検討しつつ優先度は落とす）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":80,"nNo":"追加課題3","nm":"営業リマインドツール","tm":"トリドリ","who":"小森","prod":["all"],"sg":"excluded","ball":"client","act":"保留（北出さん案件のため、井上さん・嶋田さん・北出さん・国本さんの話し合いの後に可否判断）","history":[],"deadline":"","memo":"","deliverable":""},{"pNo":81,"nNo":"40","nm":"インフルエンサーPR投稿構成案＋分析自動生成","tm":"ネット","who":"―","prod":["nix"],"sg":"done","ball":"done","act":"対応不要（既存ツール代替・スコープ外）","history":[],"deadline":"","memo":"","deliverable":""}];
 /*TASK_DATA_END*/
-const CLIENTS_META = {
-  toridori: {
-    name: "toridori",
-    label: "🐔 toridori BPO",
-    color: "#E60012",
-    accentColor: "#E60012"
-  }
-  // Future: companyB, companyC, etc.
-};
-const ACTIVE_CLIENT = 'toridori';
-// Attach task reference to client meta (scaffold for multi-company)
-CLIENTS_META[ACTIVE_CLIENT].tasks = T;
+const CLIENTS_META={toridori:{name:"toridori",label:"toridori BPO",color:"#E60012",accentColor:"#E60012"}};
+const ACTIVE_CLIENT="toridori";
+CLIENTS_META[ACTIVE_CLIENT].tasks=T;
+let SNAPSHOTS=[];
 
-// Global snapshots array
-let SNAPSHOTS = [];
+const SG_LABEL={done:"完了",progress:"進行中",waiting:"確認待ち",unstarted:"未着手",hold:"保留",excluded:"対応対象外",review:"要確認"};
+const SG_COLOR={done:"var(--st-done)",progress:"var(--st-progress)",waiting:"var(--st-waiting)",unstarted:"var(--st-unstarted)",hold:"var(--st-hold)",excluded:"var(--st-excluded)",review:"var(--st-review)"};
+const BALL_LABEL={internal:"社内対応中",client:"クライアント確認待ち",both:"双方確認中",done:"完了",hold:"保留"};
+const BALL_COLOR={internal:"var(--ball-internal)",client:"var(--ball-client)",both:"var(--ball-both)",done:"var(--ball-done)",hold:"var(--ball-hold)"};
+const SG_OPTS=[{v:"done",l:"完了"},{v:"progress",l:"進行中"},{v:"waiting",l:"確認待ち"},{v:"unstarted",l:"未着手"},{v:"hold",l:"保留"},{v:"review",l:"要確認"},{v:"excluded",l:"対応対象外"}];
+const BL_OPTS=[{v:"done",l:"完了"},{v:"internal",l:"社内対応中"},{v:"client",l:"クライアント確認待ち"},{v:"both",l:"双方確認中"},{v:"hold",l:"保留"}];
+const PM={nix:["pt-nix","toridori nix"],made:["pt-made","toridori made"],blends:["pt-blends","toridori blends"],of:["pt-of","OverFlow"],givin:["pt-givin","GIVIN"],all:["pt-all","toridori"],base:["pt-base","toridori base"],is:["pt-is","IS"],mkt:["pt-mkt","marketing"],vooster:["pt-voo","VOOSTER"],dev:["pt-dev","toridori"]};
 
-const PM={nix:['pt-nix','toridori nix'],made:['pt-made','toridori made'],blends:['pt-blends','toridori blends'],of:['pt-of','OverFlow'],givin:['pt-givin','GIVIN'],all:['pt-all','toridori'],base:['pt-base','toridori base'],is:['pt-is','IS'],mkt:['pt-mkt','toridori marketing'],vooster:['pt-voo','VOOSTER'],dev:['pt-dev','toridori']};
-function pt(tags){return tags.map(t=>{const[c,l]=PM[t]||['pt-all',t];return`<span class="ptag ${c}">${l}</span>`}).join("")}
-function bl(b){const m={aiken:['ball-a','AIKEN側'],cl:['ball-c','CL側'],done:['ball-d','完了'],both:['ball-b','双方']};const[c,l]=m[b]||['ball-a','―'];return`<span class="ball ${c}"><span class="ball-dot"></span>${l}</span>`}
-const SM={resolved:['b1','解決済'],unstarted:['b6','未着手'],adjust:['b2','最終調整中'],progress:['b3','進行中'],excluded:['b4','除外']};
-function sb(s){const[c,l]=SM[s];return`<span class="badge ${c}">${l}</span>`}
-const TMM={dashboard:['tm-dash','dashboard'],トリドリ:['tm-tri','トリドリ'],ネット:['tm-net','ネット'],プロダクト:['tm-prod','プロダクト']};
-function tmTag(t){const[c,l]=TMM[t]||['tm-tri',t];return`<span class="tmtag ${c}">${l}</span>`}
-function nmLabel(t){return t.tm==='dashboard'?tmTag(t.tm):pt(t.prod)}
-function counts(){const c={resolved:0,unstarted:0,adjust:0,progress:0,excluded:0};T.forEach(t=>c[t.sg]=(c[t.sg]||0)+1);return c}
-function renderBar(){const c=counts();const active=c.resolved+c.unstarted+c.adjust+c.progress;
-  document.getElementById('pbar').innerHTML=`<div class="pc" style="width:${(c.resolved/active*100).toFixed(1)}%">${c.resolved}</div><div class="pu" style="width:${(c.unstarted/active*100).toFixed(1)}%">${c.unstarted||''}</div><div class="pa" style="width:${(c.adjust/active*100).toFixed(1)}%">${c.adjust}</div><div class="pp" style="width:${(c.progress/active*100).toFixed(1)}%">${c.progress}</div>`;
-  document.getElementById('pleg').innerHTML=`<div class="li"><div class="ld" style="background:var(--done)"></div>解決済 ${c.resolved}件 (${Math.round(c.resolved/active*100)}%)</div><div class="li"><div class="ld" style="background:var(--uns)"></div>未着手 ${c.unstarted}件 (${Math.round(c.unstarted/active*100)}%)</div><div class="li"><div class="ld" style="background:var(--adj)"></div>最終調整中 ${c.adjust}件 (${Math.round(c.adjust/active*100)}%)</div><div class="li"><div class="ld" style="background:var(--prog)"></div>進行中 ${c.progress}件 (${Math.round(c.progress/active*100)}%)</div><div class="li" style="margin-left:8px;padding-left:8px;border-left:2px solid #E0DCD4"><div class="ld" style="background:var(--hold)"></div>対応対象外 ${c.excluded}件</div>`;
-  document.getElementById('bar-title').textContent=`AIKENで進めるタスク ${active}件`;document.getElementById('total-num').textContent=active;
-  const _s=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
-  _s('a1',c.resolved);_s('a2',c.adjust);_s('a3',c.progress);_s('a5',c.unstarted||0);}
-function renderFilters(){const c=counts();const active=c.resolved+c.unstarted+c.adjust+c.progress;const tot=T.length;
-  document.getElementById('filters').innerHTML=`<div class="fbtn on" onclick="flt('all',this)">すべて (${tot})</div><div class="fbtn fc" onclick="flt('resolved',this)">解決済 (${c.resolved})</div><div class="fbtn fu" onclick="flt('unstarted',this)">未着手 (${c.unstarted})</div><div class="fbtn fa" onclick="flt('adjust',this)">最終調整中 (${c.adjust})</div><div class="fbtn fp" onclick="flt('progress',this)">進行中 (${c.progress})</div><div class="fbtn fap" onclick="flt('adj_prog',this)">最終調整中＋進行中 (${c.adjust+c.progress})</div><div class="fbtn fh" onclick="flt('excluded',this)">除外 (${c.excluded})</div>`}
-// Status/Ball option lists for dropdowns
-const SG_OPTS=[{v:'resolved',l:'解決済'},{v:'unstarted',l:'未着手'},{v:'adjust',l:'最終調整中'},{v:'progress',l:'進行中'},{v:'excluded',l:'除外'}];
-const BL_OPTS=[{v:'done',l:'完了'},{v:'aiken',l:'AIKEN側'},{v:'cl',l:'CL側'},{v:'both',l:'双方'}];
-const PROD_ORDER={dashboard:0,vooster:1,of:2,givin:3,is:4,nix:5,made:6,blends:7,base:8,mkt:9,all:10,dev:11};
-const KO={1:"1/9",2:"1/9",3:"1/9",4:"1/9",5:"1/9",6:"1/9",7:"1/9",8:"1/9",9:"1/9",10:"1/9",11:"1/9",12:"1/9",13:"1/9",17:"4/9",18:"4/9",19:"4/9",50:"4/9",20:"4/6",21:"4/6",23:"4/6",24:"4/6",30:"5/15",31:"4/7",32:"4/7",33:"4/7",34:"4/7",35:"4/7",36:"4/7",37:"4/7",38:"4/7",39:"3/5",40:"2/12",51:"4/9",52:"4/9",53:"4/9",54:"4/9",55:"4/9",56:"4/9",57:"5/22",58:"5/15",59:"5/22",74:"5/22",77:"5/22"};
-function prodRank(t){if(t.tm==='dashboard')return 0;const r=PROD_ORDER[t.prod&&t.prod[0]];return r!==undefined?r:99;}
-function koVal(t){const s=KO[t.pNo];if(!s)return 9999;const[m,d]=s.split('/').map(Number);return m*100+d;}
-function sortTasks(arr){return[...arr].sort((a,b)=>{
-  const pa=prodRank(a),pb=prodRank(b);
-  if(pa!==pb)return pa-pb;
-  const wc=(a.who||'').localeCompare(b.who||'');
-  if(wc!==0)return wc;
-  return koVal(a)-koVal(b);
-})}
+function pt(tags){return (tags||["all"]).map(function(t){var r=PM[t]||["pt-all",t];return "<span class=\"ptag "+r[0]+"\">"+r[1]+"</span>";}).join("");}
 
-function renderSummary(){
-  const c=counts();
-  const resolved=c.resolved,unstarted=c.unstarted,adjust=c.adjust,progress=c.progress,excluded=c.excluded;
-  const active=resolved+unstarted+adjust+progress;
-  const total=T.length;
-  const nonApplicable=T.filter(t=>t.sg==='resolved'&&typeof t.pNo==='number').length;
-  const completed=resolved-nonApplicable;
-  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
-  // Hero summary
-  set('hero-active',active);
-  set('hero-total',total);
-  const heroRHL=document.getElementById('hero-resolved-hl');if(heroRHL)heroRHL.textContent=resolved+'件が解決済';
-  const heroAHL=document.getElementById('hero-adj-hl');if(heroAHL)heroAHL.textContent=adjust+'件が最終調整中';
-  const heroPHL=document.getElementById('hero-prog-hl');if(heroPHL)heroPHL.textContent=progress+'件が進行中';
-  const heroEHL=document.getElementById('hero-excl-hl');if(heroEHL)heroEHL.textContent=excluded+'件は対応対象外';
-  // タスク全体カード
-  set('wh-active',active);
-  set('wh-total',total);
-  set('wh-excl',excluded);
-  set('wh-formula-total',total);
-  set('wh-f-active',active);
-  set('wh-f-excl',excluded);
-  // 進捗カード stat cards
-  const pqSub=document.getElementById('pq-resolved-sub');if(pqSub)pqSub.textContent=`完了${completed}件＋非対応解決${nonApplicable}件`;
-  const rPct=active>0?Math.round(resolved/active*100):0;
-  const aPct=active>0?Math.round(adjust/active*100):0;
-  const pPct=active>0?Math.round(progress/active*100):0;
-  const sf=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
-  sf('stat-resolved-frac',`${resolved} / ${active}件 (${rPct}%)`);
-  sf('stat-adj-frac',`${adjust} / ${active}件 (${aPct}%)`);
-  sf('stat-prog-frac',`${progress} / ${active}件 (${pPct}%)`);
-  // Delta indicators vs last snapshot
-  if(SNAPSHOTS.length>0){
-    const last=SNAPSHOTS[SNAPSHOTS.length-1];
-    const snapCounts={resolved:0,adjust:0,progress:0};
-    last.data.forEach(d=>{if(snapCounts[d.sg]!==undefined)snapCounts[d.sg]++;});
-    const renderDelta=(id,cur,prev)=>{const el=document.getElementById(id);if(!el)return;const delta=cur-prev;let ex=document.getElementById(id+'-delta');if(!ex){ex=document.createElement('span');ex.id=id+'-delta';el.parentNode.insertBefore(ex,el.nextSibling);}ex.className='stat-delta '+(delta>0?'delta-pos':delta<0?'delta-neg':'delta-zero');ex.textContent=delta>0?'▲+'+delta:delta<0?'▼'+delta:'';};
-    renderDelta('a1',resolved,snapCounts.resolved);
-    renderDelta('a2',adjust,snapCounts.adjust);
-    renderDelta('a3',progress,snapCounts.progress);
-  }
-  // Hidden placeholders
-  set('exn-scope',active);set('exn-resolved',resolved);set('exn-adj',adjust);set('exn-prog',progress);set('exn-excl',excluded);set('exn-uns',unstarted||0);
-  const rSub=document.getElementById('exn-resolved-sub');if(rSub)rSub.textContent=`完了${completed}件＋非対応解決${nonApplicable}件`;
-  // Story/timeline blocks
-  set('fb-resolved',resolved+'件');
-  set('fb-adj',adjust+'件');
-  set('fb-prog',progress+'件');
-  set('fb-excl',excluded);
-  set('fb-total',total+'件');
-  set('fb-t-active',active+'件');
-  set('fb-t-excl',excluded+'件');
-  // Ball summary
-  const activeTasks=T.filter(t=>t.sg!=='excluded');
-  const balls={aiken:0,cl:0,both:0,done:0};
-  activeTasks.forEach(t=>{if(t.ball)balls[t.ball]=(balls[t.ball]||0)+1});
-  const bt=activeTasks.length;
-  const ballCfg=[
-    {k:'done',l:'完了',sub:'クローズ済',c:'var(--done)'},
-    {k:'aiken',l:'AIKEN側',sub:'制作・開発中',c:'var(--blue)'},
-    {k:'cl',l:'CL側',sub:'⚡ 確認・承認待ち（要アクション）',c:'var(--adj)'},
-    {k:'both',l:'双方',sub:'協議中',c:'var(--pur)'},
+function counts(){
+  var c={done:0,progress:0,waiting:0,unstarted:0,hold:0,excluded:0,review:0};
+  T.forEach(function(t){c[t.sg]=(c[t.sg]||0)+1;});
+  return c;
+}
+function ballCounts(){
+  var b={internal:0,client:0,both:0,done:0,hold:0};
+  T.filter(function(t){return t.sg!=="excluded";}).forEach(function(t){b[t.ball]=(b[t.ball]||0)+1;});
+  return b;
+}
+
+function renderDashboard(){
+  var c=counts();
+  var total=T.length;
+  var excluded=c.excluded;
+  var active=total-excluded;
+  var se=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+  se("hero-total",total);
+  se("hero-active",active);
+  se("hero-excluded",excluded);
+
+  var statusCfg=[
+    {k:"done",label:"完了",color:"var(--st-done)"},
+    {k:"progress",label:"進行中",color:"var(--st-progress)"},
+    {k:"waiting",label:"確認待ち",color:"var(--st-waiting)"},
+    {k:"unstarted",label:"未着手",color:"var(--st-unstarted)"},
+    {k:"hold",label:"保留",color:"var(--st-hold)"},
+    {k:"review",label:"要確認",color:"var(--st-review)"},
+    {k:"excluded",label:"対応対象外",color:"var(--st-excluded)"},
   ];
-  const bs=document.getElementById('ball-summary');
-  if(bs)bs.innerHTML=ballCfg.map(b=>{const n=balls[b.k]||0;const p=bt>0?Math.round(n/bt*100):0;return`<div class="bsrow"><div class="bslbl">${b.l}<br><span style="font-size:9px;color:var(--tl)">${b.sub}</span></div><div class="bsbar"><div class="bsfill" style="width:${p}%;background:${b.c}"></div></div><div class="bsnum" style="color:${b.c}">${n}</div><div class="bspct">${p}%</div></div>`;}).join('')+`<div style="margin-top:10px;font-size:10px;color:var(--tl);text-align:right">対象：アクティブタスク ${bt}件（除外を除く）</div>`;
-  // Progress pills
-  const protoPct=active>0?Math.round((resolved+adjust)/active*100):0;
-  const aikenPct=active>0?Math.round((balls.aiken||0)/active*100):0;
-  const pp=document.getElementById('prog-pills');
-  if(pp)pp.innerHTML=`<div class="prog-pill"><div class="prog-pct" style="color:var(--done)">${rPct}%</div><div class="prog-sub">解決率<br>(解決済/スコープ)</div></div><div class="prog-pill"><div class="prog-pct" style="color:var(--adj)">${protoPct}%</div><div class="prog-sub">プロト以上<br>(解決済＋調整中)</div></div><div class="prog-pill"><div class="prog-pct" style="color:var(--prog)">${aikenPct}%</div><div class="prog-sub">AIKEN保有<br>(ボール所在)</div></div>`;
-  // Asset summary
-  const completedTasks=T.filter(t=>t.sg==='resolved'&&t.pNo==='');
-  const libCount=typeof LB!=='undefined'?LB.length:8;
-  const libHtml=typeof LB!=='undefined'?`<div class="ast-grid">${LB.map(l=>`<div class="ast-item ${l.st==='完了'?'done-item':'adj-item'}"><div class="ast-nm">${l.t}</div><span class="ast-st ${l.st==='完了'?'ast-st-done':'ast-st-adj'}">${l.st}</span></div>`).join('')}</div>`:'';
-  const as=document.getElementById('asset-summary');
-  if(as)as.innerHTML=`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px"><div style="background:#D4EDDA;border-radius:10px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:900;color:#1B7A3D">${completedTasks.length}</div><div style="font-size:9px;font-weight:700;color:#2E7D32;margin-top:2px">完了・納品済</div></div><div style="background:#FFF3CD;border-radius:10px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:900;color:#856404">${adjust}</div><div style="font-size:9px;font-weight:700;color:#856404;margin-top:2px">プロト完成<br>最終調整中</div></div><div style="background:#E8E0F0;border-radius:10px;padding:10px;text-align:center"><div style="font-size:22px;font-weight:900;color:#6A1B9A">${libCount}</div><div style="font-size:9px;font-weight:700;color:#6A1B9A;margin-top:2px">ライブラリ<br>展開候補領域</div></div></div><div style="font-size:11px;font-weight:800;color:var(--tm);margin-bottom:8px">📦 ライブラリー展開候補（${libCount}領域）</div>${libHtml}`;
-  // Consistency check
-  const sum=resolved+unstarted+adjust+progress+excluded;
-  const ok=sum===total;
-  // Consistency check status indicator
-  const ckIcon=document.getElementById('ck-icon');
-  const ckMsg=document.getElementById('ck-msg');
-  const ckLine=document.getElementById('ck-status-line');
-  if(ok){
-    if(ckIcon)ckIcon.textContent='✅';
-    if(ckMsg)ckMsg.textContent=`数値整合性：正常（${sum}件が一致）`;
-    if(ckLine){ckLine.classList.remove('ck-ng-bg');}
-  } else {
-    if(ckIcon)ckIcon.textContent='⚠️';
-    if(ckMsg)ckMsg.textContent=`数値整合性：不一致（要確認 — ${sum}件 vs 期待値${total}件）`;
-    if(ckLine){ckLine.classList.add('ck-ng-bg');document.getElementById('ck-details-wrap').style.display='block';}
+  var sg=document.getElementById("status-grid");
+  if(sg){
+    sg.innerHTML=statusCfg.map(function(s){
+      var n=c[s.k]||0;
+      var pct=total>0?Math.round(n/total*100):0;
+      return "<div class=\"status-card\">"
+        +"<div style=\"position:absolute;top:0;left:0;right:0;height:4px;background:"+s.color+"\"></div>"
+        +"<div class=\"sc-num\" style=\"color:"+s.color+"\">"+n+"</div>"
+        +"<div class=\"sc-lbl\">"+s.label+"</div>"
+        +"<div class=\"sc-bar\"><div class=\"sc-fill\" style=\"width:"+pct+"%;background:"+s.color+"\"></div></div>"
+        +"</div>";
+    }).join("");
   }
-  const ck=document.getElementById('consistency-check');
-  if(ck)ck.innerHTML=`<div class="ck-row"><div class="ck-lbl">START時 初期要望</div><div class="ck-val">51件（固定）</div></div><div class="ck-row"><div class="ck-lbl">全タスク登録数</div><div class="ck-val">${total}件</div></div><div class="ck-row"><div class="ck-lbl">AIKEN対応対象</div><div class="ck-val">${active}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 解決済</div><div class="ck-val">${resolved}件 <span style="font-size:9px;color:var(--tl)">(完了${completed}＋非対応解決${nonApplicable})</span></div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 最終調整中</div><div class="ck-val">${adjust}件</div></div><div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 進行中</div><div class="ck-val">${progress}件</div></div>${unstarted>0?`<div class="ck-row" style="padding-left:10px"><div class="ck-lbl">└ 未着手</div><div class="ck-val">${unstarted}件</div></div>`:''}<div class="ck-row"><div class="ck-lbl">除外（クライアント方針変更・プロダクト側判断）</div><div class="ck-val">${excluded}件</div></div><div class="ck-row ck-total"><div class="ck-lbl">整合チェック（合計）</div><div class="${ok?'ck-ok':'ck-ng'}">${sum}件 ${ok?'✅ 一致':'❌ 不一致'}</div></div>`;
+
+  var pb=document.getElementById("pbar");
+  if(pb){
+    var barSeg=function(n,color){
+      if(n<=0)return "";
+      var w=total>0?(n/total*100).toFixed(1)+"%":"0%";
+      return "<div style=\"width:"+w+";background:"+color+";display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff\">"+(n>2?n:"")+"</div>";
+    };
+    pb.innerHTML=barSeg(c.done,"var(--st-done)")+barSeg(c.progress,"var(--st-progress)")+barSeg(c.waiting,"var(--st-waiting)")+barSeg(c.hold,"var(--st-hold)")+barSeg(c.review,"var(--st-review)")+barSeg(c.unstarted,"var(--st-unstarted)")+barSeg(c.excluded,"var(--st-excluded)");
+  }
+  var pl=document.getElementById("pleg");
+  if(pl){
+    var legItems=[
+      {color:"var(--st-done)",label:"完了",n:c.done},
+      {color:"var(--st-progress)",label:"進行中",n:c.progress},
+      {color:"var(--st-waiting)",label:"確認待ち",n:c.waiting},
+      {color:"var(--st-hold)",label:"保留",n:c.hold},
+      {color:"var(--st-review)",label:"要確認",n:c.review},
+      {color:"var(--st-unstarted)",label:"未着手",n:c.unstarted},
+      {color:"var(--st-excluded)",label:"対応対象外",n:c.excluded},
+    ];
+    pl.innerHTML=legItems.map(function(i){return "<div class=\"li\"><div class=\"ld\" style=\"background:"+i.color+"\"></div>"+i.label+" "+i.n+"件</div>";}).join("");
+  }
+  se("bar-subtitle","全 "+total+"件の進捗状況");
+
+  var bc=ballCounts();
+  var activeTasks=T.filter(function(t){return t.sg!=="excluded";});
+  var bt=activeTasks.length;
+  var ballCfg2=[
+    {k:"client",l:"クライアント確認待ち",sub:"⚡ 要アクション",c:"var(--ball-client)"},
+    {k:"internal",l:"社内対応中",sub:"AIKENで作業中",c:"var(--ball-internal)"},
+    {k:"both",l:"双方確認中",sub:"協議・確認中",c:"var(--ball-both)"},
+    {k:"done",l:"完了",sub:"クローズ済",c:"var(--ball-done)"},
+    {k:"hold",l:"保留",sub:"保留中",c:"var(--ball-hold)"},
+  ];
+  var bs=document.getElementById("ball-summary");
+  if(bs) bs.innerHTML=ballCfg2.map(function(b){
+    var n=bc[b.k]||0;
+    var p=bt>0?Math.round(n/bt*100):0;
+    return "<div class=\"bsrow\"><div class=\"bslbl\">"+b.l+"<br><span style=\"font-size:9px;color:var(--tl)\">"+b.sub+"</span></div><div class=\"bsbar\"><div class=\"bsfill\" style=\"width:"+p+"%;background:"+b.c+"\"></div></div><div class=\"bsnum\" style=\"color:"+b.c+"\">"+n+"</div><div class=\"bspct\">"+p+"%</div></div>";
+  }).join("")+"<div style=\"margin-top:10px;font-size:10px;color:var(--tl);text-align:right\">対象：アクティブタスク "+bt+"件（除外を除く）</div>";
+
+  var qs=document.getElementById("quick-stats");
+  if(qs) qs.innerHTML=
+    "<div class=\"qs-item\"><span class=\"qs-icon\">🔴</span><span class=\"qs-lbl\">クライアント要アクション</span><span class=\"qs-num\" style=\"color:var(--ball-client)\">"+(bc.client||0)+"件</span></div>"
+    +"<div class=\"qs-item\"><span class=\"qs-icon\">🔵</span><span class=\"qs-lbl\">社内対応中</span><span class=\"qs-num\" style=\"color:var(--ball-internal)\">"+(bc.internal||0)+"件</span></div>"
+    +"<div class=\"qs-item\"><span class=\"qs-icon\">🟣</span><span class=\"qs-lbl\">双方確認中</span><span class=\"qs-num\" style=\"color:var(--ball-both)\">"+(bc.both||0)+"件</span></div>";
+
+  renderAssigneeCards();
+
+  var sum=Object.values(c).reduce(function(a,b){return a+b;},0);
+  var ok=sum===total;
+  var ckIcon=document.getElementById("ck-icon");
+  var ckMsg=document.getElementById("ck-msg");
+  var ckLine=document.getElementById("ck-status-line");
+  if(ckIcon)ckIcon.textContent=ok?"✅":"⚠️";
+  if(ckMsg)ckMsg.textContent=ok?("数値整合性：正常（"+sum+"件が一致）"):("数値整合性：不一致（要確認 — "+sum+"件 vs 期待値"+total+"件）");
+  if(ckLine){ckLine.classList.toggle("ck-ng-bg",!ok);}
+  var ck=document.getElementById("consistency-check");
+  if(ck) ck.innerHTML=
+    "<div class=\"ck-row\"><div class=\"ck-lbl\">全タスク登録数</div><div class=\"ck-val\">"+total+"件</div></div>"
+    +"<div class=\"ck-row\"><div class=\"ck-lbl\">└ 完了</div><div class=\"ck-val\">"+c.done+"件</div></div>"
+    +"<div class=\"ck-row\"><div class=\"ck-lbl\">└ 進行中</div><div class=\"ck-val\">"+c.progress+"件</div></div>"
+    +"<div class=\"ck-row\"><div class=\"ck-lbl\">└ 確認待ち</div><div class=\"ck-val\">"+c.waiting+"件</div></div>"
+    +"<div class=\"ck-row\"><div class=\"ck-lbl\">└ 未着手</div><div class=\"ck-val\">"+c.unstarted+"件</div></div>"
+    +"<div class=\"ck-row\"><div class=\"ck-lbl\">└ 保留</div><div class=\"ck-val\">"+c.hold+"件</div></div>"
+    +"<div class=\"ck-row\"><div class=\"ck-lbl\">└ 要確認</div><div class=\"ck-val\">"+c.review+"件</div></div>"
+    +"<div class=\"ck-row\"><div class=\"ck-lbl\">└ 対応対象外</div><div class=\"ck-val\">"+c.excluded+"件</div></div>"
+    +"<div class=\"ck-row ck-total\"><div class=\"ck-lbl\">合計チェック</div><div class=\""+(ok?"ck-ok":"ck-ng")+"\">"+sum+"件 "+(ok?"✅ 一致":"❌ 不一致 (期待値:"+total+"件)")+"</div></div>";
 }
-function toggleCkDetails(){
-  const el=document.getElementById('ck-details-wrap');
-  const tt=document.getElementById('ck-toggle-txt');
+
+function renderAssigneeCards(){
+  var active=T.filter(function(t){return t.sg!=="excluded";});
+  var amap={};
+  active.forEach(function(t){
+    var names=(t.who||"").split(/[,、・\s]+/).map(function(n){return n.trim();}).filter(function(n){return n&&n!=="―"&&n!=="-"&&n!=="—";});
+    names.forEach(function(name){
+      if(!amap[name])amap[name]={total:0,done:0,progress:0,waiting:0};
+      amap[name].total++;
+      if(t.sg==="done")amap[name].done++;
+      else if(t.sg==="progress")amap[name].progress++;
+      else if(t.sg==="waiting")amap[name].waiting++;
+    });
+  });
+  var el=document.getElementById("assignee-cards");
   if(!el)return;
-  const open=el.style.display==='block';
-  el.style.display=open?'none':'block';
-  if(tt)tt.textContent=open?'詳細を確認 ▼':'閉じる ▲';
+  el.innerHTML=Object.entries(amap)
+    .filter(function(e){return e[1].total>=2;})
+    .sort(function(a,b){return b[1].total-a[1].total;})
+    .map(function(e){
+      var name=e[0],d=e[1];
+      var pct=Math.round(d.done/d.total*100);
+      return "<div class=\"asgn-card\"><div class=\"asgn-name\">"+name+"</div><div class=\"asgn-total\">"+d.total+"件担当</div><div class=\"asgn-bar\"><div class=\"asgn-fill\" style=\"width:"+pct+"%;background:var(--st-done)\"></div></div><div class=\"asgn-stats\"><span style=\"color:var(--st-done)\">完了"+d.done+"</span> <span style=\"color:var(--st-progress)\">進行"+d.progress+"</span> <span style=\"color:var(--st-waiting)\">確認"+d.waiting+"</span></div></div>";
+    }).join("");
 }
-let editMode=false;
-let currentFilter='all';
+
+var editMode=false;
+var currentFilter="all";
+
+function renderFilters(){
+  var c=counts();
+  var total=T.length;
+  var items=[
+    {f:"all",l:"すべて ("+total+")"},
+    {f:"done",l:"完了 ("+c.done+")"},
+    {f:"progress",l:"進行中 ("+c.progress+")"},
+    {f:"waiting",l:"確認待ち ("+c.waiting+")"},
+    {f:"unstarted",l:"未着手 ("+c.unstarted+")"},
+    {f:"hold",l:"保留 ("+c.hold+")"},
+    {f:"review",l:"要確認 ("+c.review+")"},
+    {f:"excluded",l:"対応対象外 ("+c.excluded+")"},
+  ];
+  var el=document.getElementById("filters");
+  if(el) el.innerHTML=items.map(function(item){return "<div class=\"fbtn"+(currentFilter===item.f?" on":"")+"\" onclick=\"flt('"+item.f+"',this)\">"+item.l+"</div>";}).join("");
+}
+
+function isOverdue(dateStr){
+  if(!dateStr)return false;
+  return new Date(dateStr)<new Date();
+}
+
+var sgOrder={review:0,waiting:1,progress:2,unstarted:3,hold:4,done:5,excluded:6};
 
 function render(f){
   currentFilter=f;
-  const d=document.getElementById("tb");let fl;
-  if(f==='all')fl=T;else if(f==='adj_prog')fl=T.filter(t=>t.sg==='adjust'||t.sg==='progress');else fl=T.filter(t=>t.sg===f);
-  fl=sortTasks(fl);
+  var filtered=f==="all"?T:T.filter(function(t){return t.sg===f;});
+  filtered=filtered.slice().sort(function(a,b){return (sgOrder[a.sg]||99)-(sgOrder[b.sg]||99);});
+  var tb=document.getElementById("tb");
+  if(!tb)return;
   if(editMode){
-    d.innerHTML=fl.map((t,i)=>{
-      const idx=T.indexOf(t);
-      const sgOpts=SG_OPTS.map(o=>`<option value="${o.v}"${t.sg===o.v?' selected':''}>${o.l}</option>`).join('');
-      const blOpts=BL_OPTS.map(o=>`<option value="${o.v}"${t.ball===o.v?' selected':''}>${o.l}</option>`).join('');
-      return`<tr style="animation:fi .15s ease ${i*.008}s both;background:#FFFEF5">
-        <td class="td-no">${KO[t.pNo]||'ー'}</td>
-        <td class="td-nno">${t.nNo}</td>
-        <td class="td-nm"><div class="nm-lbl">${nmLabel(t)}</div><input class="edit-in edit-nm nm-txt" value="${esc(t.nm)}" onchange="T[${idx}].nm=this.value"></td>
-        <td><input class="edit-in edit-sm" value="${esc(t.who)}" onchange="T[${idx}].who=this.value"></td>
-        <td style="text-align:center"><select class="edit-sel" onchange="recordHistory(${idx},'sg',this.value);T[${idx}].sg=this.value;renderBar();renderFilters()">${sgOpts}</select></td>
-        <td style="text-align:center"><select class="edit-sel" onchange="recordHistory(${idx},'ball',this.value);T[${idx}].ball=this.value">${blOpts}</select></td>
-        <td><textarea class="edit-in edit-act" onchange="recordHistory(${idx},'act',this.value);T[${idx}].act=this.value">${esc(t.act)}</textarea></td>
-      </tr>`;
-    }).join('');
+    tb.innerHTML=filtered.map(function(t,i){
+      var idx=T.indexOf(t);
+      var sgOpts=SG_OPTS.map(function(o){return "<option value=\""+o.v+"\""+(t.sg===o.v?" selected":"")+">"+o.l+"</option>";}).join("");
+      var blOpts=BL_OPTS.map(function(o){return "<option value=\""+o.v+"\""+(t.ball===o.v?" selected":"")+">"+o.l+"</option>";}).join("");
+      return "<tr style=\"animation:fi .12s ease "+(i*0.006)+"s both;background:#FFFEF5\">"
+        +"<td class=\"td-no\">"+(t.pNo||"")+"</td>"
+        +"<td class=\"td-nno\">"+(t.nNo||"")+"</td>"
+        +"<td class=\"td-nm\"><div>"+pt(t.prod||["all"])+"</div><input class=\"edit-in edit-nm\" value=\""+esc(t.nm)+"\" onchange=\"T["+idx+"].nm=this.value\"></td>"
+        +"<td><input class=\"edit-in\" style=\"font-size:11px\" value=\""+esc(t.who)+"\" onchange=\"T["+idx+"].who=this.value\"></td>"
+        +"<td><select class=\"edit-sel\" onchange=\"recordHistory("+idx+",'sg',this.value);T["+idx+"].sg=this.value;renderFilters();renderDashboard()\">"+sgOpts+"</select></td>"
+        +"<td><select class=\"edit-sel\" onchange=\"recordHistory("+idx+",'ball',this.value);T["+idx+"].ball=this.value\">"+blOpts+"</select></td>"
+        +"<td><input class=\"edit-in\" type=\"date\" value=\""+esc(t.deadline||"")+"\" onchange=\"T["+idx+"].deadline=this.value\" style=\"font-size:10px\"></td>"
+        +"<td><textarea class=\"edit-in edit-act\" onchange=\"recordHistory("+idx+",'act',this.value);T["+idx+"].act=this.value\">"+esc(t.act)+"</textarea></td>"
+        +"<td><textarea class=\"edit-in\" style=\"font-size:11px;min-height:40px;resize:vertical\" onchange=\"T["+idx+"].memo=this.value\">"+esc(t.memo||"")+"</textarea></td>"
+        +"<td><input class=\"edit-in\" style=\"font-size:10px\" value=\""+esc(t.deliverable||"")+"\" placeholder=\"URL\" onchange=\"T["+idx+"].deliverable=this.value\"></td>"
+        +"<td></td></tr>";
+    }).join("");
   } else {
-    d.innerHTML=fl.map((t,i)=>{
-      const idx=T.indexOf(t);
-      const histLen=(t.history||[]).length;
-      const histBadge=histLen>0?`<span class="hist-badge" onclick="openHistory(${idx})">🕐 ${histLen}件</span>`:'';
-      return `<tr style="animation:fi .15s ease ${i*.008}s both"><td class="td-no">${KO[t.pNo]||'ー'}</td><td class="td-nno">${t.nNo}</td><td class="td-nm"><div class="nm-lbl">${nmLabel(t)}</div><div class="nm-txt">${t.nm}${histBadge}</div></td><td class="td-who">${t.who}</td><td style="text-align:center">${sb(t.sg)}</td><td style="text-align:center">${bl(t.ball)}</td><td class="td-act" title="${(t.act||'').replace(/"/g,'&quot;')}" onclick="this.classList.toggle('expanded')">${t.act||'―'}</td></tr>`;
-    }).join('');
+    tb.innerHTML=filtered.map(function(t,i){
+      var idx=T.indexOf(t);
+      var histLen=(t.history||[]).length;
+      var histBadge=histLen>0?"<span class=\"hist-badge\" onclick=\"openHistory("+idx+")\">🕐 "+histLen+"</span>":"";
+      var deadlineEl=t.deadline?"<span class=\""+(isOverdue(t.deadline)?"overdue":"")+"\">"+t.deadline+"</span>":"—";
+      var dlvEl=t.deliverable?"<a href=\""+t.deliverable+"\" target=\"_blank\" class=\"dlv-link\">📎 リンク</a>":"—";
+      var sgC=SG_COLOR[t.sg]||"#94A3B8";
+      var sgL=SG_LABEL[t.sg]||t.sg;
+      var blClass="ball-badge ball-"+(t.ball||"internal");
+      var blL=BALL_LABEL[t.ball]||t.ball;
+      var blExtra=t.ball==="client"?"⚡ ":"";
+      return "<tr style=\"animation:fi .12s ease "+(i*0.006)+"s both\">"
+        +"<td class=\"td-no\">"+(t.pNo||"")+"</td>"
+        +"<td class=\"td-nno\">"+(t.nNo||"")+"</td>"
+        +"<td class=\"td-nm\"><div class=\"nm-txt\">"+(t.nm||"")+histBadge+"</div></td>"
+        +"<td class=\"td-who\">"+(t.who||"—")+"</td>"
+        +"<td style=\"text-align:center\"><span class=\"st-badge\" style=\"background:"+sgC+"20;color:"+sgC+";border:1.5px solid "+sgC+"40\">"+sgL+"</span></td>"
+        +"<td style=\"text-align:center\"><span class=\""+blClass+"\">"+blExtra+blL+"</span></td>"
+        +"<td class=\"td-deadline\">"+deadlineEl+"</td>"
+        +"<td class=\"td-act\" title=\""+esc(t.act)+"\" onclick=\"this.classList.toggle('expanded')\">"+(t.act||"—")+"</td>"
+        +"<td class=\"td-memo\" title=\""+esc(t.memo||"")+"\""+">"+(t.memo||"—")+"</td>"
+        +"<td class=\"td-dlv\">"+dlvEl+"</td>"
+        +"<td style=\"text-align:center\"></td>"
+        +"</tr>";
+    }).join("");
   }
 }
-function esc(s){return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+
+function esc(s){return(s||"").replace(/"/g,"&quot;").replace(/</g,"&lt;");}
+
+function flt(f,el){
+  currentFilter=f;
+  document.querySelectorAll(".fbtn").forEach(function(b){b.classList.remove("on");});
+  if(el)el.classList.add("on");
+  render(f);
+}
 
 function toggleEdit(){
   editMode=!editMode;
-  const btn=document.getElementById('edit-btn');
+  var btn=document.getElementById("edit-btn");
   if(editMode){
-    btn.textContent='💾 保存する';
-    btn.classList.add('save-mode');
+    btn.textContent="💾 保存する";
+    btn.classList.add("save-mode");
   } else {
-    btn.textContent='✏️ 編集する';
-    btn.classList.remove('save-mode');
+    btn.textContent="✏️ 編集する";
+    btn.classList.remove("save-mode");
     flushHistory();
     saveData();
-    renderBar();renderFilters();renderSummary();
+    renderDashboard();
+    renderFilters();
   }
   render(currentFilter);
 }
 
 function saveData(){
   try{
-    localStorage.setItem('toridori_tasks',JSON.stringify(T));
-    localStorage.setItem('toridori_snapshots',JSON.stringify(SNAPSHOTS));
-    const ds=new Date();const s=ds.getFullYear()+'年'+(ds.getMonth()+1)+'月'+ds.getDate()+'日';
-    document.getElementById('last-upd').textContent=s;
-    showToast('✅ 保存しました（'+s+'）');
-  }catch(e){showToast('⚠️ 保存に失敗しました')}
+    localStorage.setItem("toridori_tasks_v2",JSON.stringify(T));
+    localStorage.setItem("toridori_snapshots",JSON.stringify(SNAPSHOTS));
+    var ds=new Date();
+    var s=ds.getFullYear()+"年"+(ds.getMonth()+1)+"月"+ds.getDate()+"日";
+    document.getElementById("last-upd").textContent=s;
+    showToast("✅ 保存しました（"+s+"）");
+  }catch(e){showToast("⚠️ 保存に失敗しました");}
 }
+
 function loadData(){
   try{
-    const d=localStorage.getItem('toridori_tasks');
-    if(d){const p=JSON.parse(d);if(p.length===T.length){for(let i=0;i<T.length;i++){T[i].nm=p[i].nm;T[i].who=p[i].who;T[i].sg=p[i].sg;T[i].ball=p[i].ball;T[i].act=p[i].act;if(p[i].history)T[i].history=p[i].history;}}}
-    const s=localStorage.getItem('toridori_snapshots');
-    if(s){SNAPSHOTS=JSON.parse(s);}
+    var d=localStorage.getItem("toridori_tasks_v2");
+    if(d){
+      var p=JSON.parse(d);
+      if(Array.isArray(p)&&p.length===T.length){
+        for(var i=0;i<T.length;i++){
+          if(p[i].nm!==undefined)T[i].nm=p[i].nm;
+          if(p[i].who!==undefined)T[i].who=p[i].who;
+          if(p[i].sg!==undefined)T[i].sg=p[i].sg;
+          if(p[i].ball!==undefined)T[i].ball=p[i].ball;
+          if(p[i].act!==undefined)T[i].act=p[i].act;
+          if(p[i].history)T[i].history=p[i].history;
+          if(p[i].deadline!==undefined)T[i].deadline=p[i].deadline;
+          if(p[i].memo!==undefined)T[i].memo=p[i].memo;
+          if(p[i].deliverable!==undefined)T[i].deliverable=p[i].deliverable;
+        }
+      }
+    }
+    var s2=localStorage.getItem("toridori_snapshots");
+    if(s2){SNAPSHOTS=JSON.parse(s2);}
   }catch(e){}
 }
-function showToast(msg){
-  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+
+var _todayStr=function(){return new Date().toLocaleDateString("ja-JP",{year:"numeric",month:"2-digit",day:"2-digit"});};
+var _pendingHistory={};
+function recordHistory(idx,field,newVal){
+  var t=T[idx];
+  var oldVal=t[field];
+  if(oldVal===newVal)return;
+  if(!_pendingHistory[idx]){_pendingHistory[idx]={sg:t.sg,ball:t.ball,act:t.act,changed:{}};}
+  _pendingHistory[idx].changed[field]={old:oldVal,nw:newVal};
+}
+function flushHistory(){
+  Object.keys(_pendingHistory).forEach(function(idx){
+    var i=parseInt(idx,10);
+    var ph=_pendingHistory[i];
+    if(Object.keys(ph.changed).length===0)return;
+    if(!T[i].history)T[i].history=[];
+    T[i].history.push({date:_todayStr(),label:"",sg:ph.sg,ball:ph.ball,act:ph.act});
+  });
+  Object.keys(_pendingHistory).forEach(function(k){delete _pendingHistory[k];});
 }
 
-function flt(f,el){document.querySelectorAll(".fbtn").forEach(b=>b.classList.remove("on"));el.classList.add("on");render(f)}
-
-// ===== JSON EXPORT =====
-function exportJSON(){
-  const data={version:2,exported:new Date().toISOString(),lastUpdate:document.getElementById('last-upd').textContent,client:ACTIVE_CLIENT,tasks:T,snapshots:SNAPSHOTS};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='toridori_progress_'+new Date().toISOString().slice(0,10)+'.json';
-  a.click();URL.revokeObjectURL(url);
-  showToast('💾 JSONファイルをダウンロードしました');
+function openSnapModal(){
+  document.getElementById("snap-modal-bg").classList.add("show");
+  document.getElementById("snap-label-input").value="";
+  renderSnapList();
+  var sw=document.getElementById("snap-list-wrap");
+  if(sw)sw.style.display=SNAPSHOTS.length>0?"block":"none";
+  setTimeout(function(){document.getElementById("snap-label-input").focus();},100);
+}
+function closeSnapModal(){document.getElementById("snap-modal-bg").classList.remove("show");}
+function confirmSnapshot(){
+  var label=document.getElementById("snap-label-input").value.trim();
+  if(!label){showToast("⚠️ ラベルを入力してください");return;}
+  takeSnapshot(label);
+  closeSnapModal();
+}
+function takeSnapshot(label){
+  var date=_todayStr();
+  SNAPSHOTS.push({date:date,label:label,data:T.map(function(t){return{id:t.pNo+"_"+t.nNo,sg:t.sg,ball:t.ball,act:t.act};})});
+  T.forEach(function(t){
+    if(!t.history)t.history=[];
+    t.history.push({date:date,label:label,sg:t.sg,ball:t.ball,act:t.act});
+  });
+  saveData();
+  renderDashboard();
+  render(currentFilter);
+  renderHighlights();
+  showToast("📸 スナップショット「"+label+"」を保存しました");
+}
+function renderSnapList(){
+  var el=document.getElementById("snap-list");
+  if(!el)return;
+  el.innerHTML=SNAPSHOTS.map(function(s){return "<div class=\"snap-item\"><span>📸</span><span class=\"snap-item-lbl\">"+s.label+"</span><span class=\"snap-item-date\">"+s.date+"</span></div>";}).reverse().join("");
 }
 
-// ===== JSON IMPORT =====
-function importJSON(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=function(ev){
-    try{
-      const data=JSON.parse(ev.target.result);
-      if(!data.tasks||!Array.isArray(data.tasks)){showToast('⚠️ 無効なJSONファイルです');return}
-      // Overwrite task data
-      for(let i=0;i<Math.min(data.tasks.length,T.length);i++){
-        T[i].nm=data.tasks[i].nm||T[i].nm;
-        T[i].who=data.tasks[i].who||T[i].who;
-        T[i].sg=data.tasks[i].sg||T[i].sg;
-        T[i].ball=data.tasks[i].ball||T[i].ball;
-        T[i].act=data.tasks[i].act||T[i].act;
-        if(data.tasks[i].history)T[i].history=data.tasks[i].history;
+var SG_LBL2={done:"完了",progress:"進行中",waiting:"確認待ち",unstarted:"未着手",hold:"保留",excluded:"対応対象外",review:"要確認"};
+var BL_LBL2={internal:"社内対応中",client:"クライアント確認待ち",both:"双方確認中",done:"完了",hold:"保留"};
+
+function openHistory(idx){
+  var t=T[idx];
+  var hist=(t.history||[]).slice().reverse();
+  document.getElementById("hist-modal-title").textContent="変更履歴："+t.nm;
+  var tl=document.getElementById("hist-timeline");
+  if(hist.length===0){
+    tl.innerHTML="<div style=\"color:var(--tl);font-size:13px;text-align:center;padding:20px\">履歴はまだありません</div>";
+  } else {
+    tl.innerHTML=hist.map(function(h,i){
+      var isSnap=!!h.label;
+      var fwdIdx=hist.length-1-i;
+      var nextH=fwdIdx+1<t.history.length?t.history[fwdIdx+1]:null;
+      var diffHtml="";
+      if(nextH){
+        var rows=[];
+        if(nextH.sg!==h.sg)rows.push("<div class=\"hist-diff-row\"><span class=\"hist-diff-key\">ステータス</span><span class=\"hist-diff-old\">"+(SG_LBL2[h.sg]||h.sg)+"</span><span class=\"hist-diff-arr\">→</span><span class=\"hist-diff-new\">"+(SG_LBL2[nextH.sg]||nextH.sg)+"</span></div>");
+        if(nextH.ball!==h.ball)rows.push("<div class=\"hist-diff-row\"><span class=\"hist-diff-key\">ボール</span><span class=\"hist-diff-old\">"+(BL_LBL2[h.ball]||h.ball)+"</span><span class=\"hist-diff-arr\">→</span><span class=\"hist-diff-new\">"+(BL_LBL2[nextH.ball]||nextH.ball)+"</span></div>");
+        if(rows.length)diffHtml="<div class=\"hist-diff\">"+rows.join("")+"</div>";
       }
-      if(data.snapshots&&Array.isArray(data.snapshots))SNAPSHOTS=data.snapshots;
-      if(data.lastUpdate)document.getElementById('last-upd').textContent=data.lastUpdate;
-      saveData();renderBar();renderFilters();render(currentFilter);renderSummary();
-      showToast('📂 JSONデータを読み込みました（'+data.tasks.length+'件）');
-    }catch(err){showToast('⚠️ JSONの読み込みに失敗しました')}
-  };
-  reader.readAsText(file);
-  e.target.value='';
-}
-
-// ===== CSV EXPORT =====
-function exportCSV(){
-  const BOM='\uFEFF';
-  const sgLabel={resolved:'解決済',unstarted:'未着手',adjust:'最終調整中',progress:'進行中',excluded:'除外'};
-  const blLabel={done:'完了',aiken:'AIKEN側',cl:'CL側',both:'双方'};
-  const tmLabel={dashboard:'dashboard',トリドリ:'トリドリ',ネット:'ネット',プロダクト:'プロダクト'};
-  const prodLabel={nix:'toridori nix',made:'toridori made',blends:'toridori blends',of:'OverFlow',givin:'GIVIN',all:'全社横断',base:'toridori base',is:'IS',mkt:'toridori marketing',vooster:'VOOSTER',dev:'開発・情シス'};
-  const header=['進捗No','Notion No','チーム','タスク名','AIKEN担当者','対象会社/プロダクト','ステータス','ボール所在','次回アクション','変更履歴件数'];
-  const rows=T.map(t=>[
-    t.pNo||'',t.nNo,tmLabel[t.tm]||t.tm,
-    '"'+t.nm.replace(/"/g,'""')+'"',
-    '"'+t.who.replace(/"/g,'""')+'"',
-    '"'+t.prod.map(p=>prodLabel[p]||p).join(', ')+'"',
-    sgLabel[t.sg]||t.sg,blLabel[t.ball]||t.ball,
-    '"'+(t.act||'').replace(/"/g,'""')+'"',
-    (t.history||[]).length
-  ].join(','));
-  const csv=BOM+header.join(',')+'\n'+rows.join('\n');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='toridori_progress_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();URL.revokeObjectURL(url);
-  showToast('📊 CSVファイルをダウンロードしました');
-}
-
-// ===== HTML EXPORT (data-embedded, shareable) =====
-function exportHTML(){
-  let src=document.getElementById('_src').value;
-  if(!src||src.length<500){
-    showToast('⚠️ ソースの取得に失敗しました。ページをリロードしてから再試行してください');return;
+      var labelHtml=isSnap?"<div class=\"hist-label\">📸 "+h.label+"</div>":"";
+      return "<div class=\"hist-entry\"><div class=\"hist-entry-line\"><div class=\"hist-dot"+(isSnap?" snap-dot":"")+"\"></div>"+(i<hist.length-1?"<div class=\"hist-vline\"></div>":"")+"</div><div class=\"hist-body\"><div class=\"hist-date\">"+h.date+"</div>"+labelHtml+(diffHtml||"<div style=\"font-size:11px;color:var(--tl)\">ステータス："+(SG_LBL2[h.sg]||h.sg)+" ボール："+(BL_LBL2[h.ball]||h.ball)+"</div>")+"</div></div>";
+    }).join("");
   }
-  // Replace task data between markers (includes history[])
-  const taskJS='/*TASK_DATA_START*/\nconst T='+JSON.stringify(T,null,0)+';\n/*TASK_DATA_END*/';
-  src=src.replace(/\/\*TASK_DATA_START\*\/[\s\S]*?\/\*TASK_DATA_END\*\//,taskJS);
-  // Embed SNAPSHOTS
-  src=src.replace(/let SNAPSHOTS\s*=\s*\[\];/,'let SNAPSHOTS='+JSON.stringify(SNAPSHOTS)+';');
-  // Update last-updated date
-  const ds=document.getElementById('last-upd').textContent;
-  src=src.replace(/(最終更新：<span id="last-upd">)[^<]*(<\/span>)/,'$1'+ds+'$2');
-  // Ensure proper doctype
-  const full=src.startsWith('<!DOCTYPE')?src:'<!DOCTYPE html>\n<html lang="ja">\n'+src+'</html>';
-  const blob=new Blob([full],{type:'text/html;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download='toridori_dashboard_'+new Date().toISOString().slice(0,10)+'.html';
-  a.click();URL.revokeObjectURL(url);
-  showToast('📤 データ入りHTMLを保存しました');
+  document.getElementById("hist-modal-bg").classList.add("show");
 }
+function closeHistory(){document.getElementById("hist-modal-bg").classList.remove("show");}
+
 const LB=[
   {t:"経営ダッシュボード（統合型）",st:"最終調整中",sc:"#FFF3CD",stc:"#856404",o:"No.25〜36統合。事業計画・業績モニタリング・収益予測・異常値アラート",d:"中小企業の経営管理DX支援",e:"経営会議資料の作成工数削減"},
   {t:"契約書自動レビュー",st:"完了",sc:"#D4EDDA",stc:"#1B7A3D",o:"AIによる契約書の自動チェック・リスク指摘",d:"法務部門を持つ企業全般",e:"確認工数の大幅削減、リスク見落とし防止"},
@@ -964,126 +593,207 @@ const LB=[
   {t:"IS商談ログ分析",st:"進行中",sc:"#D6EAFF",stc:"#004085",o:"電話商談→トークスクリプト改善・FAQ自動生成",d:"IS部門を持つ企業",e:"商談品質の標準化"},
   {t:"反社チェック自動化",st:"最終調整中",sc:"#FFF3CD",stc:"#856404",o:"取引先の反社チェックをAIで自動化",d:"法務・コンプラ部門を持つ企業",e:"チェック工数の削減、漏れ防止"},
 ];
-function renderLib(){document.getElementById("lg2").innerHTML=LB.map((l,i)=>`<div class="libc" style="animation:fi .3s ease ${i*.05}s both"><div class="libh"><div class="libt">${l.t}</div><div class="libs" style="background:${l.sc};color:${l.stc}">${l.st}</div></div><div class="libb"><div class="libr"><div class="libl">概要</div><div class="libv">${l.o}</div></div><div class="libr"><div class="libl">展開先</div><div class="libv">${l.d}</div></div><div class="libr"><div class="libl">効果</div><div class="libv">${l.e}</div></div></div></div>`).join("")}
-function sw(t){document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));document.querySelectorAll(".tc").forEach(x=>x.classList.remove("on"));
-  if(t==='d'){document.querySelectorAll(".tab")[0].classList.add("on");document.getElementById("td").classList.add("on")}else{document.querySelectorAll(".tab")[1].classList.add("on");document.getElementById("tl").classList.add("on")}}
-function openModal(){document.getElementById('modal').classList.add('show');document.getElementById('processing').classList.remove('show');document.getElementById('result-msg').classList.remove('show');document.getElementById('dropzone').style.display='block'}
-function closeModal(){document.getElementById('modal').classList.remove('show')}
-const dz=document.getElementById('dropzone');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');handleFile(e.dataTransfer.files[0])});
-document.getElementById('fileInput').addEventListener('change',e=>{if(e.target.files[0])handleFile(e.target.files[0])});
-function handleFile(file){document.getElementById('dropzone').style.display='none';document.getElementById('processing').classList.add('show');
-  setTimeout(()=>{document.getElementById('processing').classList.remove('show');const today=new Date();const ds=today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日';document.getElementById('last-upd').textContent=ds;const msg=document.getElementById('result-msg');msg.textContent='✅ 「'+file.name+'」を解析しました。タスク一覧と進捗を更新しました。（'+ds+'）';msg.classList.add('show');renderBar();renderFilters();render('all')},3000)}
-function an(el,tgt,dur){const s=performance.now();const tk=n=>{const p=Math.min((n-s)/dur,1);el.textContent=Math.round((1-Math.pow(1-p,3))*tgt);if(p<1)requestAnimationFrame(tk)};requestAnimationFrame(tk)}
-// ===== HISTORY RECORDING =====
-const _todayStr=()=>new Date().toLocaleDateString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit'});
-// pending snapshots map: idx -> {sg, ball, act} before edit started
-const _pendingHistory={};
-function recordHistory(idx,field,newVal){
-  const t=T[idx];
-  const oldVal=t[field];
-  if(oldVal===newVal)return;
-  // Record the pre-change state if not already captured this edit session
-  if(!_pendingHistory[idx]){
-    _pendingHistory[idx]={sg:t.sg,ball:t.ball,act:t.act,changed:{}};
-  }
-  _pendingHistory[idx].changed[field]={old:oldVal,nw:newVal};
-}
-function flushHistory(){
-  // Called when edit mode is turned off (saveData)
-  Object.keys(_pendingHistory).forEach(idx=>{
-    const i=parseInt(idx,10);
-    const ph=_pendingHistory[i];
-    if(Object.keys(ph.changed).length===0)return;
-    if(!T[i].history)T[i].history=[];
-    T[i].history.push({
-      date:_todayStr(),
-      label:'',
-      sg:ph.sg,
-      ball:ph.ball,
-      act:ph.act
-    });
-  });
-  Object.keys(_pendingHistory).forEach(k=>delete _pendingHistory[k]);
-}
 
-// ===== SNAPSHOT =====
-function openSnapModal(){
-  document.getElementById('snap-modal-bg').classList.add('show');
-  document.getElementById('snap-label-input').value='';
-  renderSnapList();
-  const sw=document.getElementById('snap-list-wrap');
-  if(sw)sw.style.display=SNAPSHOTS.length>0?'block':'none';
-  setTimeout(()=>document.getElementById('snap-label-input').focus(),100);
-}
-function closeSnapModal(){document.getElementById('snap-modal-bg').classList.remove('show');}
-function confirmSnapshot(){
-  const label=document.getElementById('snap-label-input').value.trim();
-  if(!label){showToast('⚠️ ラベルを入力してください');return;}
-  takeSnapshot(label);
-  closeSnapModal();
-}
-function takeSnapshot(label){
-  const date=_todayStr();
-  SNAPSHOTS.push({
-    date:date,
-    label:label,
-    data:T.map(t=>({id:t.pNo+'_'+t.nNo,sg:t.sg,ball:t.ball,act:t.act}))
-  });
-  T.forEach(t=>{
-    if(!t.history)t.history=[];
-    t.history.push({date:date,label:label,sg:t.sg,ball:t.ball,act:t.act});
-  });
-  saveData();
-  renderSummary();
-  render(currentFilter);
-  showToast('📸 スナップショット「'+label+'」を保存しました');
-}
-function renderSnapList(){
-  const el=document.getElementById('snap-list');
+function renderLib(){
+  var el=document.getElementById("lg2");
   if(!el)return;
-  el.innerHTML=SNAPSHOTS.map((s,i)=>`<div class="snap-item"><span class="snap-item-icon">📸</span><span class="snap-item-lbl">${s.label}</span><span class="snap-item-date">${s.date}</span></div>`).reverse().join('');
+  el.innerHTML=LB.map(function(l,i){
+    return "<div class=\"libc\" style=\"animation:fi .3s ease "+(i*0.05)+"s both\"><div class=\"libh\"><div class=\"libt\">"+l.t+"</div><div class=\"libs\" style=\"background:"+l.sc+";color:"+l.stc+"\">"+l.st+"</div></div><div class=\"libb\"><div class=\"libr\"><div class=\"libl\">概要</div><div class=\"libv\">"+l.o+"</div></div><div class=\"libr\"><div class=\"libl\">展開先</div><div class=\"libv\">"+l.d+"</div></div><div class=\"libr\"><div class=\"libl\">効果</div><div class=\"libv\">"+l.e+"</div></div></div></div>";
+  }).join("");
 }
 
-// ===== HISTORY DISPLAY =====
-const SG_LBL={resolved:'解決済',unstarted:'未着手',adjust:'最終調整中',progress:'進行中',excluded:'除外'};
-const BL_LBL={done:'完了',aiken:'AIKEN側',cl:'CL側',both:'双方'};
-function openHistory(idx){
-  const t=T[idx];
-  const hist=(t.history||[]).slice().reverse();
-  document.getElementById('hist-modal-title').textContent='変更履歴：'+t.nm;
-  const tl=document.getElementById('hist-timeline');
-  if(hist.length===0){tl.innerHTML='<div style="color:var(--tl);font-size:13px;text-align:center;padding:20px">履歴はまだありません</div>';}
-  else{
-    tl.innerHTML=hist.map((h,i)=>{
-      const isSnap=!!h.label;
-      const dotCls=isSnap?'hist-dot snap-dot':'hist-dot';
-      // Find next entry (in forward chronological order) for diff
-      const fwdIdx=hist.length-1-i;
-      const nextH=fwdIdx+1<t.history.length?t.history[fwdIdx+1]:null;
-      // Current entry shows: what changed AFTER this snapshot/point
-      let diffHtml='';
-      if(nextH){
-        const diffRows=[];
-        if(nextH.sg!==h.sg)diffRows.push(`<div class="hist-diff-row"><span class="hist-diff-key">ステータス</span><span class="hist-diff-old">${SG_LBL[h.sg]||h.sg}</span><span class="hist-diff-arr">→</span><span class="hist-diff-new">${SG_LBL[nextH.sg]||nextH.sg}</span></div>`);
-        if(nextH.ball!==h.ball)diffRows.push(`<div class="hist-diff-row"><span class="hist-diff-key">ボール</span><span class="hist-diff-old">${BL_LBL[h.ball]||h.ball}</span><span class="hist-diff-arr">→</span><span class="hist-diff-new">${BL_LBL[nextH.ball]||nextH.ball}</span></div>`);
-        if(diffRows.length)diffHtml=`<div class="hist-diff">${diffRows.join('')}</div>`;
+function renderHighlights(){
+  var sc=document.getElementById("snap-compare");
+  if(sc){
+    if(SNAPSHOTS.length===0){
+      sc.innerHTML="<div style=\"color:var(--tl);font-size:12px;font-style:italic\">スナップショットがまだありません。タスク一覧から「📸 スナップショット」を保存すると、前回との変化を自動比較できます。</div>";
+    } else {
+      var last=SNAPSHOTS[SNAPSHOTS.length-1];
+      var prevMap={};
+      last.data.forEach(function(d){prevMap[d.id]=d;});
+      var changes=[];
+      T.forEach(function(t){
+        var id=t.pNo+"_"+t.nNo;
+        var prev=prevMap[id];
+        if(prev&&(prev.sg!==t.sg||prev.ball!==t.ball)){changes.push({t:t,prev:prev});}
+      });
+      if(changes.length===0){
+        sc.innerHTML="<div style=\"background:#F8FAFC;border-radius:10px;padding:12px 16px;border:1.5px solid #E2E8F0;font-size:12px;color:var(--tm)\">前回スナップショット「"+last.label+"」("+last.date+")から変化なし</div>";
+      } else {
+        sc.innerHTML="<div style=\"background:#F8FAFC;border-radius:10px;padding:12px 16px;border:1.5px solid #E2E8F0;font-size:12px;color:var(--tm);margin-bottom:8px\">前回スナップショット「"+last.label+"」("+last.date+")から <strong>"+changes.length+"件</strong> 変化しました</div>"
+          +changes.map(function(chg){
+            var sgC=SG_COLOR[chg.t.sg]||"#94A3B8";
+            return "<div class=\"hl-task-item\"><div style=\"flex:1\"><div class=\"hl-task-name\">"+chg.t.nm+"</div><div class=\"hl-task-who\">"+(chg.t.who||"—")+"</div></div><div style=\"font-size:11px;color:var(--tl)\">"+(SG_LBL2[chg.prev.sg]||chg.prev.sg)+" → <span style=\"font-weight:800;color:"+sgC+"\">"+(SG_LABEL[chg.t.sg]||chg.t.sg)+"</span></div></div>";
+          }).join("");
       }
-      const labelHtml=isSnap?`<div class="hist-label">📸 ${h.label}</div>`:'';
-      return `<div class="hist-entry"><div class="hist-entry-line"><div class="${dotCls}"></div>${i<hist.length-1?'<div class="hist-vline"></div>':''}</div><div class="hist-body"><div class="hist-date">${h.date}</div>${labelHtml}${diffHtml||`<div style="font-size:11px;color:var(--tl)">ステータス：${SG_LBL[h.sg]||h.sg}　ボール：${BL_LBL[h.ball]||h.ball}</div>`}</div></div>`;
-    }).join('');
+    }
   }
-  document.getElementById('hist-modal-bg').classList.add('show');
+  var ca=document.getElementById("client-actions");
+  if(ca){
+    var clientTasks=T.filter(function(t){return t.ball==="client"&&t.sg!=="excluded";});
+    if(clientTasks.length===0){
+      ca.innerHTML="<div style=\"color:var(--tl);font-size:12px\">現在、クライアント確認待ちのタスクはありません。</div>";
+    } else {
+      ca.innerHTML=clientTasks.map(function(t){
+        var sgC=SG_COLOR[t.sg]||"#94A3B8";
+        return "<div class=\"hl-task-item action-urgent\"><div style=\"flex:1\"><div class=\"hl-task-name\">"+t.nm+"</div><div class=\"hl-task-who\">"+(t.who||"—")+"</div>"+(t.act?"<div style=\"font-size:11px;color:var(--tm);margin-top:4px\">"+t.act+"</div>":"")+"</div><span class=\"st-badge\" style=\"background:"+sgC+"20;color:"+sgC+";border:1.5px solid "+sgC+"40;font-size:10px\">"+(SG_LABEL[t.sg]||t.sg)+"</span></div>";
+      }).join("");
+    }
+  }
+  var dt=document.getElementById("done-tasks");
+  if(dt){
+    var doneTasks=T.filter(function(t){return t.sg==="done";});
+    if(doneTasks.length===0){
+      dt.innerHTML="<div style=\"color:var(--tl);font-size:12px\">完了タスクはまだありません。</div>";
+    } else {
+      dt.innerHTML=doneTasks.map(function(t){
+        return "<div class=\"hl-task-item action-done\"><div style=\"flex:1\"><div class=\"hl-task-name\">✅ "+t.nm+"</div><div class=\"hl-task-who\">"+(t.who||"—")+"</div></div>"+(t.deliverable?"<a href=\""+t.deliverable+"\" target=\"_blank\" class=\"dlv-link\">📎</a>":"")+"</div>";
+      }).join("");
+    }
+  }
 }
-function closeHistory(){document.getElementById('hist-modal-bg').classList.remove('show');}
-// Close modals on background click
-document.addEventListener('click',function(e){
-  if(e.target.id==='hist-modal-bg')closeHistory();
-  if(e.target.id==='snap-modal-bg')closeSnapModal();
+
+function parseMeetingText(){
+  var text=document.getElementById("mtg-text").value;
+  if(!text.trim()){showToast("⚠️ テキストを入力してください");return;}
+  var candidates=[];
+  var doneWords=["完了","終了","終わり","できた","完成","クローズ","クリア"];
+  var progressWords=["進行中","対応中","作業中","やっている","進めている"];
+  var waitingWords=["確認待ち","待ち","FB待ち","確認をお願い","フィードバック待ち"];
+  var holdWords=["保留","ホールド","後回し","一旦停止"];
+  T.forEach(function(t,i){
+    if(!t.nm||text.indexOf(t.nm)===-1)return;
+    var nmIdx=text.indexOf(t.nm);
+    var context=text.slice(Math.max(0,nmIdx-50),nmIdx+t.nm.length+100);
+    var newSg=null;
+    if(doneWords.some(function(w){return context.indexOf(w)!==-1;}))newSg="done";
+    else if(waitingWords.some(function(w){return context.indexOf(w)!==-1;}))newSg="waiting";
+    else if(progressWords.some(function(w){return context.indexOf(w)!==-1;}))newSg="progress";
+    else if(holdWords.some(function(w){return context.indexOf(w)!==-1;}))newSg="hold";
+    if(newSg&&newSg!==t.sg){candidates.push({index:i,task:t,newSg:newSg,oldSg:t.sg});}
+  });
+  var el=document.getElementById("mtg-candidates");
+  if(!el)return;
+  if(candidates.length===0){
+    el.innerHTML="<div style=\"margin-top:12px;color:var(--tl);font-size:12px\">変更候補は見つかりませんでした。</div>";
+    return;
+  }
+  el.innerHTML="<div style=\"margin-top:12px;font-size:12px;font-weight:800;color:var(--td);margin-bottom:8px\">"+candidates.length+"件の更新候補が見つかりました：</div>"
+    +candidates.map(function(c,ci){
+      var sgC=SG_COLOR[c.newSg]||"#94A3B8";
+      return "<div class=\"mtg-candidate\"><div style=\"flex:1\"><div style=\"font-size:12px;font-weight:800;color:var(--td)\">"+c.task.nm+"</div><div style=\"font-size:11px;color:var(--tl);margin-top:3px\">"+(SG_LABEL[c.oldSg]||c.oldSg)+" → <span style=\"font-weight:800;color:"+sgC+"\">"+(SG_LABEL[c.newSg]||c.newSg)+"</span></div></div><button class=\"mtg-apply-btn\" onclick=\"applyMtgChange("+c.index+",'"+c.newSg+"',"+ci+")\">適用</button></div>";
+    }).join("");
+}
+
+function applyMtgChange(taskIdx,newSg,candidateIdx){
+  T[taskIdx].sg=newSg;
+  renderDashboard();renderFilters();render(currentFilter);renderHighlights();saveData();
+  showToast("✅ 「"+T[taskIdx].nm+"」を「"+(SG_LABEL[newSg]||newSg)+"」に更新しました");
+  var el=document.getElementById("mtg-candidates");
+  if(el){
+    var items=el.querySelectorAll(".mtg-candidate");
+    if(items[candidateIdx]){items[candidateIdx].style.opacity="0.4";var btn=items[candidateIdx].querySelector(".mtg-apply-btn");if(btn){btn.textContent="✅ 適用済";btn.disabled=true;btn.style.background="#94A3B8";}}
+  }
+}
+
+function sw(t){
+  document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("on");});
+  document.querySelectorAll(".tc").forEach(function(x){x.classList.remove("on");});
+  var tabMap={d:["td",0],t:["tt",1],l:["tl",2],h:["th",3]};
+  var mapped=tabMap[t]||["td",0];
+  document.querySelectorAll(".tab")[mapped[1]].classList.add("on");
+  document.getElementById(mapped[0]).classList.add("on");
+  if(t==="h")renderHighlights();
+}
+
+function exportJSON(){
+  var data={version:3,exported:new Date().toISOString(),lastUpdate:document.getElementById("last-upd").textContent,client:ACTIVE_CLIENT,tasks:T,snapshots:SNAPSHOTS};
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="toridori_progress_"+new Date().toISOString().slice(0,10)+".json";
+  a.click();URL.revokeObjectURL(url);
+  showToast("💾 JSONファイルをダウンロードしました");
+}
+
+function exportCSV(){
+  var BOM="﻿";
+  var header=["No","Notion No","タスク名","担当者","ステータス","ボール所在","期限","次回アクション","メモ","成果物","変更履歴件数"];
+  var rows=T.map(function(t){return [t.pNo||"",t.nNo||"",'"'+(t.nm||"").replace(/"/g,'""')+'"','"'+(t.who||"").replace(/"/g,'""')+'"',(SG_LABEL[t.sg]||t.sg),(BALL_LABEL[t.ball]||t.ball),(t.deadline||""),'"'+(t.act||"").replace(/"/g,'""')+'"','"'+(t.memo||"").replace(/"/g,'""')+'"',(t.deliverable||""),(t.history||[]).length].join(",");});
+  var csv=BOM+header.join(",")+"\n"+rows.join("\n");
+  var blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="toridori_progress_"+new Date().toISOString().slice(0,10)+".csv";
+  a.click();URL.revokeObjectURL(url);
+  showToast("📊 CSVファイルをダウンロードしました");
+}
+
+function exportHTML(){
+  var src2=document.getElementById("_src").value;
+  if(!src2||src2.length<500){showToast("⚠️ ソースの取得に失敗しました");return;}
+  var taskJS="/*TASK_DATA_START*/\nconst T="+JSON.stringify(T,null,0)+";\n/*TASK_DATA_END*/";
+  src2=src2.replace(/\/\*TASK_DATA_START\*\/[\s\S]*?\/\*TASK_DATA_END\*\//,taskJS);
+  src2=src2.replace(/let SNAPSHOTS\s*=\s*\[\];/,"let SNAPSHOTS="+JSON.stringify(SNAPSHOTS)+";");
+  var ds=document.getElementById("last-upd").textContent;
+  src2=src2.replace(/(最終更新：<span id="last-upd">)[^<]*(<\/span>)/,"$1"+ds+"$2");
+  var blob=new Blob([src2],{type:"text/html;charset=utf-8"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="toridori_dashboard_"+new Date().toISOString().slice(0,10)+".html";
+  a.click();URL.revokeObjectURL(url);
+  showToast("📤 データ入りHTMLを保存しました");
+}
+
+function openModal(){document.getElementById("modal").classList.add("show");document.getElementById("processing").classList.remove("show");document.getElementById("result-msg").classList.remove("show");document.getElementById("dropzone").style.display="block";}
+function closeModal(){document.getElementById("modal").classList.remove("show");}
+var dz2=document.getElementById("dropzone");
+dz2.addEventListener("dragover",function(e){e.preventDefault();dz2.classList.add("drag");});
+dz2.addEventListener("dragleave",function(){dz2.classList.remove("drag");});
+dz2.addEventListener("drop",function(e){e.preventDefault();dz2.classList.remove("drag");handleFile(e.dataTransfer.files[0]);});
+document.getElementById("fileInput").addEventListener("change",function(e){if(e.target.files[0])handleFile(e.target.files[0]);});
+function handleFile(file){
+  document.getElementById("dropzone").style.display="none";
+  document.getElementById("processing").classList.add("show");
+  setTimeout(function(){
+    document.getElementById("processing").classList.remove("show");
+    var today=new Date();
+    var ds=today.getFullYear()+"年"+(today.getMonth()+1)+"月"+today.getDate()+"日";
+    document.getElementById("last-upd").textContent=ds;
+    var msg=document.getElementById("result-msg");
+    msg.textContent="✅ 「"+file.name+"」を読み込みました。（"+ds+"）";
+    msg.classList.add("show");
+    renderDashboard();renderFilters();render("all");
+  },2000);
+}
+
+function showToast(msg){
+  var t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(function(){t.classList.remove("show");},3000);
+}
+
+function toggleCkDetails(){
+  var el=document.getElementById("ck-details-wrap");
+  var tt2=document.getElementById("ck-toggle-txt");
+  if(!el)return;
+  var open=el.style.display==="block";
+  el.style.display=open?"none":"block";
+  if(tt2)tt2.textContent=open?"詳細を確認 ▼":"閉じる ▲";
+}
+
+document.addEventListener("click",function(e){
+  if(e.target.id==="hist-modal-bg")closeHistory();
+  if(e.target.id==="snap-modal-bg")closeSnapModal();
+  if(e.target.id==="modal")closeModal();
 });
 
-loadData();renderBar();renderFilters();render('all');renderLib();renderSummary();
-setTimeout(()=>{const c=counts();an(document.getElementById('a1'),c.resolved,800);an(document.getElementById('a5'),c.unstarted,850);an(document.getElementById('a2'),c.adjust,1e3);an(document.getElementById('a3'),c.progress,1200);an(document.getElementById('a4'),c.excluded,900)},300);
+loadData();
+renderDashboard();
+renderFilters();
+render("all");
+renderLib();
+
 </script>
 </body>
 </html>
