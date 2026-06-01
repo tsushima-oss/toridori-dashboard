@@ -271,6 +271,41 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 .whole-meta-note{font-size:8.5px;color:var(--tl);font-weight:400}
 .whole-divider{width:1px;height:48px;background:#E2E8F0;flex-shrink:0;align-self:center}
 .whole-formula{font-size:9px;color:var(--tl);font-weight:600;text-align:right;margin-top:12px;padding-top:10px;border-top:1px dashed #E2E8F0}
+/* ===== History badge ===== */
+.hist-badge{display:inline-block;padding:2px 7px;border-radius:10px;background:#94A3B8;color:#fff;font-size:9px;font-weight:700;cursor:pointer;margin-left:6px;vertical-align:middle;transition:background .15s}.hist-badge:hover{background:#64748B}
+/* ===== History modal & timeline ===== */
+.hist-timeline{display:flex;flex-direction:column;gap:0;margin-top:12px;max-height:400px;overflow-y:auto}
+.hist-entry{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #F0EDE5;position:relative}
+.hist-entry:last-child{border-bottom:none}
+.hist-entry-line{display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0}
+.hist-dot{width:10px;height:10px;border-radius:50%;background:#94A3B8;border:2px solid #fff;box-shadow:0 0 0 2px #94A3B8;flex-shrink:0;margin-top:3px}
+.hist-dot.snap-dot{background:#7B1FA2;box-shadow:0 0 0 2px #7B1FA2}
+.hist-vline{flex:1;width:2px;background:#E2E8F0;margin-top:4px}
+.hist-body{flex:1}
+.hist-date{font-size:10px;font-weight:700;color:var(--tl);margin-bottom:4px}
+.hist-label{display:inline-block;padding:2px 8px;border-radius:8px;background:#F3E8FF;color:#7B1FA2;font-size:9px;font-weight:800;margin-bottom:6px}
+.hist-diff{display:flex;flex-direction:column;gap:3px}
+.hist-diff-row{display:flex;align-items:center;gap:6px;font-size:11px}
+.hist-diff-key{font-weight:700;color:var(--slate);min-width:60px}
+.hist-diff-old{color:var(--hold);font-weight:700;text-decoration:line-through;opacity:.7}
+.hist-diff-arr{color:var(--tl);font-size:10px}
+.hist-diff-new{color:var(--done);font-weight:800}
+/* ===== Snapshot modal ===== */
+.snap-modal-body{padding:8px 0}
+.snap-input{font-family:'M PLUS Rounded 1c',sans-serif;border:2px solid #D0CCC0;border-radius:10px;padding:10px 14px;background:#FAFAF7;font-size:14px;font-weight:600;width:100%;margin:8px 0 16px;transition:border-color .2s}.snap-input:focus{outline:none;border-color:#7B1FA2;box-shadow:0 0 0 3px rgba(123,31,162,.12)}
+.snap-btn{padding:10px 24px;border-radius:20px;border:none;background:#7B1FA2;color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;transition:background .2s;width:100%}.snap-btn:hover{background:#5C147A}
+/* ===== Snapshot history list ===== */
+.snap-list{margin-top:14px;display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto}
+.snap-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#F8F6F0;border-radius:10px;border:1.5px solid #E2E8F0}
+.snap-item-icon{font-size:16px}
+.snap-item-lbl{font-size:12px;font-weight:800;color:var(--td);flex:1}
+.snap-item-date{font-size:10px;color:var(--tl);font-weight:600}
+/* ===== Delta indicators ===== */
+.stat-delta{display:inline-block;font-size:11px;font-weight:800;margin-left:6px;vertical-align:middle}
+.delta-pos{color:#10B981}.delta-neg{color:#F43F5E}.delta-zero{color:var(--tl)}
+/* ===== Snapshot tool button ===== */
+.tool-btn-snap{border-color:#7B1FA2;background:#F3E8FF;color:#7B1FA2}
+.tool-btn-snap:hover{background:#7B1FA2;color:#fff;border-color:#7B1FA2}
 </style>
 </head>
 <body>
@@ -440,7 +475,7 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 <span id="exn-resolved-sub" style="display:none"></span>
 <span id="a4" style="display:none"></span>
 <div class="cd" style="padding-bottom:16px">
-  <div class="st" style="justify-content:space-between"><div style="display:flex;align-items:center;gap:8px"><div class="ic" style="background:var(--grn)">☰</div>タスク一覧</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="tool-btn tool-btn-primary" onclick="exportHTML()" title="データ入りHTMLを保存。共有してもデータが消えません">📤 HTML共有用保存</button><button class="tool-btn" onclick="exportJSON()" title="データをJSONファイルで保存">💾 JSON保存</button><input type="file" id="importInput" accept=".json" style="display:none" onchange="importJSON(event)"><button class="tool-btn" onclick="exportCSV()" title="CSV形式でダウンロード（Excel対応）">📊 CSV出力</button><button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ 編集する</button></div></div>
+  <div class="st" style="justify-content:space-between"><div style="display:flex;align-items:center;gap:8px"><div class="ic" style="background:var(--grn)">☰</div>タスク一覧</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="tool-btn tool-btn-primary" onclick="exportHTML()" title="データ入りHTMLを保存。共有してもデータが消えません">📤 HTML共有用保存</button><button class="tool-btn" onclick="exportJSON()" title="データをJSONファイルで保存">💾 JSON保存</button><input type="file" id="importInput" accept=".json" style="display:none" onchange="importJSON(event)"><button class="tool-btn" onclick="exportCSV()" title="CSV形式でダウンロード（Excel対応）">📊 CSV出力</button><button class="tool-btn tool-btn-snap" onclick="openSnapModal()" title="全タスクの現状をスナップショット保存">📸 スナップショット</button><button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ 編集する</button></div></div>
   <div class="tc2" id="filters"></div>
   <div class="tbl-wrap">
     <table class="tt"><thead><tr>
@@ -457,6 +492,30 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 <div class="libg" id="lg2"></div>
 </div>
 <div class="toast" id="toast"></div>
+</div>
+<!-- ===== Snapshot modal ===== -->
+<div class="modal-bg" id="snap-modal-bg">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-close" onclick="closeSnapModal()">✕</div>
+    <h2>📸 スナップショット</h2>
+    <p>定例名などのラベルを入力して、全タスクの現状を保存します。</p>
+    <div class="snap-modal-body">
+      <input class="snap-input" id="snap-label-input" type="text" placeholder="例：第36回定例" maxlength="40">
+      <button class="snap-btn" onclick="confirmSnapshot()">📸 保存する</button>
+    </div>
+    <div id="snap-list-wrap" style="display:none">
+      <div style="font-size:11px;font-weight:800;color:var(--slate);margin-top:16px;margin-bottom:4px">保存済みスナップショット</div>
+      <div class="snap-list" id="snap-list"></div>
+    </div>
+  </div>
+</div>
+<!-- ===== History modal ===== -->
+<div class="modal-bg" id="hist-modal-bg">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-close" onclick="closeHistory()">✕</div>
+    <h2 id="hist-modal-title">変更履歴</h2>
+    <div id="hist-timeline" class="hist-timeline"></div>
+  </div>
 </div>
 <div class="modal-bg" id="modal">
   <div class="modal">
@@ -491,98 +550,114 @@ body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(
 /*TASK_DATA_START*/
 const T=[
 // ===== 解決済 - 完了 (5) =====
-{pNo:"",nNo:"4",nm:"契約書自動レビュー（確認・作成含む）",tm:"トリドリ",who:"青木くみこ, 矢野さん",prod:["all"],sg:"resolved",ball:"done",act:"完了済み"},
-{pNo:"",nNo:"7",nm:"日程調整自動化（複数人/会議室対応）",tm:"トリドリ",who:"杉本, 青木ゆうとさん",prod:["all"],sg:"resolved",ball:"done",act:"完了済み"},
-{pNo:"",nNo:"追加課題2",nm:"既存Gems（プロンプト）の確認・最適化",tm:"トリドリ",who:"小森",prod:["all"],sg:"resolved",ball:"done",act:"金澤さんにて修正版プロンプトテスト中→リマインド中"},
-{pNo:"",nNo:"―",nm:"討論AIツール",tm:"ネット",who:"中川",prod:["all"],sg:"resolved",ball:"done",act:"coWorkでの活用に変更"},
-{pNo:"",nNo:"―",nm:"Instagram DM支援機能",tm:"ネット",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"DM文面生成・コピー・送信管理まで完了。自動送信/API連携はBANリスク・仕様不安定により対象外／停止"},
+{pNo:"",nNo:"4",nm:"契約書自動レビュー（確認・作成含む）",tm:"トリドリ",who:"青木くみこ, 矢野さん",prod:["all"],sg:"resolved",ball:"done",act:"完了済み",history:[]},
+{pNo:"",nNo:"7",nm:"日程調整自動化（複数人/会議室対応）",tm:"トリドリ",who:"杉本, 青木ゆうとさん",prod:["all"],sg:"resolved",ball:"done",act:"完了済み",history:[]},
+{pNo:"",nNo:"追加課題2",nm:"既存Gems（プロンプト）の確認・最適化",tm:"トリドリ",who:"小森",prod:["all"],sg:"resolved",ball:"done",act:"金澤さんにて修正版プロンプトテスト中→リマインド中",history:[]},
+{pNo:"",nNo:"―",nm:"討論AIツール",tm:"ネット",who:"中川",prod:["all"],sg:"resolved",ball:"done",act:"coWorkでの活用に変更",history:[]},
+{pNo:"",nNo:"―",nm:"Instagram DM支援機能",tm:"ネット",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"DM文面生成・コピー・送信管理まで完了。自動送信/API連携はBANリスク・仕様不安定により対象外／停止",history:[]},
 // ===== 最終調整中 (20) =====
-{pNo:1,nNo:"25",nm:"事業計画スプレッドシート自動作成",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"井上氏が統合ビューを確認できる環境の整備を完了。現在は井上氏の確認待ち。6月頭に5月期データの自動更新が正常動作することを確認できればクローズ"},
-{pNo:2,nNo:"26",nm:"各事業数値・指標の集計自動化",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:3,nNo:"27",nm:"業績モニタリング（データ集計自動化）",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:4,nNo:"28",nm:"市場環境を考慮した業績予測",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:5,nNo:"29",nm:"niks事業：案件進捗ベース収益予測",tm:"dashboard",who:"青木（悠）",prod:["nix"],sg:"adjust",ball:"cl",act:"No.21にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:6,nNo:"30",nm:"made事業：リリーススケジュール予測",tm:"dashboard",who:"青木（悠）",prod:["made"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:7,nNo:"31",nm:"blends事業：LTVベース予測モデル",tm:"dashboard",who:"青木（悠）",prod:["blends"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:8,nNo:"32",nm:"OF事業：与件・実績の収益予測",tm:"dashboard",who:"青木（悠）",prod:["of"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:9,nNo:"33",nm:"基準値比較の自動ウォッチ機能",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"異常値アラートにバンドル。嶋田の権限付与・確認待ち"},
-{pNo:10,nNo:"34",nm:"販管費の実績ベース予測",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:11,nNo:"35",nm:"販管費の異常値アラート",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:12,nNo:"36",nm:"個人目標数値の自動化",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:13,nNo:"21",nm:"niksイレギュラー事象の自動集計",tm:"dashboard",who:"青木（悠）",prod:["nix"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち"},
-{pNo:14,nNo:"6",nm:"バックオフィスBot（経理・労務・採用・法務）",tm:"トリドリ",who:"川上, 杉本",prod:["all"],sg:"adjust",ball:"aiken",act:"月末にRAGデータ更新を継続。バージョン管理しながら信頼度向上"},
-{pNo:15,nNo:"8",nm:"社内申請自動化（勤怠/経費等）",tm:"トリドリ",who:"杉本",prod:["all"],sg:"adjust",ball:"aiken",act:"バックオフィスBot運用から継続改善中"},
-{pNo:16,nNo:"追加課題1",nm:"反社チェック自動化",tm:"トリドリ",who:"杉本",prod:["all"],sg:"adjust",ball:"cl",act:"最新バージョン（Ver. 2.1）にアップデート完了。マニュアルの作成も完了。法務（濱島氏）へ展開のうえ、ライブラリへの格納を進める"},
-{pNo:17,nNo:"51",nm:"BDR用リスト自動生成（営業リード獲得ツールと関連）",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"both",act:"嶋田・林・伊藤で検証中。優先度確定済み（広告代理店リスト＞ふるさと納税中間事業者＞Google Map＞アソビュー…）。スクレイプ先6サイト実装済み。Amazon・食べログはスクレイピング禁止のため優先度下げ"},
-{pNo:18,nNo:"new1",nm:"営業リード獲得ツール",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"aiken",act:"BDRリストと連動。プロト→中川へ引き継ぎ予定"},
-{pNo:19,nNo:"new2",nm:"IT監査対応",tm:"プロダクト",who:"西野さん",prod:["dev"],sg:"adjust",ball:"cl",act:"北野さん（カズマックス）がCloudflare環境をInvite形式で準備中（数日見込み）。IT監査_必要インフラ.pdfを共有済み。環境準備完了後デプロイ→FB→改修サイクルへ"},
-{pNo:50,nNo:"new_call_analysis",nm:"架電データ分析",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"aiken",act:"企業別深掘り分析機能を追加済み。桜井さんFB済み：方向性相違なし。アウトプットに顧客毎の課題アップセル余地列を追加しCSVでDLできる状態にする"},
+{pNo:1,nNo:"25",nm:"事業計画スプレッドシート自動作成",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"井上氏が統合ビューを確認できる環境の整備を完了。現在は井上氏の確認待ち。6月頭に5月期データの自動更新が正常動作することを確認できればクローズ",history:[]},
+{pNo:2,nNo:"26",nm:"各事業数値・指標の集計自動化",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:3,nNo:"27",nm:"業績モニタリング（データ集計自動化）",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:4,nNo:"28",nm:"市場環境を考慮した業績予測",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:5,nNo:"29",nm:"niks事業：案件進捗ベース収益予測",tm:"dashboard",who:"青木（悠）",prod:["nix"],sg:"adjust",ball:"cl",act:"No.21にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:6,nNo:"30",nm:"made事業：リリーススケジュール予測",tm:"dashboard",who:"青木（悠）",prod:["made"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:7,nNo:"31",nm:"blends事業：LTVベース予測モデル",tm:"dashboard",who:"青木（悠）",prod:["blends"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:8,nNo:"32",nm:"OF事業：与件・実績の収益予測",tm:"dashboard",who:"青木（悠）",prod:["of"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:9,nNo:"33",nm:"基準値比較の自動ウォッチ機能",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"異常値アラートにバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:10,nNo:"34",nm:"販管費の実績ベース予測",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:11,nNo:"35",nm:"販管費の異常値アラート",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:12,nNo:"36",nm:"個人目標数値の自動化",tm:"dashboard",who:"青木（悠）",prod:["all"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:13,nNo:"21",nm:"niksイレギュラー事象の自動集計",tm:"dashboard",who:"青木（悠）",prod:["nix"],sg:"adjust",ball:"cl",act:"No.25にバンドル。嶋田の権限付与・確認待ち",history:[]},
+{pNo:14,nNo:"6",nm:"バックオフィスBot（経理・労務・採用・法務）",tm:"トリドリ",who:"川上, 杉本",prod:["all"],sg:"adjust",ball:"aiken",act:"月末にRAGデータ更新を継続。バージョン管理しながら信頼度向上",history:[]},
+{pNo:15,nNo:"8",nm:"社内申請自動化（勤怠/経費等）",tm:"トリドリ",who:"杉本",prod:["all"],sg:"adjust",ball:"aiken",act:"バックオフィスBot運用から継続改善中",history:[]},
+{pNo:16,nNo:"追加課題1",nm:"反社チェック自動化",tm:"トリドリ",who:"杉本",prod:["all"],sg:"adjust",ball:"cl",act:"最新バージョン（Ver. 2.1）にアップデート完了。マニュアルの作成も完了。法務（濱島氏）へ展開のうえ、ライブラリへの格納を進める",history:[]},
+{pNo:17,nNo:"51",nm:"BDR用リスト自動生成（営業リード獲得ツールと関連）",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"both",act:"嶋田・林・伊藤で検証中。優先度確定済み（広告代理店リスト＞ふるさと納税中間事業者＞Google Map＞アソビュー…）。スクレイプ先6サイト実装済み。Amazon・食べログはスクレイピング禁止のため優先度下げ",history:[]},
+{pNo:18,nNo:"new1",nm:"営業リード獲得ツール",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"aiken",act:"BDRリストと連動。プロト→中川へ引き継ぎ予定",history:[]},
+{pNo:19,nNo:"new2",nm:"IT監査対応",tm:"プロダクト",who:"西野さん",prod:["dev"],sg:"adjust",ball:"cl",act:"北野さん（カズマックス）がCloudflare環境をInvite形式で準備中（数日見込み）。IT監査_必要インフラ.pdfを共有済み。環境準備完了後デプロイ→FB→改修サイクルへ",history:[]},
+{pNo:50,nNo:"new_call_analysis",nm:"架電データ分析",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"adjust",ball:"aiken",act:"企業別深掘り分析機能を追加済み。桜井さんFB済み：方向性相違なし。アウトプットに顧客毎の課題アップセル余地列を追加しCSVでDLできる状態にする",history:[]},
 // ===== 進行中 (30) =====
-{pNo:20,nNo:"38",nm:"OFエンプラ向け：投稿履歴＆分析管理画面",tm:"トリドリ",who:"井内, 渡部さん",prod:["of"],sg:"progress",ball:"aiken",act:"井内が①②インサイト/市場分析改善（5月末完成目標）、③タレント提案書自動化開発着手（6月末完成目標）。CSV出力機能を渡部さんが実装済み。月曜五十嵐さん説明MTG設定済み"},
-{pNo:21,nNo:"39",nm:"分析結果に基づく提案戦略の自動生成",tm:"トリドリ",who:"―",prod:["of"],sg:"progress",ball:"aiken",act:"No.38にバンドル。タレント提案書自動化として6月末完成目標"},
-{pNo:22,nNo:"new",nm:"SNS上の自社他社分析（No.38関連）",tm:"トリドリ",who:"西野さん, 杉本",prod:["mkt"],sg:"progress",ball:"cl",act:"5/15 西野さんに作成頂いた提案書の三宮さんFB待ち。MTG設定を検討。杉本さんとSlackでやり取り開始済み。形になるまで西野が担当→中川に引き継ぎ"},
-{pNo:23,nNo:"追加課題7",nm:"AI営業補助ツール",tm:"トリドリ",who:"青木（悠）",prod:["all"],sg:"progress",ball:"aiken",act:"リリース完了、ダウンロードリンク発行済み。来週頭から林氏が実際の環境で使用できるよう、オンラインで環境構築のサポート（10分程度）を実施"},
-{pNo:24,nNo:"20260501_new2",nm:"カスタマーサクセス振り返りデータ・資料自動化",tm:"トリドリ",who:"青木（悠）",prod:["all"],sg:"progress",ball:"aiken",act:"AI営業補助ツールにバンドル。Slackやりとり継続中"},
-{pNo:25,nNo:"10",nm:"業界トレンド自動キャッチアップBot",tm:"トリドリ",who:"杉本",prod:["givin","of"],sg:"progress",ball:"cl",act:"GIVIN（金子氏）側は来週のMTGでFBを回収。オーバーフロー（五十嵐氏）側は回収した意見を反映し、今週テスト運用中"},
-{pNo:26,nNo:"5",nm:"広告ガイドラインの自動チェックツール",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"5月上旬に4月分データ400件でテスト実施済み。5月末に結果判明予定"},
-{pNo:27,nNo:"3",nm:"薬機法チェック（インフルエンサー投稿）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"No.5に統合。テスト継続中"},
-{pNo:28,nNo:"2",nm:"景表法チェック（インフルエンサー投稿）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"No.5に統合。テスト継続中"},
-{pNo:29,nNo:"1",nm:"薬機法・景表法チェック（広告主商材）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"広告主商材URLデータ受領済、検証継続中"},
-{pNo:30,nNo:"20260501_new1",nm:"人事領域見直し",tm:"トリドリ",who:"青木, 川上, 杉本, 小森",prod:["all"],sg:"progress",ball:"aiken",act:"オンボーディングから着手。来週杉本がヒアリング実施。別会議で進め、定例では進捗のみ報告。AI面接は小森さんが調査中"},
-{pNo:31,nNo:"new1",nm:"【GIVIN】①モールデータ統合",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"中川が管理画面で必要な本人確認書類を再確認→嶋田にメンション。Amazon以外の2API分を反映したダッシュボードを先に見せてアプローチ"},
-{pNo:32,nNo:"new2",nm:"【GIVIN】②統合ダッシュボード",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"URLで共有済み。西田さんから構想通りでOK。Amazonデータ接続完了で完成予定"},
-{pNo:33,nNo:"new3",nm:"【GIVIN】③成果分析",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち"},
-{pNo:34,nNo:"new4",nm:"【GIVIN】④限界CPA入札制御/管理会計PL",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち"},
-{pNo:35,nNo:"new7",nm:"【GIVIN】⑦自社EC LTV観測",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち"},
-{pNo:36,nNo:"new8",nm:"【GIVIN】⑧モールLTV観測",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち"},
-{pNo:37,nNo:"new9",nm:"【GIVIN】⑨顧客統合ID",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち"},
-{pNo:38,nNo:"new10",nm:"【GIVIN】⑩X-TACoS",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち"},
-{pNo:39,nNo:"追加課題8",nm:"【IS】電話商談ログ分析・フロー改善",tm:"ネット",who:"中川",prod:["is"],sg:"progress",ball:"aiken",act:"トークスクリプト、FAQ初稿、差し戻し分析を連携済み。前確チェックリストを新規作成。詳細の住み分けについて井上氏との個別MTGを設定"},
-{pNo:40,nNo:"new11",nm:"【OverFlow】営業管理ツール（予実管理）",tm:"ネット",who:"西野さん, 中川",prod:["of"],sg:"progress",ball:"aiken",act:"五十嵐氏とのヒアリング、LINE連携テスト、ChatworkのWebhook動作確認を進行中。確認後に五十嵐氏・町田氏へ展開し、案件角度分析の実現を目指す。まずはバランローズ案件でテスト運用"},
-{pNo:51,nNo:"new_creative",nm:"クリエイティブ分析",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"広告マネージャー担当者とMTGを設定し、クリエイティブデータ（コピー文言・バナーURL等）の取得方法を確認"},
-{pNo:52,nNo:"new_bdrcall",nm:"BDR AI架電",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"嶋田さんが伊藤さんへ再リマインド"},
-{pNo:53,nNo:"new_form",nm:"フォーム営業",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"提案：自前フォーム送信システム＋履歴管理DB"},
-{pNo:54,nNo:"new_wp",nm:"ホワイトペーパー作成",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス"},
-{pNo:55,nNo:"new_seo",nm:"SEO記事作成",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス"},
-{pNo:56,nNo:"new_jirei",nm:"事例打診自動化",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"提案：トリガーベースの自動メールシステム"},
-{pNo:58,nNo:"new_givin_mkt",nm:"新規GIVINマーケティングデータ集約",tm:"ネット",who:"中川, 杉本",prod:["givin"],sg:"progress",ball:"aiken",act:"金子新氏が出張中のため、5月25日(月)に改めてヒアリングMTGを設定"},
-{pNo:59,nNo:"new_claim",nm:"クレーム・要望・問い合わせ集計の自動化",tm:"トリドリ",who:"西野さん, 中川",prod:["all"],sg:"progress",ball:"aiken",act:"5/27 新潟サポートチーム（阿部氏）を交えたクレーム集計自動化の要件定義MTG"},
+{pNo:20,nNo:"38",nm:"OFエンプラ向け：投稿履歴＆分析管理画面",tm:"トリドリ",who:"井内, 渡部さん",prod:["of"],sg:"progress",ball:"aiken",act:"井内が①②インサイト/市場分析改善（5月末完成目標）、③タレント提案書自動化開発着手（6月末完成目標）。CSV出力機能を渡部さんが実装済み。月曜五十嵐さん説明MTG設定済み",history:[]},
+{pNo:21,nNo:"39",nm:"分析結果に基づく提案戦略の自動生成",tm:"トリドリ",who:"―",prod:["of"],sg:"progress",ball:"aiken",act:"No.38にバンドル。タレント提案書自動化として6月末完成目標",history:[]},
+{pNo:22,nNo:"new",nm:"SNS上の自社他社分析（No.38関連）",tm:"トリドリ",who:"西野さん, 杉本",prod:["mkt"],sg:"progress",ball:"cl",act:"5/15 西野さんに作成頂いた提案書の三宮さんFB待ち。MTG設定を検討。杉本さんとSlackでやり取り開始済み。形になるまで西野が担当→中川に引き継ぎ",history:[]},
+{pNo:23,nNo:"追加課題7",nm:"AI営業補助ツール",tm:"トリドリ",who:"青木（悠）",prod:["all"],sg:"progress",ball:"aiken",act:"リリース完了、ダウンロードリンク発行済み。来週頭から林氏が実際の環境で使用できるよう、オンラインで環境構築のサポート（10分程度）を実施",history:[]},
+{pNo:24,nNo:"20260501_new2",nm:"カスタマーサクセス振り返りデータ・資料自動化",tm:"トリドリ",who:"青木（悠）",prod:["all"],sg:"progress",ball:"aiken",act:"AI営業補助ツールにバンドル。Slackやりとり継続中",history:[]},
+{pNo:25,nNo:"10",nm:"業界トレンド自動キャッチアップBot",tm:"トリドリ",who:"杉本",prod:["givin","of"],sg:"progress",ball:"cl",act:"GIVIN（金子氏）側は来週のMTGでFBを回収。オーバーフロー（五十嵐氏）側は回収した意見を反映し、今週テスト運用中",history:[]},
+{pNo:26,nNo:"5",nm:"広告ガイドラインの自動チェックツール",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"5月上旬に4月分データ400件でテスト実施済み。5月末に結果判明予定",history:[]},
+{pNo:27,nNo:"3",nm:"薬機法チェック（インフルエンサー投稿）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"No.5に統合。テスト継続中",history:[]},
+{pNo:28,nNo:"2",nm:"景表法チェック（インフルエンサー投稿）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"No.5に統合。テスト継続中",history:[]},
+{pNo:29,nNo:"1",nm:"薬機法・景表法チェック（広告主商材）",tm:"トリドリ",who:"杉本",prod:["mkt"],sg:"progress",ball:"aiken",act:"広告主商材URLデータ受領済、検証継続中",history:[]},
+{pNo:30,nNo:"20260501_new1",nm:"人事領域見直し",tm:"トリドリ",who:"青木, 川上, 杉本, 小森",prod:["all"],sg:"progress",ball:"aiken",act:"オンボーディングから着手。来週杉本がヒアリング実施。別会議で進め、定例では進捗のみ報告。AI面接は小森さんが調査中",history:[]},
+{pNo:31,nNo:"new1",nm:"【GIVIN】①モールデータ統合",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"中川が管理画面で必要な本人確認書類を再確認→嶋田にメンション。Amazon以外の2API分を反映したダッシュボードを先に見せてアプローチ",history:[]},
+{pNo:32,nNo:"new2",nm:"【GIVIN】②統合ダッシュボード",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"URLで共有済み。西田さんから構想通りでOK。Amazonデータ接続完了で完成予定",history:[]},
+{pNo:33,nNo:"new3",nm:"【GIVIN】③成果分析",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
+{pNo:34,nNo:"new4",nm:"【GIVIN】④限界CPA入札制御/管理会計PL",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
+{pNo:35,nNo:"new7",nm:"【GIVIN】⑦自社EC LTV観測",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
+{pNo:36,nNo:"new8",nm:"【GIVIN】⑧モールLTV観測",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
+{pNo:37,nNo:"new9",nm:"【GIVIN】⑨顧客統合ID",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
+{pNo:38,nNo:"new10",nm:"【GIVIN】⑩X-TACoS",tm:"ネット",who:"中川",prod:["givin"],sg:"progress",ball:"cl",act:"①モールデータ統合の完了待ち",history:[]},
+{pNo:39,nNo:"追加課題8",nm:"【IS】電話商談ログ分析・フロー改善",tm:"ネット",who:"中川",prod:["is"],sg:"progress",ball:"aiken",act:"トークスクリプト、FAQ初稿、差し戻し分析を連携済み。前確チェックリストを新規作成。詳細の住み分けについて井上氏との個別MTGを設定",history:[]},
+{pNo:40,nNo:"new11",nm:"【OverFlow】営業管理ツール（予実管理）",tm:"ネット",who:"西野さん, 中川",prod:["of"],sg:"progress",ball:"aiken",act:"五十嵐氏とのヒアリング、LINE連携テスト、ChatworkのWebhook動作確認を進行中。確認後に五十嵐氏・町田氏へ展開し、案件角度分析の実現を目指す。まずはバランローズ案件でテスト運用",history:[]},
+{pNo:51,nNo:"new_creative",nm:"クリエイティブ分析",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"広告マネージャー担当者とMTGを設定し、クリエイティブデータ（コピー文言・バナーURL等）の取得方法を確認",history:[]},
+{pNo:52,nNo:"new_bdrcall",nm:"BDR AI架電",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"嶋田さんが伊藤さんへ再リマインド",history:[]},
+{pNo:53,nNo:"new_form",nm:"フォーム営業",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"提案：自前フォーム送信システム＋履歴管理DB",history:[]},
+{pNo:54,nNo:"new_wp",nm:"ホワイトペーパー作成",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス",history:[]},
+{pNo:55,nNo:"new_seo",nm:"SEO記事作成",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"cl",act:"ホワイトペーパー・SEO記事は制作が完了し、現在確認待ちのステータス",history:[]},
+{pNo:56,nNo:"new_jirei",nm:"事例打診自動化",tm:"プロダクト",who:"西野さん",prod:["vooster"],sg:"progress",ball:"aiken",act:"提案：トリガーベースの自動メールシステム",history:[]},
+{pNo:58,nNo:"new_givin_mkt",nm:"新規GIVINマーケティングデータ集約",tm:"ネット",who:"中川, 杉本",prod:["givin"],sg:"progress",ball:"aiken",act:"金子新氏が出張中のため、5月25日(月)に改めてヒアリングMTGを設定",history:[]},
+{pNo:59,nNo:"new_claim",nm:"クレーム・要望・問い合わせ集計の自動化",tm:"トリドリ",who:"西野さん, 中川",prod:["all"],sg:"progress",ball:"aiken",act:"5/27 新潟サポートチーム（阿部氏）を交えたクレーム集計自動化の要件定義MTG",history:[]},
 // ===== 除外 - toridori都合 (9) =====
-{pNo:41,nNo:"42",nm:"インフルエンサーリストアップ自動化",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix","base"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
-{pNo:42,nNo:"41",nm:"オリエン資料の自動作成",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
-{pNo:43,nNo:"37",nm:"提案資料の自動アップデート",tm:"プロダクト",who:"杉本, 青木さん, 航さん",prod:["nix","of"],sg:"excluded",ball:"cl",act:"No.38/39にバンドル、または判断待ち"},
-{pNo:44,nNo:"24",nm:"FAQ自動更新（履歴ベース）",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
-{pNo:45,nNo:"22",nm:"キャンペーン審査業務の自動化",tm:"プロダクト",who:"西野さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
-{pNo:46,nNo:"12",nm:"Slack情報の自動収集（スタック監視）",tm:"プロダクト",who:"西野さん",prod:["all"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
-{pNo:47,nNo:"追加課題4",nm:"問い合わせ対応ドラフト生成（高度パーソナライズ）",tm:"プロダクト",who:"―",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
-{pNo:48,nNo:"追加課題5",nm:"Zohoを基軸としたデータ一気通貫ダッシュボード",tm:"トリドリ",who:"小森",prod:["all"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
-{pNo:49,nNo:"追加課題6",nm:"QAスコアリングの自動化・対応品質の均一化",tm:"トリドリ",who:"小森",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち"},
+{pNo:41,nNo:"42",nm:"インフルエンサーリストアップ自動化",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix","base"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
+{pNo:42,nNo:"41",nm:"オリエン資料の自動作成",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
+{pNo:43,nNo:"37",nm:"提案資料の自動アップデート",tm:"プロダクト",who:"杉本, 青木さん, 航さん",prod:["nix","of"],sg:"excluded",ball:"cl",act:"No.38/39にバンドル、または判断待ち",history:[]},
+{pNo:44,nNo:"24",nm:"FAQ自動更新（履歴ベース）",tm:"プロダクト",who:"西野さん, 航さん, 青木さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
+{pNo:45,nNo:"22",nm:"キャンペーン審査業務の自動化",tm:"プロダクト",who:"西野さん",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
+{pNo:46,nNo:"12",nm:"Slack情報の自動収集（スタック監視）",tm:"プロダクト",who:"西野さん",prod:["all"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
+{pNo:47,nNo:"追加課題4",nm:"問い合わせ対応ドラフト生成（高度パーソナライズ）",tm:"プロダクト",who:"―",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
+{pNo:48,nNo:"追加課題5",nm:"Zohoを基軸としたデータ一気通貫ダッシュボード",tm:"トリドリ",who:"小森",prod:["all"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
+{pNo:49,nNo:"追加課題6",nm:"QAスコアリングの自動化・対応品質の均一化",tm:"トリドリ",who:"小森",prod:["nix"],sg:"excluded",ball:"cl",act:"プロダクト案件のため判断待ち",history:[]},
 // --- 解決済 - 初期非対応 14件（② キックオフ時点でスコープ外） ---
-{pNo:60,nNo:"50",nm:"フィールドセールス動画の自動作成",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:61,nNo:"46",nm:"インフルエンサー100人分の提案生成AI",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:62,nNo:"44",nm:"SNS経由の自動リクルーティング（フリーランス/正社員）",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:63,nNo:"9",nm:"Googleドライブ過去情報の検索強化",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"geminiに対して@googleドライブで解決"},
-{pNo:64,nNo:"14",nm:"面接ヒアリング項目の自動生成",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:65,nNo:"16",nm:"Slack行動解析による評価支援",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"No.12にバンドルで設計。12だけ見ればOK"},
-{pNo:66,nNo:"17",nm:"メンバー評価・エンゲージメント分析",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:67,nNo:"18",nm:"書類審査の自動化",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"All-in-one AI Workspaceで対応済み（採用活動を自動操駆）。既にやっているので完了扱い"},
-{pNo:68,nNo:"19",nm:"退職候補/成長候補のスコアリング",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"No.12にバンドルで設計。12だけ見ればOK"},
-{pNo:69,nNo:"20",nm:"広告クリエイティブの自動生成",tm:"トリドリ",who:"―",prod:["mkt"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:70,nNo:"23",nm:"問い合わせ対応自動化（嶋田さん確認中）",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:71,nNo:"43",nm:"クライアントリサーチ（競合・現状分析）自動化",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
-{pNo:72,nNo:"15",nm:"一次面接の自動化",tm:"トリドリ",who:"小森",prod:["all"],sg:"resolved",ball:"done",act:"井上さんが採用計画を確認の上、意思決定"},
-{pNo:73,nNo:"11",nm:"部門別専用Bot作成",tm:"トリドリ",who:"小森, 杉本",prod:["all"],sg:"resolved",ball:"done",act:"本タスクはクローズ→新タスクのNotion追加を実施"},
+{pNo:60,nNo:"50",nm:"フィールドセールス動画の自動作成",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:61,nNo:"46",nm:"インフルエンサー100人分の提案生成AI",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:62,nNo:"44",nm:"SNS経由の自動リクルーティング（フリーランス/正社員）",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:63,nNo:"9",nm:"Googleドライブ過去情報の検索強化",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"geminiに対して@googleドライブで解決",history:[]},
+{pNo:64,nNo:"14",nm:"面接ヒアリング項目の自動生成",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:65,nNo:"16",nm:"Slack行動解析による評価支援",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"No.12にバンドルで設計。12だけ見ればOK",history:[]},
+{pNo:66,nNo:"17",nm:"メンバー評価・エンゲージメント分析",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:67,nNo:"18",nm:"書類審査の自動化",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"All-in-one AI Workspaceで対応済み（採用活動を自動操駆）。既にやっているので完了扱い",history:[]},
+{pNo:68,nNo:"19",nm:"退職候補/成長候補のスコアリング",tm:"トリドリ",who:"―",prod:["all"],sg:"resolved",ball:"done",act:"No.12にバンドルで設計。12だけ見ればOK",history:[]},
+{pNo:69,nNo:"20",nm:"広告クリエイティブの自動生成",tm:"トリドリ",who:"―",prod:["mkt"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:70,nNo:"23",nm:"問い合わせ対応自動化（嶋田さん確認中）",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:71,nNo:"43",nm:"クライアントリサーチ（競合・現状分析）自動化",tm:"プロダクト",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
+{pNo:72,nNo:"15",nm:"一次面接の自動化",tm:"トリドリ",who:"小森",prod:["all"],sg:"resolved",ball:"done",act:"井上さんが採用計画を確認の上、意思決定",history:[]},
+{pNo:73,nNo:"11",nm:"部門別専用Bot作成",tm:"トリドリ",who:"小森, 杉本",prod:["all"],sg:"resolved",ball:"done",act:"本タスクはクローズ→新タスクのNotion追加を実施",history:[]},
 // ===== 新規追加タスク =====
-{pNo:74,nNo:"new_transcription",nm:"文字起こし精度向上",tm:"トリドリ",who:"青木",prod:["all"],sg:"progress",ball:"aiken",act:"辞書登録と発話ルール化を組み合わせた文字起こし精度向上アルゴリズムの検討"},
-{pNo:75,nNo:"49",nm:"サービス/商品のスコアリングAI",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"progress",ball:"aiken",act:"井上さんの承認がおり次第ヒアリングをして要件を固める。担当者の割り振りを検討"},
-{pNo:76,nNo:"45",nm:"インフルエンサー自動リクルーティングツール",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"progress",ball:"aiken",act:"制作・分析中"},
-{pNo:77,nNo:"47",nm:"クロージングスクリプト自動作成（WEB経由）",tm:"ネット",who:"中川",prod:["nix"],sg:"adjust",ball:"cl",act:"確認待ち（toridori）"},
-{pNo:78,nNo:"48",nm:"インサイドセールスのトークスクリプトAI（47とバンドル）",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"excluded",ball:"cl",act:"保留（井上さんの承認がおり次第着手）。No.47とバンドル"},
-{pNo:79,nNo:"13",nm:"プロダクトBot（マニュアル学習＆質問回答）",tm:"トリドリ",who:"杉本, 青木くみこ, 川上",prod:["all"],sg:"excluded",ball:"cl",act:"保留（開発仕様を含めるか検討しつつ優先度は落とす）"},
-{pNo:80,nNo:"追加課題3",nm:"営業リマインドツール",tm:"トリドリ",who:"小森",prod:["all"],sg:"excluded",ball:"cl",act:"保留（北出さん案件のため、井上さん・嶋田さん・北出さん・国本さんの話し合いの後に可否判断）"},
-{pNo:81,nNo:"40",nm:"インフルエンサーPR投稿構成案＋分析自動生成",tm:"ネット",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）"},
+{pNo:74,nNo:"new_transcription",nm:"文字起こし精度向上",tm:"トリドリ",who:"青木",prod:["all"],sg:"progress",ball:"aiken",act:"辞書登録と発話ルール化を組み合わせた文字起こし精度向上アルゴリズムの検討",history:[]},
+{pNo:75,nNo:"49",nm:"サービス/商品のスコアリングAI",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"progress",ball:"aiken",act:"井上さんの承認がおり次第ヒアリングをして要件を固める。担当者の割り振りを検討",history:[]},
+{pNo:76,nNo:"45",nm:"インフルエンサー自動リクルーティングツール",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"progress",ball:"aiken",act:"制作・分析中",history:[]},
+{pNo:77,nNo:"47",nm:"クロージングスクリプト自動作成（WEB経由）",tm:"ネット",who:"中川",prod:["nix"],sg:"adjust",ball:"cl",act:"確認待ち（toridori）",history:[]},
+{pNo:78,nNo:"48",nm:"インサイドセールスのトークスクリプトAI（47とバンドル）",tm:"ネット",who:"中川, 対馬",prod:["nix"],sg:"excluded",ball:"cl",act:"保留（井上さんの承認がおり次第着手）。No.47とバンドル",history:[]},
+{pNo:79,nNo:"13",nm:"プロダクトBot（マニュアル学習＆質問回答）",tm:"トリドリ",who:"杉本, 青木くみこ, 川上",prod:["all"],sg:"excluded",ball:"cl",act:"保留（開発仕様を含めるか検討しつつ優先度は落とす）",history:[]},
+{pNo:80,nNo:"追加課題3",nm:"営業リマインドツール",tm:"トリドリ",who:"小森",prod:["all"],sg:"excluded",ball:"cl",act:"保留（北出さん案件のため、井上さん・嶋田さん・北出さん・国本さんの話し合いの後に可否判断）",history:[]},
+{pNo:81,nNo:"40",nm:"インフルエンサーPR投稿構成案＋分析自動生成",tm:"ネット",who:"―",prod:["nix"],sg:"resolved",ball:"done",act:"対応不要（既存ツール代替・スコープ外）",history:[]},
 ];
 /*TASK_DATA_END*/
+const CLIENTS_META = {
+  toridori: {
+    name: "toridori",
+    label: "🐔 toridori BPO",
+    color: "#E60012",
+    accentColor: "#E60012"
+  }
+  // Future: companyB, companyC, etc.
+};
+const ACTIVE_CLIENT = 'toridori';
+// Attach task reference to client meta (scaffold for multi-company)
+CLIENTS_META[ACTIVE_CLIENT].tasks = T;
+
+// Global snapshots array
+let SNAPSHOTS = [];
+
 const PM={nix:['pt-nix','toridori nix'],made:['pt-made','toridori made'],blends:['pt-blends','toridori blends'],of:['pt-of','OverFlow'],givin:['pt-givin','GIVIN'],all:['pt-all','toridori'],base:['pt-base','toridori base'],is:['pt-is','IS'],mkt:['pt-mkt','toridori marketing'],vooster:['pt-voo','VOOSTER'],dev:['pt-dev','toridori']};
 function pt(tags){return tags.map(t=>{const[c,l]=PM[t]||['pt-all',t];return`<span class="ptag ${c}">${l}</span>`}).join("")}
 function bl(b){const m={aiken:['ball-a','AIKEN側'],cl:['ball-c','CL側'],done:['ball-d','完了'],both:['ball-b','双方']};const[c,l]=m[b]||['ball-a','―'];return`<span class="ball ${c}"><span class="ball-dot"></span>${l}</span>`}
@@ -646,6 +721,16 @@ function renderSummary(){
   sf('stat-resolved-frac',`${resolved} / ${active}件 (${rPct}%)`);
   sf('stat-adj-frac',`${adjust} / ${active}件 (${aPct}%)`);
   sf('stat-prog-frac',`${progress} / ${active}件 (${pPct}%)`);
+  // Delta indicators vs last snapshot
+  if(SNAPSHOTS.length>0){
+    const last=SNAPSHOTS[SNAPSHOTS.length-1];
+    const snapCounts={resolved:0,adjust:0,progress:0};
+    last.data.forEach(d=>{if(snapCounts[d.sg]!==undefined)snapCounts[d.sg]++;});
+    const renderDelta=(id,cur,prev)=>{const el=document.getElementById(id);if(!el)return;const delta=cur-prev;let ex=document.getElementById(id+'-delta');if(!ex){ex=document.createElement('span');ex.id=id+'-delta';el.parentNode.insertBefore(ex,el.nextSibling);}ex.className='stat-delta '+(delta>0?'delta-pos':delta<0?'delta-neg':'delta-zero');ex.textContent=delta>0?'▲+'+delta:delta<0?'▼'+delta:'';};
+    renderDelta('a1',resolved,snapCounts.resolved);
+    renderDelta('a2',adjust,snapCounts.adjust);
+    renderDelta('a3',progress,snapCounts.progress);
+  }
   // Hidden placeholders
   set('exn-scope',active);set('exn-resolved',resolved);set('exn-adj',adjust);set('exn-prog',progress);set('exn-excl',excluded);set('exn-uns',unstarted||0);
   const rSub=document.getElementById('exn-resolved-sub');if(rSub)rSub.textContent=`完了${completed}件＋非対応解決${nonApplicable}件`;
@@ -726,13 +811,18 @@ function render(f){
         <td class="td-nno">${t.nNo}</td>
         <td class="td-nm"><div class="nm-lbl">${nmLabel(t)}</div><input class="edit-in edit-nm nm-txt" value="${esc(t.nm)}" onchange="T[${idx}].nm=this.value"></td>
         <td><input class="edit-in edit-sm" value="${esc(t.who)}" onchange="T[${idx}].who=this.value"></td>
-        <td style="text-align:center"><select class="edit-sel" onchange="T[${idx}].sg=this.value;renderBar();renderFilters()">${sgOpts}</select></td>
-        <td style="text-align:center"><select class="edit-sel" onchange="T[${idx}].ball=this.value">${blOpts}</select></td>
-        <td><textarea class="edit-in edit-act" onchange="T[${idx}].act=this.value">${esc(t.act)}</textarea></td>
+        <td style="text-align:center"><select class="edit-sel" onchange="recordHistory(${idx},'sg',this.value);T[${idx}].sg=this.value;renderBar();renderFilters()">${sgOpts}</select></td>
+        <td style="text-align:center"><select class="edit-sel" onchange="recordHistory(${idx},'ball',this.value);T[${idx}].ball=this.value">${blOpts}</select></td>
+        <td><textarea class="edit-in edit-act" onchange="recordHistory(${idx},'act',this.value);T[${idx}].act=this.value">${esc(t.act)}</textarea></td>
       </tr>`;
     }).join('');
   } else {
-    d.innerHTML=fl.map((t,i)=>`<tr style="animation:fi .15s ease ${i*.008}s both"><td class="td-no">${KO[t.pNo]||'ー'}</td><td class="td-nno">${t.nNo}</td><td class="td-nm"><div class="nm-lbl">${nmLabel(t)}</div><div class="nm-txt">${t.nm}</div></td><td class="td-who">${t.who}</td><td style="text-align:center">${sb(t.sg)}</td><td style="text-align:center">${bl(t.ball)}</td><td class="td-act" title="${(t.act||'').replace(/"/g,'&quot;')}" onclick="this.classList.toggle('expanded')">${t.act||'―'}</td></tr>`).join('');
+    d.innerHTML=fl.map((t,i)=>{
+      const idx=T.indexOf(t);
+      const histLen=(t.history||[]).length;
+      const histBadge=histLen>0?`<span class="hist-badge" onclick="openHistory(${idx})">🕐 ${histLen}件</span>`:'';
+      return `<tr style="animation:fi .15s ease ${i*.008}s both"><td class="td-no">${KO[t.pNo]||'ー'}</td><td class="td-nno">${t.nNo}</td><td class="td-nm"><div class="nm-lbl">${nmLabel(t)}</div><div class="nm-txt">${t.nm}${histBadge}</div></td><td class="td-who">${t.who}</td><td style="text-align:center">${sb(t.sg)}</td><td style="text-align:center">${bl(t.ball)}</td><td class="td-act" title="${(t.act||'').replace(/"/g,'&quot;')}" onclick="this.classList.toggle('expanded')">${t.act||'―'}</td></tr>`;
+    }).join('');
   }
 }
 function esc(s){return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
@@ -746,21 +836,29 @@ function toggleEdit(){
   } else {
     btn.textContent='✏️ 編集する';
     btn.classList.remove('save-mode');
+    flushHistory();
     saveData();
-    renderBar();renderFilters();
+    renderBar();renderFilters();renderSummary();
   }
   render(currentFilter);
 }
 
 function saveData(){
-  try{localStorage.setItem('toridori_tasks',JSON.stringify(T));
+  try{
+    localStorage.setItem('toridori_tasks',JSON.stringify(T));
+    localStorage.setItem('toridori_snapshots',JSON.stringify(SNAPSHOTS));
     const ds=new Date();const s=ds.getFullYear()+'年'+(ds.getMonth()+1)+'月'+ds.getDate()+'日';
     document.getElementById('last-upd').textContent=s;
     showToast('✅ 保存しました（'+s+'）');
   }catch(e){showToast('⚠️ 保存に失敗しました')}
 }
 function loadData(){
-  try{const d=localStorage.getItem('toridori_tasks');if(d){const p=JSON.parse(d);if(p.length===T.length){for(let i=0;i<T.length;i++){T[i].nm=p[i].nm;T[i].who=p[i].who;T[i].sg=p[i].sg;T[i].ball=p[i].ball;T[i].act=p[i].act}}}}catch(e){}
+  try{
+    const d=localStorage.getItem('toridori_tasks');
+    if(d){const p=JSON.parse(d);if(p.length===T.length){for(let i=0;i<T.length;i++){T[i].nm=p[i].nm;T[i].who=p[i].who;T[i].sg=p[i].sg;T[i].ball=p[i].ball;T[i].act=p[i].act;if(p[i].history)T[i].history=p[i].history;}}}
+    const s=localStorage.getItem('toridori_snapshots');
+    if(s){SNAPSHOTS=JSON.parse(s);}
+  }catch(e){}
 }
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
@@ -771,7 +869,7 @@ function flt(f,el){document.querySelectorAll(".fbtn").forEach(b=>b.classList.rem
 
 // ===== JSON EXPORT =====
 function exportJSON(){
-  const data={version:1,exported:new Date().toISOString(),lastUpdate:document.getElementById('last-upd').textContent,tasks:T};
+  const data={version:2,exported:new Date().toISOString(),lastUpdate:document.getElementById('last-upd').textContent,client:ACTIVE_CLIENT,tasks:T,snapshots:SNAPSHOTS};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
@@ -795,9 +893,11 @@ function importJSON(e){
         T[i].sg=data.tasks[i].sg||T[i].sg;
         T[i].ball=data.tasks[i].ball||T[i].ball;
         T[i].act=data.tasks[i].act||T[i].act;
+        if(data.tasks[i].history)T[i].history=data.tasks[i].history;
       }
+      if(data.snapshots&&Array.isArray(data.snapshots))SNAPSHOTS=data.snapshots;
       if(data.lastUpdate)document.getElementById('last-upd').textContent=data.lastUpdate;
-      saveData();renderBar();renderFilters();render(currentFilter);
+      saveData();renderBar();renderFilters();render(currentFilter);renderSummary();
       showToast('📂 JSONデータを読み込みました（'+data.tasks.length+'件）');
     }catch(err){showToast('⚠️ JSONの読み込みに失敗しました')}
   };
@@ -812,14 +912,15 @@ function exportCSV(){
   const blLabel={done:'完了',aiken:'AIKEN側',cl:'CL側',both:'双方'};
   const tmLabel={dashboard:'dashboard',トリドリ:'トリドリ',ネット:'ネット',プロダクト:'プロダクト'};
   const prodLabel={nix:'toridori nix',made:'toridori made',blends:'toridori blends',of:'OverFlow',givin:'GIVIN',all:'全社横断',base:'toridori base',is:'IS',mkt:'toridori marketing',vooster:'VOOSTER',dev:'開発・情シス'};
-  const header=['進捗No','Notion No','チーム','タスク名','AIKEN担当者','対象会社/プロダクト','ステータス','ボール所在','次回アクション'];
+  const header=['進捗No','Notion No','チーム','タスク名','AIKEN担当者','対象会社/プロダクト','ステータス','ボール所在','次回アクション','変更履歴件数'];
   const rows=T.map(t=>[
     t.pNo||'',t.nNo,tmLabel[t.tm]||t.tm,
     '"'+t.nm.replace(/"/g,'""')+'"',
     '"'+t.who.replace(/"/g,'""')+'"',
     '"'+t.prod.map(p=>prodLabel[p]||p).join(', ')+'"',
     sgLabel[t.sg]||t.sg,blLabel[t.ball]||t.ball,
-    '"'+(t.act||'').replace(/"/g,'""')+'"'
+    '"'+(t.act||'').replace(/"/g,'""')+'"',
+    (t.history||[]).length
   ].join(','));
   const csv=BOM+header.join(',')+'\n'+rows.join('\n');
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
@@ -836,9 +937,11 @@ function exportHTML(){
   if(!src||src.length<500){
     showToast('⚠️ ソースの取得に失敗しました。ページをリロードしてから再試行してください');return;
   }
-  // Replace task data between markers
+  // Replace task data between markers (includes history[])
   const taskJS='/*TASK_DATA_START*/\nconst T='+JSON.stringify(T,null,0)+';\n/*TASK_DATA_END*/';
   src=src.replace(/\/\*TASK_DATA_START\*\/[\s\S]*?\/\*TASK_DATA_END\*\//,taskJS);
+  // Embed SNAPSHOTS
+  src=src.replace(/let SNAPSHOTS\s*=\s*\[\];/,'let SNAPSHOTS='+JSON.stringify(SNAPSHOTS)+';');
   // Update last-updated date
   const ds=document.getElementById('last-upd').textContent;
   src=src.replace(/(最終更新：<span id="last-upd">)[^<]*(<\/span>)/,'$1'+ds+'$2');
@@ -872,6 +975,113 @@ document.getElementById('fileInput').addEventListener('change',e=>{if(e.target.f
 function handleFile(file){document.getElementById('dropzone').style.display='none';document.getElementById('processing').classList.add('show');
   setTimeout(()=>{document.getElementById('processing').classList.remove('show');const today=new Date();const ds=today.getFullYear()+'年'+(today.getMonth()+1)+'月'+today.getDate()+'日';document.getElementById('last-upd').textContent=ds;const msg=document.getElementById('result-msg');msg.textContent='✅ 「'+file.name+'」を解析しました。タスク一覧と進捗を更新しました。（'+ds+'）';msg.classList.add('show');renderBar();renderFilters();render('all')},3000)}
 function an(el,tgt,dur){const s=performance.now();const tk=n=>{const p=Math.min((n-s)/dur,1);el.textContent=Math.round((1-Math.pow(1-p,3))*tgt);if(p<1)requestAnimationFrame(tk)};requestAnimationFrame(tk)}
+// ===== HISTORY RECORDING =====
+const _todayStr=()=>new Date().toLocaleDateString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit'});
+// pending snapshots map: idx -> {sg, ball, act} before edit started
+const _pendingHistory={};
+function recordHistory(idx,field,newVal){
+  const t=T[idx];
+  const oldVal=t[field];
+  if(oldVal===newVal)return;
+  // Record the pre-change state if not already captured this edit session
+  if(!_pendingHistory[idx]){
+    _pendingHistory[idx]={sg:t.sg,ball:t.ball,act:t.act,changed:{}};
+  }
+  _pendingHistory[idx].changed[field]={old:oldVal,nw:newVal};
+}
+function flushHistory(){
+  // Called when edit mode is turned off (saveData)
+  Object.keys(_pendingHistory).forEach(idx=>{
+    const i=parseInt(idx,10);
+    const ph=_pendingHistory[i];
+    if(Object.keys(ph.changed).length===0)return;
+    if(!T[i].history)T[i].history=[];
+    T[i].history.push({
+      date:_todayStr(),
+      label:'',
+      sg:ph.sg,
+      ball:ph.ball,
+      act:ph.act
+    });
+  });
+  Object.keys(_pendingHistory).forEach(k=>delete _pendingHistory[k]);
+}
+
+// ===== SNAPSHOT =====
+function openSnapModal(){
+  document.getElementById('snap-modal-bg').classList.add('show');
+  document.getElementById('snap-label-input').value='';
+  renderSnapList();
+  const sw=document.getElementById('snap-list-wrap');
+  if(sw)sw.style.display=SNAPSHOTS.length>0?'block':'none';
+  setTimeout(()=>document.getElementById('snap-label-input').focus(),100);
+}
+function closeSnapModal(){document.getElementById('snap-modal-bg').classList.remove('show');}
+function confirmSnapshot(){
+  const label=document.getElementById('snap-label-input').value.trim();
+  if(!label){showToast('⚠️ ラベルを入力してください');return;}
+  takeSnapshot(label);
+  closeSnapModal();
+}
+function takeSnapshot(label){
+  const date=_todayStr();
+  SNAPSHOTS.push({
+    date:date,
+    label:label,
+    data:T.map(t=>({id:t.pNo+'_'+t.nNo,sg:t.sg,ball:t.ball,act:t.act}))
+  });
+  T.forEach(t=>{
+    if(!t.history)t.history=[];
+    t.history.push({date:date,label:label,sg:t.sg,ball:t.ball,act:t.act});
+  });
+  saveData();
+  renderSummary();
+  render(currentFilter);
+  showToast('📸 スナップショット「'+label+'」を保存しました');
+}
+function renderSnapList(){
+  const el=document.getElementById('snap-list');
+  if(!el)return;
+  el.innerHTML=SNAPSHOTS.map((s,i)=>`<div class="snap-item"><span class="snap-item-icon">📸</span><span class="snap-item-lbl">${s.label}</span><span class="snap-item-date">${s.date}</span></div>`).reverse().join('');
+}
+
+// ===== HISTORY DISPLAY =====
+const SG_LBL={resolved:'解決済',unstarted:'未着手',adjust:'最終調整中',progress:'進行中',excluded:'除外'};
+const BL_LBL={done:'完了',aiken:'AIKEN側',cl:'CL側',both:'双方'};
+function openHistory(idx){
+  const t=T[idx];
+  const hist=(t.history||[]).slice().reverse();
+  document.getElementById('hist-modal-title').textContent='変更履歴：'+t.nm;
+  const tl=document.getElementById('hist-timeline');
+  if(hist.length===0){tl.innerHTML='<div style="color:var(--tl);font-size:13px;text-align:center;padding:20px">履歴はまだありません</div>';}
+  else{
+    tl.innerHTML=hist.map((h,i)=>{
+      const isSnap=!!h.label;
+      const dotCls=isSnap?'hist-dot snap-dot':'hist-dot';
+      // Find next entry (in forward chronological order) for diff
+      const fwdIdx=hist.length-1-i;
+      const nextH=fwdIdx+1<t.history.length?t.history[fwdIdx+1]:null;
+      // Current entry shows: what changed AFTER this snapshot/point
+      let diffHtml='';
+      if(nextH){
+        const diffRows=[];
+        if(nextH.sg!==h.sg)diffRows.push(`<div class="hist-diff-row"><span class="hist-diff-key">ステータス</span><span class="hist-diff-old">${SG_LBL[h.sg]||h.sg}</span><span class="hist-diff-arr">→</span><span class="hist-diff-new">${SG_LBL[nextH.sg]||nextH.sg}</span></div>`);
+        if(nextH.ball!==h.ball)diffRows.push(`<div class="hist-diff-row"><span class="hist-diff-key">ボール</span><span class="hist-diff-old">${BL_LBL[h.ball]||h.ball}</span><span class="hist-diff-arr">→</span><span class="hist-diff-new">${BL_LBL[nextH.ball]||nextH.ball}</span></div>`);
+        if(diffRows.length)diffHtml=`<div class="hist-diff">${diffRows.join('')}</div>`;
+      }
+      const labelHtml=isSnap?`<div class="hist-label">📸 ${h.label}</div>`:'';
+      return `<div class="hist-entry"><div class="hist-entry-line"><div class="${dotCls}"></div>${i<hist.length-1?'<div class="hist-vline"></div>':''}</div><div class="hist-body"><div class="hist-date">${h.date}</div>${labelHtml}${diffHtml||`<div style="font-size:11px;color:var(--tl)">ステータス：${SG_LBL[h.sg]||h.sg}　ボール：${BL_LBL[h.ball]||h.ball}</div>`}</div></div>`;
+    }).join('');
+  }
+  document.getElementById('hist-modal-bg').classList.add('show');
+}
+function closeHistory(){document.getElementById('hist-modal-bg').classList.remove('show');}
+// Close modals on background click
+document.addEventListener('click',function(e){
+  if(e.target.id==='hist-modal-bg')closeHistory();
+  if(e.target.id==='snap-modal-bg')closeSnapModal();
+});
+
 loadData();renderBar();renderFilters();render('all');renderLib();renderSummary();
 setTimeout(()=>{const c=counts();an(document.getElementById('a1'),c.resolved,800);an(document.getElementById('a5'),c.unstarted,850);an(document.getElementById('a2'),c.adjust,1e3);an(document.getElementById('a3'),c.progress,1200);an(document.getElementById('a4'),c.excluded,900)},300);
 </script>
